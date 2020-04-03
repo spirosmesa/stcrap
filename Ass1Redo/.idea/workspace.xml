@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be54dde3-8bbc-41f4-8770-075dcc9c9e60" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Ass1Redo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Ass1Redo.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirect.java" beforeDir="false" afterPath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../str_lab_1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../str_lab_1.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

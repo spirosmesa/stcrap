@@ -133,7 +133,7 @@ class Branch {
 		Outcome opOutcome = null;
 		switch(br.operation) {
 			case equals:
-				if (MyStringlVar.val.equals(rVar.val))
+				if (lVar.val.equals(rVar.val))
 					return true;
 				else return  false;
 			case boolAnd:
