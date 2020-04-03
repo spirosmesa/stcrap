@@ -2,6 +2,148 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+class MyVar {
+	boolean inputVar = false;
+
+	public MyVar(boolean inputVar) {
+		this.inputVar=inputVar;}
+}
+
+class Calculate {
+	private static String getDistString(Branch br) throws Exception {
+		if (br.lVar!=null)
+			if (br.lVar.inputVar == true)
+				return ((MyString)br.lVar).val;
+			else
+				throw new Exception("lVar not true ");
+		else if (br.lVar == null)
+			throw new Exception("lVar null ");
+		else if (br.rVar != null)
+			if (br.rVar.inputVar == true)
+				return ((MyString)br.rVar).val;
+			else
+				throw new Exception("rVar not true ");
+		else
+			throw new Exception("rVar null ");
+	}
+
+	public static String[] calcEqualDiff(String inputStr, String distVar, String alphabet, int length) {
+		String[] ret = new String[length];
+		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
+
+		for (int index = 0; index < length; index++) {
+			//Get index of input char in alphabet.
+			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
+			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
+
+			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
+		}
+		return  ret;
+	}
+
+	public static String[] calcLessDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
+		String[] ret = new String[inLength];
+		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
+
+		//distVar.length() - input.length();
+		int index = 0;
+		//populate the elements of the output array, with the diff, up
+		//to the length of the smallest, distVar array.
+		while (index < distVarLength) {
+			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
+			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
+			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
+			index++;
+		}
+
+		for (index = inLength; index < distVarLength; index++)
+			ret[index] = "-" + alphabet.charAt(alphabet.indexOf(inputStr));
+		return ret;
+	}
+
+	public static String[] calcGreaterDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
+		String[] ret = new String[inLength];
+		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
+
+		//distVar.length() - input.length();
+		int index = 0;
+		//populate the elements of the output array, with the diff, up
+		//to the length of the smallest, distVar array.
+		while (index < inLength) {
+			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
+			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
+			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
+			index++;
+		}
+
+		for (index = distVarLength; index < inLength; index++)
+			ret[index] = "+" + alphabet.charAt(alphabet.indexOf(inputStr));
+		return null;
+	}
+
+	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
+		String distVar = null;
+
+		try { distVar = getDistString(br); }
+		catch (Exception e) {
+			throw new Exception("calculateDistance: " + e.getMessage() + input); }
+
+		int strLenDiff = distVar.length() - input.length();
+		if (strLenDiff == 0) {
+			return calcEqualDiff(input, distVar, alphabet, input.length());
+		}
+		else if (strLenDiff < 0) {
+			return calcLessDiff(input, distVar, alphabet, input.length(), distVar.length());
+		}
+		else {
+			return calcGreaterDiff(input, distVar, alphabet, input.length(), distVar.length());
+		}
+	}
+}
+
+enum operations {
+	equals,
+	boolAnd
+}
+
+//Used to store branch operation outcome.
+class Outcome {
+	private Integer intOutcome = null;
+	private Boolean boolOutcome = null;
+
+	public Outcome(int outcome) {intOutcome = outcome;}
+	public Outcome(boolean outcome) {boolOutcome=outcome;}
+
+	public int getIntOutcome() {return intOutcome.intValue();}
+	public boolean getBoolOutcome() {return boolOutcome.booleanValue();}
+}
+
+class Branch {
+	public LinkedHashSet<Branch> subBranches = new LinkedHashSet<>();
+	Boolean outcome = null;
+	operations operation = null;
+	MyVar lVar = null, rVar = null;
+
+	public Branch() {}
+	public Branch(MyVar lVar, MyVar rVar, boolean outcome, operations operation) {
+		this.lVar=lVar; this.rVar=rVar; this.outcome=outcome;this.operation=operation;
+	}
+
+	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar){
+		Outcome opOutcome = null;
+		switch(br.operation) {
+			case equals:
+				if (MyStringlVar.val.equals(rVar.val))
+					return true;
+				else return  false;
+			case boolAnd:
+				if (lVar.val && rVar.val)
+		}
+
+		return false;
+	}
+}
+
 public class instm183_LTL_CTLDirect {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
@@ -14,42 +156,42 @@ public class instm183_LTL_CTLDirect {
 	public MyString a1745113960 = I.myAssign(new MyString("h"));
 
 	private  void calculateOutputm1(MyString input) {
-		I.myEquals( I.bool1,input,"usr2_ai1_VoidReply", this);
-		I.myAnd( I.bool2,I.bool1,cf);
+		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", this);
+		I.myAnd(I.bool2,I.bool1,cf);
 
 		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
-			I.myMul( I.var1, a2108127495,a1522448132, true);
-			I.myMod( I.var2,I.var1,14999);
-			I.myMod( I.var3,I.var2,72);
-			I.myDel( I.var4,I.var3,91);
-			I.myDel( I.var5,I.var4,-1);
-			I.myMul( I.var6,I.var5,1);
+			I.myMul(I.var1, a2108127495,a1522448132, true);
+			I.myMod(I.var2,I.var1,14999);
+			I.myMod(I.var3,I.var2,72);
+			I.myDel(I.var4,I.var3,91);
+			I.myDel(I.var5,I.var4,-1);
+			I.myMul(I.var6,I.var5,1);
 			a2108127495 = I.myAssign(I.var6);
 			I.myPrint("ai1_VoidReply");
 		}
 	}
 
 	private  void calculateOutputm2(MyString input) {
-		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
-		I.myAnd( I.bool2,I.bool1,cf);
+		I.myEquals(I.bool1,input,"usr4_ni1_ne1", this);
+		I.myAnd(I.bool2,I.bool1,cf);
 
 		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ni1_ne1");
 		}
 
-		I.myEquals( I.bool1,input,"ai1_ce2", this);
-		I.myAnd( I.bool2,I.bool1,cf);
+		I.myEquals(I.bool1,input,"ai1_ce2", this);
+		I.myAnd(I.bool2,I.bool1,cf);
 
 		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h"));
-			I.myMod( I.var1,a2108127495,59);
-			I.myDel( I.var2,I.var1,-98);
-			I.myDel( I.var3,I.var2,4);
-			I.myAdd( I.var4,I.var3,-42);
+			I.myMod(I.var1,a2108127495,59);
+			I.myDel(I.var2,I.var1,-98);
+			I.myDel(I.var3,I.var2,4);
+			I.myAdd(I.var4,I.var3,-42);
 			a2108127495 = I.myAssign(I.var4);
 			I.myPrint("usr4_ai1_ce2");
 		}
@@ -207,89 +349,102 @@ public class instm183_LTL_CTLDirect {
 
 	public  void calculateOutput(MyString input) {
 		cf = new MyBool(true, "cf");
-		I.myLessEqual( I.bool1,a2108127495,-164);
-		I.myAnd( I.bool2,cf,I.bool1);
+		I.myLessEqual(I.bool1, a2108127495, -164);
+		I.myAnd(I.bool2, cf, I.bool1);
 
-		if(I.myIf(I.bool2)) {
-			I.myLess( I.bool1,-83,a1522448132);
-			I.myGreaterEqual( I.bool2,18,a1522448132);
-			I.myAnd( I.bool3,I.bool1,I.bool2);
-			I.myAnd( I.bool4,cf,I.bool3);
-			if(I.myIf(I.bool4)) {
+		if (I.myIf(I.bool2)) {
+			I.myLess(I.bool1, -83, a1522448132);
+			I.myGreaterEqual(I.bool2, 18, a1522448132);
+			I.myAnd(I.bool3, I.bool1, I.bool2);
+			I.myAnd(I.bool4, cf, I.bool3);
+			if (I.myIf(I.bool4)) {
 				calculateOutputm1(input);
 			}
 		}
 
-		I.myLess( I.bool1,-164,a2108127495);
-		I.myGreaterEqual( I.bool2,-19,a2108127495);
-		I.myAnd( I.bool3,I.bool1,I.bool2);
-		I.myAnd( I.bool4,cf,I.bool3);
+		I.myLess(I.bool1, -164, a2108127495);
+		I.myGreaterEqual(I.bool2, -19, a2108127495);
+		I.myAnd(I.bool3, I.bool1, I.bool2);
+		I.myAnd(I.bool4, cf, I.bool3);
 
-		if(I.myIf(I.bool4)) {
-			I.myEquals( I.bool1,a1745113960,"e", this);
-			I.myAnd( I.bool2,cf,I.bool1);
+		if (I.myIf(I.bool4)) {
+			I.myEquals(I.bool1, a1745113960, "e", this);
+			I.myAnd(I.bool2, cf, I.bool1);
 
-			if(I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2)) {
 				calculateOutputm2(input);
 			}
 
-			I.myEquals( I.bool1,a1745113960,"g", this);
-			I.myAnd( I.bool2,cf,I.bool1);
+			I.myEquals(I.bool1, a1745113960, "g", this);
+			I.myAnd(I.bool2, cf, I.bool1);
 
-			if(I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2)) {
 				calculateOutputm3(input);
 			}
 
-		I.myEquals( I.bool1,a1745113960,"h", this);
-		I.myAnd( I.bool2,cf,I.bool1);
+			I.myEquals(I.bool1, a1745113960, "h", this);
+			I.myAnd(I.bool2, cf, I.bool1);
 
-		if(I.myIf(I.bool2))
-			calculateOutputm4(input);
+			if (I.myIf(I.bool2)) {
+				calculateOutputm4(input);
+			}
 
+			I.myEquals(I.bool1, a1745113960, "i", this);
+			I.myAnd(I.bool2, I.bool1, cf);
 
-		I.myEquals( I.bool1,a1745113960,"i", this);
-		I.myAnd( I.bool2,I.bool1,cf);
-
-		if(I.myIf(I.bool2))
-			calculateOutputm5(input);
+			if (I.myIf(I.bool2)) {
+				calculateOutputm5(input);
+			}
 		}
 
-		I.myLess( I.bool1,-19,a2108127495);
-		I.myGreaterEqual( I.bool2,100,a2108127495);
-		I.myAnd( I.bool3,I.bool1,I.bool2);
-		I.myAnd( I.bool4,I.bool3,cf);
+		I.myLess(I.bool1, -19, a2108127495);
+		I.myGreaterEqual(I.bool2, 100, a2108127495);
+		I.myAnd(I.bool3, I.bool1, I.bool2);
+		I.myAnd(I.bool4, I.bool3, cf);
 
-		if(I.myIf(I.bool4)) {
-			I.myEquals( I.bool1,a1745113960,"g", this);
-			I.myAnd( I.bool2,cf,I.bool1);
+		if (I.myIf(I.bool4)) {
+			I.myEquals(I.bool1, a1745113960, "g", this);
+			I.myAnd(I.bool2, cf, I.bool1);
 
-			if(I.myIf(I.bool2))
+			if (I.myIf(I.bool2))
 				calculateOutputm6(input);
 
 
-		I.myEquals( I.bool1,a1745113960,"h", this);
-		I.myAnd( I.bool2,cf,I.bool1);
-		if(I.myIf(I.bool2))
-			calculateOutputm7(input);
+			I.myEquals(I.bool1, a1745113960, "h", this);
+			I.myAnd(I.bool2, cf, I.bool1);
+			if (I.myIf(I.bool2)) {
+				calculateOutputm7(input);
+			}
 
-
-		I.myLess( I.bool1,100,a2108127495);
-		I.myAnd( I.bool2,cf,I.bool1);
-		if(I.myIf(I.bool2)) {
-			I.myLess( I.bool1,103,a422009172);
-			I.myGreaterEqual( I.bool2,198,a422009172);
-			I.myAnd( I.bool3,I.bool1,I.bool2);
-			I.myAnd( I.bool4,I.bool3,cf);
-				if(I.myIf(I.bool4))
+			I.myLess(I.bool1, 100, a2108127495);
+			I.myAnd(I.bool2, cf, I.bool1);
+			if (I.myIf(I.bool2)) {
+				I.myLess(I.bool1, 103, a422009172);
+				I.myGreaterEqual(I.bool2, 198, a422009172);
+				I.myAnd(I.bool3, I.bool1, I.bool2);
+				I.myAnd(I.bool4, I.bool3, cf);
+				if (I.myIf(I.bool4))
 					calculateOutputm8(input);
 
 
+			}
+			if (I.myIf(cf)) {
+				throw new IllegalArgumentException("Current state has no transition for this input!");
+			}
+
 		}
-		if(I.myIf(cf))
-			throw new IllegalArgumentException("Current state has no transition for this input!");
 	}
 
-	public static void main(String[] args) throws Exception {
+	public void reset() {
+		System.out.println("reset");a422009172 = new MyInt(-68, "a422009172");
+		cf = new MyBool(true, "cf");
+		a2108127495 = new MyInt(-44, "a2108127495");
+		a1522448132 = new MyInt(173, "a1522448132");
+		a1745113960 = new MyString("h");
+	}
+
+	public static void main (String[] args) {
+		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLDirect eca = new instm183_LTL_CTLDirect();
 		while(true) {
 		eca.reset();
@@ -365,14 +520,6 @@ public class instm183_LTL_CTLDirect {
 			}} break;
 		}
 	}
-
-	public void reset(){
-		System.out.println("reset");a422009172 = new MyInt(-68, "a422009172");
-		cf = new MyBool(true, "cf");
-		a2108127495 = new MyInt(-44, "a2108127495");
-		a1522448132 = new MyInt(173, "a1522448132");
-		a1745113960 = new MyString("h");
-	}
 }
 
 class Fuzzer {
@@ -388,26 +535,35 @@ class Fuzzer {
 		return result;
 	}
 }
-class MyInt {
+
+class MyInt extends MyVar{
 	public int val = 0;
 	public boolean flow = false;
 	public Set<String> flowTrack = new HashSet<String>();
 	public String varName;
 
-	public MyInt(int v) {
-		val=v;
-	}
+	public MyInt(int val) {super(false); this.val=val;}
 
-	public MyInt(int v, String varName, boolean b){
-		val = v;
+	public MyInt(int val, String varName){
+		super(false);
+		this.val = val;
 		this.varName=varName;
-		if ( (flow = b) == true) flowTrack.add(varName);
 	}
 
-	public MyInt(int v, String varName){
-		val = v;
-		flowTrack.add(varName);
+	public MyInt(int val, String varName, boolean br){
+		super(false);
+		this.val = val;
+		this.varName=varName;
+		if ((flow = br) == true) flowTrack.add(varName);
 	}
+
+	public MyInt(int val, String varName, boolean br, boolean input){
+		super(input);
+		this.val = val;
+		this.varName=varName;
+		if ((flow = br) == true) flowTrack.add(varName);
+	}
+
 	public void addFlowVar(String varName) {
 		flowTrack.add(varName);
 	}
@@ -418,22 +574,31 @@ class MyInt {
 	}
 }
 
-class MyBool {
+class MyBool extends MyVar {
 	public boolean val = false;
 	public boolean flow = false;
 	public String varName;
 	public Set<String> flowTrack = new HashSet<String>();
 
-	public MyBool(boolean v) {val = v;}
-	public MyBool(boolean v, String varName){
-		this.val = v;
+	public MyBool(boolean val) {super(false); this.val = val;}
+	public MyBool(boolean val, String varName){
+		super(false);
+		this.val = val;
 		this.varName=varName;
 	}
 
-	public MyBool(boolean v, String varName, boolean b){
-		this.val = v;
+	public MyBool(boolean val, String varName, boolean br){
+		super(false);
+		this.val = this.val;
 		this.varName = varName;
-		if ( (flow = b) == true) flowTrack.add(varName);
+		if ( (flow = br) == true) flowTrack.add(varName);
+	}
+
+	public MyBool(boolean val, String varName, boolean br, boolean inputVar){
+		super(inputVar);
+		this.val = this.val;
+		this.varName = varName;
+		if ( (flow = br) == true) flowTrack.add(varName);
 	}
 
 	public void addFlowVar(String varName) {
@@ -446,20 +611,28 @@ class MyBool {
 	}
 }
 
-class MyString {
+class MyString extends MyVar{
 	public String val = "";
 	public boolean flow = false;
 	public Set<String> flowTrack = new HashSet<String>();
-	public MyString(String v) {
-		this.val = v;
+	public MyString(String val) {
+		super(false);
+		this.val = val;
 	}
 
-	public MyString(String v, boolean b){
-		this.val = v;
-		flow=b;
-		if ( flow == true)
-			flowTrack.add(v);
+	public MyString(String val, boolean branch) {
+		super(false);
+		this.flow=branch;
 	}
+
+	public MyString(String val, String varName, boolean branch, boolean input){
+		super(input);
+		flow=branch;
+		this.val=val;
+		if ( flow == true)
+			flowTrack.add(varName);
+	}
+
 
 	public void addFlowVar(String varName) {
 		flowTrack.add(varName);
