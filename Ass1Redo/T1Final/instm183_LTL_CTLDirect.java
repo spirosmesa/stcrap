@@ -551,6 +551,12 @@ class MyInt extends MyVar{
 		this.val=val;
 	}
 
+	public MyInt(int val, String name, boolean tainted) {
+		super(name, false);
+		this.val=val;
+		if (tainted) this.taintSet.add(name);
+	}
+
 	public MyInt(int val, String varName, HashSet<String> flowSet){
 		super(varName, false);
 		this.val = val;
@@ -788,7 +794,8 @@ class I {
 		a.val = b.val-c.val;
 		if (bo) a.addFlowVar(a.varName);}
 
-	public static void myDel(MyInt a, MyInt b, MyInt c){ a.val = b.val-c.val;
+	public static void myDel(MyInt a, MyInt b, MyInt c){
+		a.val = b.val-c.val;
 		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
 			a.addFlowVar(a.varName);}
 
@@ -796,16 +803,25 @@ class I {
 		a.val = b.val*c.val;
 		if (bo) a.taintSet.add(a.varName); }
 
-	public static void myMul(MyInt a, MyInt b, MyInt c){ a.val = b.val*c.val;
-		if (b.flow == true || c.flow == true) a.flow=true;}
+	public static void myMul(MyInt a, MyInt b, MyInt c){
+		a.val = b.val*c.val;
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addFlowVar(a.varName);}
 
-	public static void myDiv(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val/c.val; a.flow=bo;}
-	public static void myDiv(MyInt a, MyInt b, MyInt c){ a.val = b.val/c.val;
-		if (b.flow == true || c.flow == true) a.flow=true;}
+	public static void myDiv(MyInt a, MyInt b, MyInt c, boolean bo){
+		a.val = b.val/c.val;
+		if (bo) a.addFlowVar(a.varName);}
+
+	public static void myDiv(MyInt a, MyInt b, MyInt c){
+		a.val = b.val/c.val;
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addFlowVar(a.varName);}
 
 	public static void myMod(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val%c.val;  }
-	public static void myMod(MyInt a, MyInt b, MyInt c){ a.val = b.val%c.val;
-		if (b.flow == true || c.flow == true) a.flow=true;}
+	public static void myMod(MyInt a, MyInt b, MyInt c){
+		a.val = b.val%c.val;
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addFlowVar(a.varName);}
 
 	public static void myInd(MyInt a, MyInt[] b, MyInt c, boolean bo){ a.val = b[c.val].val; }
 	public static void myInd(MyInt a, MyInt[] b, MyInt c){ a.val = b[c.val].val; }
@@ -844,16 +860,20 @@ class I {
 		MyInt ret = new MyInt(b.val, name);
 		if (b.taintSet.contains(b.varName))
 			ret.taintSet.add(name);
+		return ret;
 		/*if (input var) then propagate taint
 		else call constructor with val, name.
 		MyInt a = new MyInt(b.val, b.varName, b.flow);
 		*///return a;
 	}
 
+	public static MyInt myAssign(MyInt a) {
+		return new MyInt(a.val);
+	}
 	public static MyInt[] myAssign(MyInt[] b){
 		MyInt a[] = new MyInt[b.length];
 			for(int i = 0; i < b.length; i++)
-				a[i] = new MyInt(b[i].val, b[i].varName, b[i].flow);
+				a[i] = new MyInt(b[i].val, b[i].varName, b[i].taintSet.contains(b[i].varName));
 			return a;
 	}
 	public static MyString myAssign(MyString b){
