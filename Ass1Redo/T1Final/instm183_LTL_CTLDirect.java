@@ -564,17 +564,17 @@ class MyInt extends MyVar{
 	}
 
 	public MyInt(int val, String varName, boolean br, HashSet<String> flowSet){
-		super(false);
+		super(varName, false);
 		this.val = val;
 		this.varName=varName;
-		if ((flow = br) == true) flowTrack.add(varName);
+		if (br) taintSet.add(varName);
 	}
 
 	public MyInt(int val, String varName, boolean br, boolean input, HashSet<String> flowSet){
-		super(input);
+		super(varName, input);
 		this.val = val;
 		this.varName=varName;
-		if ((flow = br) == true) flowTrack.add(varName);
+		if (br) taintSet.add(varName);
 	}
 }
 
@@ -584,22 +584,23 @@ class MyBool extends MyVar {
 	public String varName;
 	public static Set<String> flowTrack = new HashSet<String>();
 
-	public MyBool(boolean val) {super(false); this.val = val;}
+	//Compatibility with the teacher provided code.
+	public MyBool(boolean val) {super("", false); this.val = val;}
 	public MyBool(boolean val, String varName){
-		super(false);
+		super(varName, false);
 		this.val = val;
 		this.varName=varName;
 	}
 
 	public MyBool(boolean val, String varName, boolean br){
-		super(false);
+		super(varName, false);
 		this.val = this.val;
 		this.varName = varName;
 		if ( (flow = br) == true) flowTrack.add(varName);
 	}
 
 	public MyBool(boolean val, String varName, boolean br, boolean inputVar){
-		super(inputVar);
+		super(varName, inputVar);
 		this.val = this.val;
 		this.varName = varName;
 		if ( (flow = br) == true) flowTrack.add(varName);
@@ -611,17 +612,17 @@ class MyString extends MyVar{
 	public boolean flow = false;
 	public static Set<String> flowTrack = new HashSet<String>();
 	public MyString(String val) {
-		super(false);
+		super("", false);
 		this.val = val;
 	}
 
 	public MyString(String val, boolean branch) {
-		super(false);
+		super("", false);
 		this.flow=branch;
 	}
 
 	public MyString(String val, String varName, boolean branch, boolean input){
-		super(input);
+		super(varName, input);
 		flow=branch;
 		this.val=val;
 		if ( flow == true)
