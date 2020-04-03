@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-
 class Calculate {
 	//We can also change the method, to handle data types, other than Strings.
 	private static String getDistString(Branch br) throws Exception {
@@ -148,6 +147,7 @@ class Branch {
 //mClass
 public class instm183_LTL_CTLDirect {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+	static HashSet<String> taints;
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
@@ -161,7 +161,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", this);
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
 			I.myMul(I.var1, a2108127495,a1522448132, true);
@@ -179,7 +179,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"usr4_ni1_ne1", this);
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ni1_ne1");
 		}
@@ -187,7 +187,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"ai1_ce2", this);
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h"));
 			I.myMod(I.var1,a2108127495,59);
@@ -203,7 +203,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			I.myMul(I.var1, a2108127495, a2108127495, true);
 			I.myMod(I.var2, I.var1, 50);
@@ -225,7 +225,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"ai1_ce2", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ai1_VoidReply");
 		}
@@ -233,7 +233,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"ai1_ce1", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
 			I.myDel( I.var1,a2108127495,new MyInt(-7243),true);
@@ -247,7 +247,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		 if(I.myIf(I.bool2)) {
+		 if(I.myIf(I.bool2, input)) {
 				cf = I.myAssign(new MyBool(false, "cf",true));
 				a1745113960 = I.myAssign(new MyString("i", true));
 				I.myPrint("usr2_ai1_ce4");
@@ -258,7 +258,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr2_ai1_VoidReply", this);
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("h", true));
 			I.myPrint("none");
@@ -268,7 +268,7 @@ public class instm183_LTL_CTLDirect {
 	private  void calculateOutputm6(MyString input) {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myAdd( I.var1,a2108127495,new MyInt(13863), true);
 			I.myMul( I.var2,I.var1,2);
@@ -288,7 +288,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
 			I.myAdd( I.var1,a2108127495,-139);
@@ -302,7 +302,7 @@ public class instm183_LTL_CTLDirect {
 	private  void calculateOutputm7(MyString input) {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
 			I.myDel( I.var1,a2108127495,new MyInt(128));
@@ -316,7 +316,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 
 		I.myDel( I.var1,a2108127495,new MyInt(22339), true);
@@ -333,7 +333,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2)) {
+		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
 			I.myMul( I.var1,a2108127495,a422009172, true);
@@ -354,12 +354,12 @@ public class instm183_LTL_CTLDirect {
 		I.myLessEqual(I.bool1, a2108127495, -164);
 		I.myAnd(I.bool2, cf, I.bool1);
 
-		if (I.myIf(I.bool2)) {
+		if (I.myIf(I.bool2, input)) {
 			I.myLess(I.bool1, -83, a1522448132);
 			I.myGreaterEqual(I.bool2, 18, a1522448132);
 			I.myAnd(I.bool3, I.bool1, I.bool2);
 			I.myAnd(I.bool4, cf, I.bool3);
-			if (I.myIf(I.bool4)) {
+			if (I.myIf(I.bool4, input)) {
 				calculateOutputm1(input);
 			}
 		}
@@ -369,32 +369,32 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, cf, I.bool3);
 
-		if (I.myIf(I.bool4)) {
+		if (I.myIf(I.bool4, input)) {
 			I.myEquals(I.bool1, a1745113960, "e", this);
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				calculateOutputm2(input);
 			}
 
 			I.myEquals(I.bool1, a1745113960, "g", this);
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				calculateOutputm3(input);
 			}
 
 			I.myEquals(I.bool1, a1745113960, "h", this);
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				calculateOutputm4(input);
 			}
 
 			I.myEquals(I.bool1, a1745113960, "i", this);
 			I.myAnd(I.bool2, I.bool1, cf);
 
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				calculateOutputm5(input);
 			}
 		}
@@ -404,36 +404,39 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, I.bool3, cf);
 
-		if (I.myIf(I.bool4)) {
+		if (I.myIf(I.bool4, input)) {
 			I.myEquals(I.bool1, a1745113960, "g", this);
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2))
+			if (I.myIf(I.bool2, input))
 				calculateOutputm6(input);
 
 			I.myEquals(I.bool1, a1745113960, "h", this);
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				calculateOutputm7(input);
 			}
 
 			I.myLess(I.bool1, 100, a2108127495);
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2)) {
+			if (I.myIf(I.bool2, input)) {
 				I.myLess(I.bool1, 103, a422009172);
 				I.myGreaterEqual(I.bool2, 198, a422009172);
 				I.myAnd(I.bool3, I.bool1, I.bool2);
 				I.myAnd(I.bool4, I.bool3, cf);
-				if (I.myIf(I.bool4))
+				if (I.myIf(I.bool4, input))
 					calculateOutputm8(input);
 			}
-			if (I.myIf(cf)) {
+			if (I.myIf(cf, input)) {
 				throw new IllegalArgumentException("Current state has no transition for this input!");
 			}
 		}
 	}
 
 	public void reset() {
+		this.taints = new HashSet<>();
+		MyVar var = new MyVar(this.taints);
+
 		System.out.println("reset");a422009172 = new MyInt(-68, "a422009172");
 		cf = new MyBool(true, "cf");
 		a2108127495 = new MyInt(-44, "a2108127495");
@@ -441,19 +444,28 @@ public class instm183_LTL_CTLDirect {
 		a1745113960 = new MyString("h");
 	}
 
-	private static void printFlowLength(MyString input) {
+	private static void printFlowLength(MyString input[]) {
+		System.out.println("=============TASK 1================");
 
+		int maxDepth = -1;
+		for (MyString str : input) {
+			if (str.depth > maxDepth)
+				maxDepth = str.depth;
+		}
+
+		System.out.println("For input array of length: " + input.length);
+		System.out.println("And elements: ");
+		for (int i = 0; i < input.length; i++) {
+			System.out.println(" " + i + ". " +input[i]);
+		}
+		System.out.println("Max depth is: " + maxDepth);
 	}
 
-	//Class variable
-	private static HashSet<String> flow = new HashSet<>();
-
-	//TODO: update MyVar class, to accept the above var.
-	//TODO: modify all constructor calls in the classes.
-	//TODO: modify all constructor calls in all required methods.
 	public static void main (String[] args) {
+		//T2
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLDirect eca = new instm183_LTL_CTLDirect();
+		//T1
 		int runIndex = 0;
 
 		//TODO write printFlowLength
@@ -475,27 +487,23 @@ public class instm183_LTL_CTLDirect {
 				I.myAnd( I.bool7,I.bool3,I.bool4);
 				I.myAnd( I.bool8,I.bool6,I.bool7);
 				I.myAnd( I.bool9,I.bool8,I.bool5);
-				if(I.myIf(I.bool9))
+				if(I.myIf(I.bool9, input))
 					throw new IllegalArgumentException("Current state has no transition for this input!");
 
 				try {
 					eca.calculateOutput(input);
 					System.out.println();
 					System.out.println();
-					//printing the final trace.
-
-					//print the input variable.
-					System.out.println("Input var is: " + input);
-
-					//print the deepest the input variable has reached.
-
-
-					String arr[] = (String[])eca.a422009172.getFlow();
+					//No idea what this does...
+					//String arr[] = (String[])eca.a422009172.getFlow();
 				}
 				catch(IllegalArgumentException e) {
 					System.err.println("Invalid input: " + e.getMessage());
 				}
 			}
+			//T1: print the deepest the input variable has reached.
+
+
 			runIndex++;
 		}
 	}
@@ -519,6 +527,8 @@ class MyVar {
 	public boolean inputVar = false;
 	public static HashSet<String> taintSet;
 	public String varName;
+
+	public MyVar(HashSet<String> taintSet) {this.taintSet = taintSet;}
 
 	public MyVar(String name, boolean inputVar) {this.varName = name; this.inputVar=inputVar;}
 
@@ -609,8 +619,8 @@ class MyBool extends MyVar {
 
 class MyString extends MyVar{
 	public String val = "";
-	public boolean flow = false;
-	public static Set<String> flowTrack = new HashSet<String>();
+	public int depth = 0;
+
 	public MyString(String val) {
 		super("", false);
 		this.val = val;
@@ -618,15 +628,14 @@ class MyString extends MyVar{
 
 	public MyString(String val, boolean branch) {
 		super("", false);
-		this.flow=branch;
+		if (branch) this.taintSet.add(val);
 	}
 
 	public MyString(String val, String varName, boolean branch, boolean input){
 		super(varName, input);
-		flow=branch;
 		this.val=val;
-		if ( flow == true)
-			flowTrack.add(varName);
+		if (branch)
+			this.taintSet.add(varName);
 	}
 }
 
@@ -878,7 +887,7 @@ class I {
 			return a;
 	}
 	public static MyString myAssign(MyString b){
-		MyString a = new MyString(b.val, b.flow);
+		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
 		return a;
 	}
 
@@ -890,8 +899,10 @@ class I {
 		myPrint(new MyString(a));
 	}
 
-	public static boolean myIf(MyBool a){
+	public static boolean myIf(MyBool a, MyString input){
 		System.out.print("b" + a.val + " ");
+		if(a.val)
+			input.depth++;
 		return a.val; }
 
 	public static void myAdd(MyInt a, MyInt b, int c){ myAdd(a,b,new MyInt(c)); }

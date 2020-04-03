@@ -1,28 +1,39 @@
-// 1. To have a static variable within a class.
-// 2. add the name of the variable in a static hashset
-// 3. 3 instances.
-// 4. print the value of the var for all those instances.
-
 import java.util.HashSet;
 import java.util.Set;
 
-class sta{
-    public String name = null;
-    public static Set<String> set = new HashSet<>();
-    public sta(String in) {this.name = in; set.add(name);}
-}
+//base class with static member.
+//update base class, see effects on children.
+//update child, see effect on base class.
+//update child1, see effect on child2.
 
+class base {
+    public static String j = "base";
+}
+class c1 extends base{}
+class c2 extends base{}
 public class testing {
     public static void main(String[] args) {
-        sta sta1 = new sta("sta1"), sta2 = new sta("sta2");
+        base b1 = new base();
+        c1 ch1 = new c1();
+        c2 ch2 = new c2();
 
-        System.out.println("sta1: ");
-        for (String str : sta1.set) {
-            System.out.println(str);
-        }
-        System.out.println("sta2: ");
-        for (String str : sta2.set) {
-            System.out.println(str);
-        }
+        System.out.println("base j: " + b1.j);
+        System.out.println("ch1 j: " + ch1.j);
+        System.out.println("ch2 j: " + ch2.j);
+
+        System.out.println("update base");
+        b1.j = "george";
+
+        System.out.println("base j: " + b1.j);
+        System.out.println("ch1 j: " + ch1.j);
+        System.out.println("ch2 j: " + ch2.j);
+        b1.j = "base";
+
+        System.out.println("Update child 1");
+        ch1.j = "ch1";
+        System.out.println("base j: " + b1.j);
+        System.out.println("ch1 j: " + ch1.j);
+        System.out.println("ch2 j: " + ch2.j);
+        ch1.j = "base";
     }
 }
