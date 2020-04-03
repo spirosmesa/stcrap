@@ -526,6 +526,15 @@ class MyVar {
 		this.inputVar = inputVar;
 		this.taintSet = taintSet;
 	}
+
+	public void addFlowVar(String name) {
+		if(this.taintSet!= null) this.taintSet.add(name);
+	}
+
+	public Object[] getFlow() {
+		Object[] arr = this.taintSet.toArray();
+		return Arrays.copyOf(arr, arr.length, String[].class);
+	}
 }
 
 class MyInt extends MyVar{
@@ -542,10 +551,8 @@ class MyInt extends MyVar{
 		this.val=val;
 	}
 
-	public MyInt(int val, HashSet<String> flowSet) {super(false, flowSet); this.val=val;}
-
 	public MyInt(int val, String varName, HashSet<String> flowSet){
-		super(false);
+		super(varName, false);
 		this.val = val;
 		this.varName=varName;
 	}
@@ -562,15 +569,6 @@ class MyInt extends MyVar{
 		this.val = val;
 		this.varName=varName;
 		if ((flow = br) == true) flowTrack.add(varName);
-	}
-
-	public void addFlowVar(String varName) {
-		flowTrack.add(varName);
-	}
-
-	public Object[] getFlow() {
-		Object[] arr = flowTrack.toArray();
-		return Arrays.copyOf(arr, arr.length, String[].class);
 	}
 }
 
@@ -600,15 +598,6 @@ class MyBool extends MyVar {
 		this.varName = varName;
 		if ( (flow = br) == true) flowTrack.add(varName);
 	}
-
-	public void addFlowVar(String varName) {
-		flowTrack.add(varName);
-	}
-
-	public String[] getFlow() {
-		Object[] arr = flowTrack.toArray();
-		return Arrays.copyOf(arr, arr.length, String[].class);
-	}
 }
 
 class MyString extends MyVar{
@@ -631,15 +620,6 @@ class MyString extends MyVar{
 		this.val=val;
 		if ( flow == true)
 			flowTrack.add(varName);
-	}
-
-	public void addFlowVar(String varName) {
-		flowTrack.add(varName);
-	}
-
-	public String[] getFlow() {
-		Object[] arr = flowTrack.toArray();
-		return Arrays.copyOf(arr, arr.length, String[].class);
 	}
 }
 
@@ -793,16 +773,29 @@ class I {
 	public static MyString str48 = new MyString("");
 	public static MyString str49 = new MyString("");
 
-	public static void myAdd(MyInt a, MyInt b, MyInt c){ a.val = b.val+c.val;
-		if (b.flow == true || c.flow== true) a.flow=true;
+	public static void myAdd(MyInt a, MyInt b, MyInt c){
+		a.val = b.val+c.val;
+		if (MyInt.taintSet.contains(b.varName) || MyInt.taintSet.contains(c.varName))
+			a.addFlowVar(a.varName);
+
+	//if (b.flow == true || c.flow== true) a.flow=true;
 	}
-	public static void myAdd(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val+c.val; a.flow=bo;}
+	public static void myAdd(MyInt a, MyInt b, MyInt c, boolean bo){
+		a.val = b.val+c.val;
+		if(bo) a.addFlowVar(a.varName);}
 
-	public static void myDel(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val-c.val; c.flow=bo; }
+	public static void myDel(MyInt a, MyInt b, MyInt c, boolean bo){
+		a.val = b.val-c.val;
+		if (bo) a.addFlowVar(a.varName);}
+
 	public static void myDel(MyInt a, MyInt b, MyInt c){ a.val = b.val-c.val;
-		if (b.flow == true || c.flow== true) a.flow=true;}
+		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
+			a.addFlowVar(a.varName);}
 
-	public static void myMul(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val*c.val; a.flow=bo; }
+	public static void myMul(MyInt a, MyInt b, MyInt c, boolean bo){
+		a.val = b.val*c.val;
+		if (bo) a.taintSet.add(a.varName); }
+
 	public static void myMul(MyInt a, MyInt b, MyInt c){ a.val = b.val*c.val;
 		if (b.flow == true || c.flow == true) a.flow=true;}
 
