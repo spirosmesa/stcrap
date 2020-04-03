@@ -2,14 +2,9 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-class MyVar {
-	boolean inputVar = false;
-
-	public MyVar(boolean inputVar) {
-		this.inputVar=inputVar;}
-}
 
 class Calculate {
+	//We can also change the method, to handle data types, other than Strings.
 	private static String getDistString(Branch br) throws Exception {
 		if (br.lVar!=null)
 			if (br.lVar.inputVar == true)
@@ -81,6 +76,7 @@ class Calculate {
 		return null;
 	}
 
+	//It calculates the distance based on the length of the input.
 	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
 		String distVar = null;
 
@@ -132,27 +128,33 @@ class Branch {
 	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar){
 		Outcome opOutcome = null;
 		switch(br.operation) {
-			case equals:
+			/*case equals:
 				if (lVar.val.equals(rVar.val))
 					return true;
 				else return  false;
 			case boolAnd:
-				if (lVar.val && rVar.val)
+				if (lVar.val && rVar.val)*/
 		}
 
 		return false;
 	}
 }
 
+//requirements for constructors
+//1 constructor for value + name
+//1 constructor to specify taint.
+//1 const
+
+//mClass
 public class instm183_LTL_CTLDirect {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
-	public MyInt a422009172 = I.myAssign(new MyInt(-68, "a422009172"));
+	public MyInt a422009172 = I.myAssign(new MyInt(-68, "a422009172"), "a422009172");
 	public MyBool cf = I.myAssign(new MyBool(true, "cf"));
-	public MyInt a2108127495 = I.myAssign(new MyInt(-44, "a2108127495"));
-	public MyInt a1522448132 = I.myAssign(new MyInt(173, "a1522448132"));
+	public MyInt a2108127495 = I.myAssign(new MyInt(-44, "a2108127495"), "a422009172");
+	public MyInt a1522448132 = I.myAssign(new MyInt(173, "a1522448132"), "a422009172");
 	public MyString a1745113960 = I.myAssign(new MyString("h"));
 
 	private  void calculateOutputm1(MyString input) {
@@ -168,7 +170,7 @@ public class instm183_LTL_CTLDirect {
 			I.myDel(I.var4,I.var3,91);
 			I.myDel(I.var5,I.var4,-1);
 			I.myMul(I.var6,I.var5,1);
-			a2108127495 = I.myAssign(I.var6);
+			a2108127495 = I.myAssign(I.var6, "a2108127495");
 			I.myPrint("ai1_VoidReply");
 		}
 	}
@@ -192,7 +194,7 @@ public class instm183_LTL_CTLDirect {
 			I.myDel(I.var2,I.var1,-98);
 			I.myDel(I.var3,I.var2,4);
 			I.myAdd(I.var4,I.var3,-42);
-			a2108127495 = I.myAssign(I.var4);
+			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr4_ai1_ce2");
 		}
 	}
@@ -209,12 +211,12 @@ public class instm183_LTL_CTLDirect {
 			I.myMul(I.var4, I.var3, 5);
 			I.myMod(I.var5, I.var4, 50);
 			I.myAdd(I.var6, I.var5, -31);
-			a1522448132 = I.myAssign(I.var6);
+			a1522448132 = I.myAssign(I.var6, "a1522448132");
 			I.myMul(I.var1, a2108127495, a1522448132);
 			I.myDel(I.var2, I.var1, 22476);
 			I.myMul(I.var3, I.var2, 1);
 			I.myAdd(I.var4, I.var3, -3649);
-			a2108127495 = I.myAssign(I.var4);
+			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr2_ai1_ce4");
 		}
 	}
@@ -238,7 +240,7 @@ public class instm183_LTL_CTLDirect {
 			I.myDel( I.var2,I.var1,-1395);
 			I.myMod( I.var3,I.var2,59);
 			I.myDel( I.var4,I.var3,-16);
-			a2108127495 = I.myAssign(I.var4);
+			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr4_ai1_ce1");
 		}
 
@@ -271,7 +273,7 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd( I.var1,a2108127495,new MyInt(13863), true);
 			I.myMul( I.var2,I.var1,2);
 			I.myMul( I.var3,I.var2,1);
-			a2108127495 = I.myAssign(I.var3);
+			a2108127495 = I.myAssign(I.var3, "a2108127495");
 			I.myMul( I.var1,a2108127495,a2108127495);
 			I.myMod( I.var2,I.var1,14999);
 			I.myAdd( I.var3,I.var2,-1380);
@@ -279,7 +281,7 @@ public class instm183_LTL_CTLDirect {
 			I.myDel( I.var5,I.var4,-150);
 			I.myAdd( I.var6,I.var5,23887);
 			I.myAdd( I.var7,I.var6,-23885);
-			a422009172 = I.myAssign(I.var7);
+			a422009172 = I.myAssign(I.var7, "a422009172");
 			I.myPrint("none");
 		}
 
@@ -292,7 +294,7 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd( I.var1,a2108127495,-139);
 			I.myAdd( I.var2,I.var1,-4);
 			I.myAdd( I.var3,I.var2,5);
-			a2108127495 = I.myAssign(I.var3);
+			a2108127495 = I.myAssign(I.var3, "a2108127495");
 			I.myPrint("ai1_VoidReply");
 		}
 	}
@@ -307,7 +309,7 @@ public class instm183_LTL_CTLDirect {
 			I.myDel( I.var2,I.var1,-3384);
 			I.myDel( I.var3,I.var2,4504);
 			I.myDel( I.var4,I.var3,-1107);
-			a2108127495 = I.myAssign(I.var4);
+			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("none");
 		}
 
@@ -322,7 +324,7 @@ public class instm183_LTL_CTLDirect {
 		I.myMul( I.var3,I.var2,2);
 		I.myMod( I.var4,I.var3,72);
 		I.myDel( I.var5,I.var4,149);
-		a2108127495 = I.myAssign(I.var5);
+		a2108127495 = I.myAssign(I.var5, "a2108127495");
 		I.myPrint("ai1_VoidReply");
 		}
 	}
@@ -342,7 +344,7 @@ public class instm183_LTL_CTLDirect {
 			I.myMul( I.var6,I.var5,5);
 			I.myMod( I.var7,I.var6,72);
 			I.myAdd( I.var8,I.var7,-65);
-			a2108127495 = I.myAssign(I.var8);
+			a2108127495 = I.myAssign(I.var8, "a2108127495");
 			I.myPrint("ni1_ne1__ai1_VoidReply");
 		}
 	}
@@ -409,7 +411,6 @@ public class instm183_LTL_CTLDirect {
 			if (I.myIf(I.bool2))
 				calculateOutputm6(input);
 
-
 			I.myEquals(I.bool1, a1745113960, "h", this);
 			I.myAnd(I.bool2, cf, I.bool1);
 			if (I.myIf(I.bool2)) {
@@ -425,13 +426,10 @@ public class instm183_LTL_CTLDirect {
 				I.myAnd(I.bool4, I.bool3, cf);
 				if (I.myIf(I.bool4))
 					calculateOutputm8(input);
-
-
 			}
 			if (I.myIf(cf)) {
 				throw new IllegalArgumentException("Current state has no transition for this input!");
 			}
-
 		}
 	}
 
@@ -443,81 +441,62 @@ public class instm183_LTL_CTLDirect {
 		a1745113960 = new MyString("h");
 	}
 
+	private static void printFlowLength(MyString input) {
+
+	}
+
+	//Class variable
+	private static HashSet<String> flow = new HashSet<>();
+
+	//TODO: update MyVar class, to accept the above var.
+	//TODO: modify all constructor calls in the classes.
+	//TODO: modify all constructor calls in all required methods.
 	public static void main (String[] args) {
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLDirect eca = new instm183_LTL_CTLDirect();
-		while(true) {
-		eca.reset();
-		MyString[] fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
-		for(int i = 0; i < fuzzed_inputs.length; i++) {
-			MyString input = fuzzed_inputs[i];
-			System.out.println("Fuzzing: " + input.val);
-			I.myEquals( I.bool1, input,"ai1_ce1");
-			I.myEquals( I.bool2,input,"usr4_ai1_VoidReply");
-			I.myEquals( I.bool3,input,"usr4_ni1_ne1");
-			I.myEquals( I.bool4,input,"ai1_ce2");
-			I.myEquals( I.bool5,input,"usr2_ai1_VoidReply");
-			I.myAnd( I.bool6,I.bool1,I.bool2);
-			I.myAnd( I.bool7,I.bool3,I.bool4);
-			I.myAnd( I.bool8,I.bool6,I.bool7);
-			I.myAnd( I.bool9,I.bool8,I.bool5);
-			 if(I.myIf(I.bool9))
-				throw new IllegalArgumentException("Current state has no transition for this input!");
-			try {
-				eca.calculateOutput(input);
-				System.out.println();
-				System.out.println();
-				//printing the final trace.
-				String arr[] = (String[])eca.a422009172.getFlow();
-				if (arr.length != 0) {
-					System.out.println("Name of deepest int variable");
-					System.out.println(arr[arr.length - 1]);
-				}
-				else {
-					System.out.println("No int variables reached for this trace");
-				}
+		int runIndex = 0;
 
-				arr = (String[])eca.cf.getFlow();
-				if (arr.length != 0) {
-					System.out.println("Name of deepest boolean variable");
-					System.out.println(arr[arr.length - 1]);
-				}
-				else {
-					System.out.println("No int variables reached for this trace");
-				}
+		//TODO write printFlowLength
+		while(runIndex < 10) {
+			eca.reset();
+			MyString[] fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
 
-				arr = (String[])eca.a1745113960.getFlow();
-				if (arr.length != 0) {
-					System.out.println("Name of deepest string variable");
-					System.out.println(arr[arr.length - 1]);
+			System.out.println("This is run number: " + runIndex);
+			for(int i = 0; i < fuzzed_inputs.length; i++) {
+				MyString input = fuzzed_inputs[i];
+
+				System.out.println("Fuzzing: " + input.val);
+				I.myEquals( I.bool1, input,"ai1_ce1");
+				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply");
+				I.myEquals( I.bool3,input,"usr4_ni1_ne1");
+				I.myEquals( I.bool4,input,"ai1_ce2");
+				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply");
+				I.myAnd( I.bool6,I.bool1,I.bool2);
+				I.myAnd( I.bool7,I.bool3,I.bool4);
+				I.myAnd( I.bool8,I.bool6,I.bool7);
+				I.myAnd( I.bool9,I.bool8,I.bool5);
+				if(I.myIf(I.bool9))
+					throw new IllegalArgumentException("Current state has no transition for this input!");
+
+				try {
+					eca.calculateOutput(input);
+					System.out.println();
+					System.out.println();
+					//printing the final trace.
+
+					//print the input variable.
+					System.out.println("Input var is: " + input);
+
+					//print the deepest the input variable has reached.
+
+
+					String arr[] = (String[])eca.a422009172.getFlow();
 				}
-				else {
-					System.out.println("No int variables reached for this trace");
+				catch(IllegalArgumentException e) {
+					System.err.println("Invalid input: " + e.getMessage());
 				}
-				//printing everything
-				/*String[] arr = (String[])eca.a422009172.getFlow();
-				System.out.println("Integer taints and their values.");
-
-				for(String a : arr) {
-					System.out.println("  name: " + a);
-				}
-
-				String[] arr2 = eca.cf.getFlow();
-				System.out.println("Boolean taints and their values.");
-
-				for(String a : arr2) {
-				}
-
-				System.out.println("String taints and their values.");
-				String[] arr3 = eca.a1745113960.getFlow();
-
-				for (String a : arr3) {
-					System.out.println("  name: " + a);
-				}*/
 			}
-			catch(IllegalArgumentException e) {
-				System.err.println("Invalid input: " + e.getMessage());
-			}} break;
+			runIndex++;
 		}
 	}
 }
@@ -530,34 +509,55 @@ class Fuzzer {
 
 		for(int i = 0; i < length; i++){
 			int index = rand.nextInt(inputs.length);
-			result[i] = new MyString(inputs[index].val, true);
+			result[i] = new MyString(inputs[index].val, "input number: " + i, true, true);
 		}
 		return result;
 	}
 }
 
-class MyInt extends MyVar{
-	public int val = 0;
-	public boolean flow = false;
-	public Set<String> flowTrack = new HashSet<String>();
+class MyVar {
+	public boolean inputVar = false;
+	public static HashSet<String> taintSet;
 	public String varName;
 
-	public MyInt(int val) {super(false); this.val=val;}
+	public MyVar(String name, boolean inputVar) {this.varName = name; this.inputVar=inputVar;}
 
-	public MyInt(int val, String varName){
+	public MyVar(String name, boolean inputVar, HashSet<String> taintSet, boolean tainted) throws Exception {
+		this.inputVar = inputVar;
+		this.taintSet = taintSet;
+	}
+}
+
+class MyInt extends MyVar{
+	public int val = 0;
+
+	//one with only val for compatibility reasons.
+	public MyInt(int val) {
+		super("", false);
+		this.val = val;
+	}
+
+	public MyInt(int val, String name) {
+		super(name, false);
+		this.val=val;
+	}
+
+	public MyInt(int val, HashSet<String> flowSet) {super(false, flowSet); this.val=val;}
+
+	public MyInt(int val, String varName, HashSet<String> flowSet){
 		super(false);
 		this.val = val;
 		this.varName=varName;
 	}
 
-	public MyInt(int val, String varName, boolean br){
+	public MyInt(int val, String varName, boolean br, HashSet<String> flowSet){
 		super(false);
 		this.val = val;
 		this.varName=varName;
 		if ((flow = br) == true) flowTrack.add(varName);
 	}
 
-	public MyInt(int val, String varName, boolean br, boolean input){
+	public MyInt(int val, String varName, boolean br, boolean input, HashSet<String> flowSet){
 		super(input);
 		this.val = val;
 		this.varName=varName;
@@ -578,7 +578,7 @@ class MyBool extends MyVar {
 	public boolean val = false;
 	public boolean flow = false;
 	public String varName;
-	public Set<String> flowTrack = new HashSet<String>();
+	public static Set<String> flowTrack = new HashSet<String>();
 
 	public MyBool(boolean val) {super(false); this.val = val;}
 	public MyBool(boolean val, String varName){
@@ -614,7 +614,7 @@ class MyBool extends MyVar {
 class MyString extends MyVar{
 	public String val = "";
 	public boolean flow = false;
-	public Set<String> flowTrack = new HashSet<String>();
+	public static Set<String> flowTrack = new HashSet<String>();
 	public MyString(String val) {
 		super(false);
 		this.val = val;
@@ -632,7 +632,6 @@ class MyString extends MyVar{
 		if ( flow == true)
 			flowTrack.add(varName);
 	}
-
 
 	public void addFlowVar(String varName) {
 		flowTrack.add(varName);
@@ -847,9 +846,15 @@ class I {
 		return a;
 	}
 
-	public static MyInt myAssign(MyInt b) {
+	public static MyInt myAssign(MyInt b, String name) {
+		//modify with flow var.
+		MyInt ret = new MyInt(b.val, name);
+		if (b.taintSet.contains(b.varName))
+			ret.taintSet.add(name);
+		/*if (input var) then propagate taint
+		else call constructor with val, name.
 		MyInt a = new MyInt(b.val, b.varName, b.flow);
-		return a;
+		*///return a;
 	}
 
 	public static MyInt[] myAssign(MyInt[] b){
