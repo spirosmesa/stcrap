@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="be54dde3-8bbc-41f4-8770-075dcc9c9e60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/Branch$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/Branch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/Calculate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/MyVar.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/Outcome.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/compOutput/production/Ass1Redo/operations.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirect.java" beforeDir="false" afterPath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/T1Final/testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/T1Final/testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

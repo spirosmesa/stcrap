@@ -103,6 +103,8 @@ enum operations {
 	greaterEqual,
 	and,
 	less,
+	mult,
+	mod,
 
 }
 
@@ -142,17 +144,23 @@ class BranchSet extends LinkedHashSet<Branch> {
 }
 
 class Branch {
-	Boolean outcome = null;
-	operations operation = null;
-	MyVar lVar = null, rVar = null;
-	Exception ex;
+	public boolean boolOutcome;
+	public int intOutcome;
+	public operations operation = null;
+	public MyVar lVar = null, rVar = null;
+	public Exception ex;
 
 	public Branch() {}
 	public Branch(Exception ex) {
 		this.ex=ex;
 	}
+
 	public Branch(MyVar lVar, MyVar rVar, boolean outcome, operations operation) {
-		this.lVar=lVar; this.rVar=rVar; this.outcome=outcome;this.operation=operation;
+		this.lVar=lVar; this.rVar=rVar; boolOutcome=outcome;this.operation=operation;
+	}
+
+	public Branch(MyVar lVar, MyVar rVar, int outcome, operations operation) {
+		this.lVar=lVar; this.rVar=rVar; intOutcome=outcome;this.operation=operation;
 	}
 
 	//TODO
@@ -189,15 +197,16 @@ public class instm183_LTL_CTLDirect {
 	public MyString a1745113960 = I.myAssign(new MyString("h"));
 
 	private  void calculateOutputm1(MyString input, BranchSet set) {
+		BranchSet currentSet = set;
+		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", currentSet);
+		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
-		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", set);
-		I.myAnd(I.bool2,I.bool1,cf, set);
-
-		//TODO fix
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
-			I.myMul(I.var1, a2108127495,a1522448132, true);
+			//TODO
+			I.myMul(I.var1, a2108127495,a1522448132, successSet);
 			I.myMod(I.var2,I.var1,14999);
 			I.myMod(I.var3,I.var2,72);
 			I.myDel(I.var4,I.var3,91);
@@ -863,9 +872,12 @@ class I {
 		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
 			a.addFlowVar(a.varName);}
 
-	public static void myMul(MyInt a, MyInt b, MyInt c, boolean bo){
+	public static void myMul(MyInt a, MyInt b, MyInt c, BranchSet set){
 		a.val = b.val*c.val;
-		if (bo) a.taintSet.add(a.varName); }
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.taintSet.add(a.varName);
+		set.addBranch(new Branch(b, c, a.val, operations.mult));
+	}
 
 	public static void myMul(MyInt a, MyInt b, MyInt c){
 		a.val = b.val*c.val;
@@ -885,7 +897,16 @@ class I {
 	public static void myMod(MyInt a, MyInt b, MyInt c){
 		a.val = b.val%c.val;
 		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addFlowVar(a.varName);}
+			a.addFlowVar(a.varName);
+	}
+
+	//T2
+	public static void myMod(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = b.val%c.val;
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addFlowVar(a.varName);
+		branchSet.addBranch(new Branch(b, c, a.val, operations.mod));
+	}
 
 	public static void myInd(MyInt a, MyInt[] b, MyInt c, boolean bo){ a.val = b[c.val].val; }
 	public static void myInd(MyInt a, MyInt[] b, MyInt c){ a.val = b[c.val].val; }
@@ -1001,6 +1022,8 @@ class I {
 	public static void myDiv(MyInt a, int b, int c){ myDiv(a,new MyInt(b),new MyInt(c)); }
 
 	public static void myMod(MyInt a, MyInt b, int c){ myMod(a,b,new MyInt(c)); }
+	//T2
+	public static void myMod(MyInt a, MyInt b, int c, BranchSet branchSet){ myMod(a,b,new MyInt(c)); }
 
 	public static void myMod(MyInt a, int b, MyInt c){ myMod(a,new MyInt(b),c); }
 	public static void myMod(MyInt a, int b, int c){ myMod(a,new MyInt(b),new MyInt(c)); }
