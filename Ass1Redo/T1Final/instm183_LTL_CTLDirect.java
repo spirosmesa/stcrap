@@ -191,7 +191,6 @@ public class instm183_LTL_CTLDirect {
 			I.myPrint("none");
 		}
 
-		
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
