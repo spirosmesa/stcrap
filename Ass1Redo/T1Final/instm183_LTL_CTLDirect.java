@@ -105,6 +105,10 @@ enum operations {
 	less,
 	mult,
 	mod,
+	boolAssign,
+	stringAssign,
+	intAssing,
+	del,
 
 }
 
@@ -207,32 +211,36 @@ public class instm183_LTL_CTLDirect {
 			a1745113960 = I.myAssign(new MyString("h", true));
 			//TODO
 			I.myMul(I.var1, a2108127495,a1522448132, successSet);
-			I.myMod(I.var2,I.var1,14999);
-			I.myMod(I.var3,I.var2,72);
-			I.myDel(I.var4,I.var3,91);
-			I.myDel(I.var5,I.var4,-1);
-			I.myMul(I.var6,I.var5,1);
-			a2108127495 = I.myAssign(I.var6, "a2108127495");
+			I.myMod(I.var2,I.var1,14999, successSet);
+			I.myMod(I.var3,I.var2,72, successSet);
+			I.myDel(I.var4,I.var3,91, successSet);
+			I.myDel(I.var5,I.var4,-1, successSet);
+			I.myMul(I.var6,I.var5,1, successSet);
+			a2108127495 = I.myAssign(I.var6, "a2108127495", successSet);
 			I.myPrint("ai1_VoidReply");
 		}
 	}
 
 	private  void calculateOutputm2(MyString input, BranchSet branchSet) {
-		I.myEquals(I.bool1,input,"usr4_ni1_ne1", branchSet);
-		I.myAnd(I.bool2,I.bool1,cf, branchSet);
+		BranchSet currentSet = branchSet;
+		I.myEquals(I.bool1,input,"usr4_ni1_ne1", currentSet);
+		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf", true), branchSet);
 			I.myPrint("ni1_ne1");
 		}
 
-		I.myEquals(I.bool1,input,"ai1_ce2", this);
-		I.myAnd(I.bool2,I.bool1,cf);
+		currentSet = currentSet.rightSet;
+		I.myEquals(I.bool1,input,"ai1_ce2", currentSet);
+		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf"));
-			a1745113960 = I.myAssign(new MyString("h"));
-			I.myMod(I.var1,a2108127495,59);
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf"), successSet);
+			a1745113960 = I.myAssign(new MyString("h"), successSet);
+			I.myMod(I.var1,a2108127495,59, successSet);
 			I.myDel(I.var2,I.var1,-98);
 			I.myDel(I.var3,I.var2,4);
 			I.myAdd(I.var4,I.var3,-42);
@@ -241,7 +249,7 @@ public class instm183_LTL_CTLDirect {
 		}
 	}
 
-	private  void calculateOutputm3(MyString input) {
+	private  void calculateOutputm3(MyString input, BranchSet branchSet) {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
 		I.myAnd( I.bool2,cf,I.bool1);
 
@@ -872,6 +880,13 @@ class I {
 		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
 			a.addFlowVar(a.varName);}
 
+	public static void myDel(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = b.val-c.val;
+		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
+			a.addFlowVar(a.varName);
+		branchSet.addBranch(new Branch(b, c, a.val, operations.del));
+	}
+
 	public static void myMul(MyInt a, MyInt b, MyInt c, BranchSet set){
 		a.val = b.val*c.val;
 		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
@@ -899,6 +914,7 @@ class I {
 		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
 			a.addFlowVar(a.varName);
 	}
+
 
 	//T2
 	public static void myMod(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
@@ -958,11 +974,32 @@ class I {
 		return a;
 	}
 
+	//T2
+	public static MyBool myAssign(MyBool b, BranchSet branchSet){
+		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b.varName));
+		branchSet.addBranch(new Branch(a, null, a.val, operations.boolAssign));
+		return a;
+	}
+
 	public static MyInt myAssign(MyInt b, String name) {
 		//modify with flow var.
 		MyInt ret = new MyInt(b.val, name);
 		if (b.taintSet.contains(b.varName))
 			ret.taintSet.add(name);
+		return ret;
+		/*if (input var) then propagate taint
+		else call constructor with val, name.
+		MyInt a = new MyInt(b.val, b.varName, b.flow);
+		*///return a;
+	}
+
+	//T2
+	public static MyInt myAssign(MyInt b, String name, BranchSet branchSet) {
+		//modify with flow var.
+		MyInt ret = new MyInt(b.val, name);
+		if (b.taintSet.contains(b.varName))
+			ret.taintSet.add(name);
+		branchSet.addBranch(new Branch(ret, null, ret.val, operations.intAssign));
 		return ret;
 		/*if (input var) then propagate taint
 		else call constructor with val, name.
@@ -981,6 +1018,12 @@ class I {
 	}
 	public static MyString myAssign(MyString b){
 		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
+		return a;
+	}
+
+	public static MyString myAssign(MyString b, BranchSet branchSet){
+		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
+		branchSet.addBranch(new Branch(a, null, false, operations.stringAssign));
 		return a;
 	}
 
@@ -1011,10 +1054,16 @@ class I {
 	public static void myAdd(MyInt a, MyInt b, int c){ myAdd(a,b,new MyInt(c)); }
 	public static void myAdd(MyInt a, int b, MyInt c){ myAdd(a,new MyInt(b),c); }
 	public static void myAdd(MyInt a, int b, int c){ myAdd(a,new MyInt(b),new MyInt(c)); }
+
 	public static void myDel(MyInt a, MyInt b, int c){ myDel(a,b,new MyInt(c)); }
+
+	//T2
+	public static void myDel(MyInt a, MyInt b, int c, BranchSet branchSet){myDel(a,b,new MyInt(c), branchSet);}
 	public static void myDel(MyInt a, int b, MyInt c){ myDel(a,new MyInt(b),c); }
 	public static void myDel(MyInt a, int b, int c){ myDel(a,new MyInt(b),new MyInt(c)); }
 	public static void myMul(MyInt a, MyInt b, int c){ myMul(a,b,new MyInt(c)); }
+	//T2
+	public static void myMul(MyInt a, MyInt b, int c, BranchSet branchSet){ myMul(a,b,new MyInt(c), branchSet); }
 	public static void myMul(MyInt a, int b, MyInt c){ myMul(a,new MyInt(b),c); }
 	public static void myMul(MyInt a, int b, int c){ myMul(a,new MyInt(b),new MyInt(c)); }
 	public static void myDiv(MyInt a, MyInt b, int c){ myDiv(a,b,new MyInt(c)); }
