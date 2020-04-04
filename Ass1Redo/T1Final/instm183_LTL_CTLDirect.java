@@ -1,3 +1,4 @@
+import java.time.chrono.ThaiBuddhistEra;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,7 +22,7 @@ class Calculate {
 			throw new Exception("rVar null ");
 	}
 
-	public static String[] calcEqualDiff(String inputStr, String distVar, String alphabet, int length) {
+	private static String[] calcEqualDiff(String inputStr, String distVar, String alphabet, int length) {
 		String[] ret = new String[length];
 		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
 
@@ -35,7 +36,7 @@ class Calculate {
 		return  ret;
 	}
 
-	public static String[] calcLessDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
+	private static String[] calcLessDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
 		String[] ret = new String[inLength];
 		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
 
@@ -55,7 +56,7 @@ class Calculate {
 		return ret;
 	}
 
-	public static String[] calcGreaterDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
+	private static String[] calcGreaterDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
 		String[] ret = new String[inLength];
 		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
 
@@ -98,7 +99,8 @@ class Calculate {
 
 enum operations {
 	equals,
-	boolAnd
+	myLessEqual,
+	and
 }
 
 //Used to store branch operation outcome.
@@ -113,8 +115,30 @@ class Outcome {
 	public boolean getBoolOutcome() {return boolOutcome.booleanValue();}
 }
 
+//TODO
+//Before each if you create a new branchset.
+//within each myAnd, my... You create a new branch, and add it to the branchSet(means accept the branchSet as an input param).
+//and the MyIf, based on the result, craft the proper branch set.
+//at each new branch get the appropriate branch.
+
+class BranchSet extends LinkedHashSet<Branch> {
+	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
+	//Succeed set
+	public BranchSet leftSet = new BranchSet();
+	//Fail set
+	public BranchSet rightSet = new BranchSet();
+
+	//a number designating the branches, that belong to the same myIf.
+	public static int staticBranchSetNumber = 0;
+	public int branchSetNumber;
+
+	public BranchSet() {
+		this.branchSetNumber = staticBranchSetNumber++;
+	}
+	public void addBranch(Branch branch) {this.branches.add(branch);}
+}
+
 class Branch {
-	public LinkedHashSet<Branch> subBranches = new LinkedHashSet<>();
 	Boolean outcome = null;
 	operations operation = null;
 	MyVar lVar = null, rVar = null;
@@ -134,7 +158,6 @@ class Branch {
 			case boolAnd:
 				if (lVar.val && rVar.val)*/
 		}
-
 		return false;
 	}
 }
@@ -158,6 +181,7 @@ public class instm183_LTL_CTLDirect {
 	public MyString a1745113960 = I.myAssign(new MyString("h"));
 
 	private  void calculateOutputm1(MyString input) {
+
 		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", this);
 		I.myAnd(I.bool2,I.bool1,cf);
 
@@ -349,7 +373,7 @@ public class instm183_LTL_CTLDirect {
 		}
 	}
 
-	public  void calculateOutput(MyString input) {
+	public  void calculateOutput(MyString input, BranchSet branchSet) {
 		cf = new MyBool(true, "cf");
 		I.myLessEqual(I.bool1, a2108127495, -164);
 		I.myAnd(I.bool2, cf, I.bool1);
@@ -468,7 +492,6 @@ public class instm183_LTL_CTLDirect {
 		//T1
 		int runIndex = 0;
 
-		//TODO write printFlowLength
 		while(runIndex < 10) {
 			eca.reset();
 			MyString[] fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
@@ -478,20 +501,24 @@ public class instm183_LTL_CTLDirect {
 				MyString input = fuzzed_inputs[i];
 
 				System.out.println("Fuzzing: " + input.val);
-				I.myEquals( I.bool1, input,"ai1_ce1");
-				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply");
-				I.myEquals( I.bool3,input,"usr4_ni1_ne1");
-				I.myEquals( I.bool4,input,"ai1_ce2");
-				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply");
-				I.myAnd( I.bool6,I.bool1,I.bool2);
-				I.myAnd( I.bool7,I.bool3,I.bool4);
-				I.myAnd( I.bool8,I.bool6,I.bool7);
-				I.myAnd( I.bool9,I.bool8,I.bool5);
-				if(I.myIf(I.bool9, input))
-					throw new IllegalArgumentException("Current state has no transition for this input!");
 
+				//T2
+				BranchSet branchSet = new BranchSet();
+
+
+				I.myEquals( I.bool1, input,"ai1_ce1", branchSet);
+				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", branchSet);
+				I.myEquals( I.bool3,input,"usr4_ni1_ne1", branchSet);
+				I.myEquals( I.bool4,input,"ai1_ce2", branchSet);
+				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply", branchSet);
+				I.myAnd( I.bool6,I.bool1,I.bool2, branchSet);
+				I.myAnd( I.bool7,I.bool3,I.bool4, branchSet);
+				I.myAnd( I.bool8,I.bool6,I.bool7, branchSet);
+				I.myAnd( I.bool9,I.bool8,I.bool5, branchSet);
+				if(I.myIf(I.bool9, input, branchSet))
+					throw new IllegalArgumentException("Current state has no transition for this input!");
 				try {
-					eca.calculateOutput(input);
+					eca.calculateOutput(input, branchSet);
 					System.out.println();
 					System.out.println();
 					//No idea what this does...
@@ -855,9 +882,26 @@ class I {
 	public static void myEquals(MyBool a, MyString b, MyString c) {
 		a.val = (b.val.equals(c.val));
 	}
+
+	//T2
+	public static void myEquals(MyBool a, MyString b, MyString c, BranchSet branchSet) {
+		a.val = (b.val.equals(c.val));
+		Branch br = new Branch(b, c, a.val, operations.equals);
+		branchSet.addBranch(br);
+	}
+
 	public static void myLess(MyBool a, MyInt b, MyInt c){ a.val = (b.val < c.val); }
 	public static void myGreater(MyBool a, MyInt b, MyInt c){ a.val = (b.val > c.val); }
+
 	public static void myLessEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val <= c.val); }
+
+	//T2
+	public static void myLessEqual(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = (b.val <= c.val);
+		Branch br = new Branch(b, c, a.val, operations.myLessEqual);
+		branchSet.addBranch(br);
+	}
+
 	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val >= c.val); }
 
 	public static MyBool myAssign(MyBool b){
@@ -892,6 +936,14 @@ class I {
 	}
 
 	public static void myAnd(MyBool a, MyBool b, MyBool c){ a.val = (b.val && c.val); }
+
+	//T2
+	public static void myAnd(MyBool a, MyBool b, MyBool c, BranchSet branchSet){
+		a.val = (b.val && c.val);
+		Branch branch = new Branch(b, c, a.val, operations.and);
+		branchSet.addBranch(branch);
+	}
+
 	public static void myOr(MyBool a, MyBool b, MyBool c){ a.val = (b.val || c.val); }
 	public static void myNot(MyBool a, MyBool b){ a.val = (!b.val); }
 	public static void myPrint(MyString a){ System.out.println("\n"+a.val); }
@@ -899,8 +951,11 @@ class I {
 		myPrint(new MyString(a));
 	}
 
-	public static boolean myIf(MyBool a, MyString input){
-		System.out.print("b" + a.val + " ");
+	//T2
+	public static boolean myIf(MyBool a, MyString input, BranchSet branchSet){
+		System.out.print("b " + a.val + " ");
+		BranchSet leftSet = new BranchSet(), rightSet = new BranchSet();
+		branchSet.leftSet = leftSet; branchSet.rightSet=rightSet;
 		if(a.val)
 			input.depth++;
 		return a.val; }
@@ -931,9 +986,15 @@ class I {
 	public static void myEquals(MyBool a, MyString b, String c, instm183_LTL_CTLDirect o) {
 		myEquals(a, b, new MyString(c), o);
 	}
+
 	public static void myEquals(MyBool a, MyString b, String c) {
 			myEquals(a, b, new MyString(c));
-		}
+	}
+
+	public static void myEquals(MyBool a, MyString b, String c, BranchSet branchSet) {
+		myEquals(a, b, new MyString(c), branchSet);
+	}
+
 	public static void myEquals(MyBool a, boolean b, MyBool c){ myEquals(a, new MyBool(b), c); }
 	public static void myEquals(MyBool a, int b, MyInt c){ myEquals(a, new MyInt(b), c); }
 
@@ -949,7 +1010,12 @@ class I {
 
 	public static void myLess(MyBool a, MyInt b, int c){ myLess(a, b, new MyInt(c)); }
 	public static void myGreater(MyBool a, MyInt b, int c){ myGreater(a, b, new MyInt(c)); }
+
 	public static void myLessEqual(MyBool a, MyInt b, int c){ myLessEqual(a, b, new MyInt(c)); }
+
+	//T2
+	public static void myLessEqual(MyBool a, MyInt b, int c, BranchSet branchSet){ myLessEqual(a, b, new MyInt(c)); }
+
 	public static void myGreaterEqual(MyBool a, MyInt b, int c){ myGreaterEqual(a, b, new MyInt(c)); }
 	public static void myLess(MyBool a, int b, MyInt c){ myLess(a, new MyInt(b), c); }
 	public static void myGreater(MyBool a, int b, MyInt c){ myGreater(a, new MyInt(b), c); }

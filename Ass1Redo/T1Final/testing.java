@@ -1,39 +1,29 @@
 import java.util.HashSet;
 import java.util.Set;
 
-//base class with static member.
-//update base class, see effects on children.
-//update child, see effect on base class.
-//update child1, see effect on child2.
+class set{
+    public static int sta = 0;
+    public int sta2;
 
-class base {
-    public static String j = "base";
+    public set() {
+        this.sta2 = sta++;
+    }
 }
-class c1 extends base{}
-class c2 extends base{}
+
+class set2{
+    public static int sta = 0;
+    public int sta2;
+
+    public set2() {
+        this.sta2 = ++sta;
+    }
+}
+
 public class testing {
     public static void main(String[] args) {
-        base b1 = new base();
-        c1 ch1 = new c1();
-        c2 ch2 = new c2();
-
-        System.out.println("base j: " + b1.j);
-        System.out.println("ch1 j: " + ch1.j);
-        System.out.println("ch2 j: " + ch2.j);
-
-        System.out.println("update base");
-        b1.j = "george";
-
-        System.out.println("base j: " + b1.j);
-        System.out.println("ch1 j: " + ch1.j);
-        System.out.println("ch2 j: " + ch2.j);
-        b1.j = "base";
-
-        System.out.println("Update child 1");
-        ch1.j = "ch1";
-        System.out.println("base j: " + b1.j);
-        System.out.println("ch1 j: " + ch1.j);
-        System.out.println("ch2 j: " + ch2.j);
-        ch1.j = "base";
+        set s = new set();
+        System.out.println("Post increment: sta " + s.sta + "sta 2 " + s.sta2);
+        set2 s2 = new set2();
+        System.out.println("Pre increment: sta: " + s2.sta + "sta 2 " + s2.sta2);
     }
 }
