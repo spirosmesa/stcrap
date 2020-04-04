@@ -791,6 +791,7 @@ class I {
 	public static void myDiv(MyInt a, int b, MyInt c){ myDiv(a,new MyInt(b),c); }
 	public static void myDiv(MyInt a, int b, int c){ myDiv(a,new MyInt(b),new MyInt(c)); }
 
+	public static void myMod(MyInt a, MyInt b, MyInt c) {a.val = b.val % c.val;}
 	public static void myMod(MyInt a, MyInt b, int c){ myMod(a,b,new MyInt(c)); }
 	public static void myMod(MyInt a, int b, MyInt c){ myMod(a,new MyInt(b),c); }
 	public static void myMod(MyInt a, int b, int c){ myMod(a,new MyInt(b),new MyInt(c)); }
