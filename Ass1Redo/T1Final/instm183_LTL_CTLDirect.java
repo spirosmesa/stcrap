@@ -110,6 +110,7 @@ enum operations {
 	intAssign,
 	del,
 	add,
+	div,
 
 }
 
@@ -326,85 +327,93 @@ public class instm183_LTL_CTLDirect {
 		}
 	}
 
-	private  void calculateOutputm6(MyString input) {
-		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
-		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
-			I.myAdd( I.var1,a2108127495,new MyInt(13863), true);
-			I.myMul( I.var2,I.var1,2);
-			I.myMul( I.var3,I.var2,1);
-			a2108127495 = I.myAssign(I.var3, "a2108127495");
-			I.myMul( I.var1,a2108127495,a2108127495);
-			I.myMod( I.var2,I.var1,14999);
-			I.myAdd( I.var3,I.var2,-1380);
-			I.myMod( I.var4,I.var3,47);
-			I.myDel( I.var5,I.var4,-150);
-			I.myAdd( I.var6,I.var5,23887);
-			I.myAdd( I.var7,I.var6,-23885);
-			a422009172 = I.myAssign(I.var7, "a422009172");
+	private  void calculateOutputm6(MyString input, BranchSet branchSet) {
+		BranchSet currentSet = new BranchSet();
+		I.myEquals( I.bool1,input,"usr4_ni1_ne1", currentSet);
+		I.myAnd( I.bool2,I.bool1,cf, currentSet);
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
+			I.myAdd( I.var1,a2108127495,new MyInt(13863), successSet);
+			I.myMul( I.var2,I.var1,2, successSet);
+			I.myMul( I.var3,I.var2,1, successSet);
+			a2108127495 = I.myAssign(I.var3, "a2108127495", successSet);
+			I.myMul( I.var1,a2108127495,a2108127495, successSet);
+			I.myMod( I.var2,I.var1,14999, successSet);
+			I.myAdd( I.var3,I.var2,-1380, successSet);
+			I.myMod( I.var4,I.var3,47, successSet);
+			I.myDel( I.var5,I.var4,-150, successSet);
+			I.myAdd( I.var6,I.var5,23887, successSet);
+			I.myAdd( I.var7,I.var6,-23885, successSet);
+			a422009172 = I.myAssign(I.var7, "a422009172", successSet);
 			I.myPrint("none");
 		}
+		currentSet=currentSet.rightSet;
+		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", currentSet);
+		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
-		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
-		I.myAnd( I.bool2,cf,I.bool1);
-
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
-			a1745113960 = I.myAssign(new MyString("e", true));
-			I.myAdd( I.var1,a2108127495,-139);
-			I.myAdd( I.var2,I.var1,-4);
-			I.myAdd( I.var3,I.var2,5);
-			a2108127495 = I.myAssign(I.var3, "a2108127495");
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
+			a1745113960 = I.myAssign(new MyString("e", true), successSet);
+			I.myAdd( I.var1,a2108127495,-139, successSet);
+			I.myAdd( I.var2,I.var1,-4, successSet);
+			I.myAdd( I.var3,I.var2,5, successSet);
+			a2108127495 = I.myAssign(I.var3, "a2108127495", successSet);
 			I.myPrint("ai1_VoidReply");
 		}
 	}
 
-	private  void calculateOutputm7(MyString input) {
-		I.myEquals( I.bool1,input,"usr4_ni1_ne1", this);
-		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
-			a1745113960 = I.myAssign(new MyString("g", true));
-			I.myDel( I.var1,a2108127495,new MyInt(128));
-			I.myDel( I.var2,I.var1,-3384);
-			I.myDel( I.var3,I.var2,4504);
-			I.myDel( I.var4,I.var3,-1107);
-			a2108127495 = I.myAssign(I.var4, "a2108127495");
+	private  void calculateOutputm7(MyString input, BranchSet branchSet) {
+		BranchSet currentSet = branchSet;
+		I.myEquals( I.bool1,input,"usr4_ni1_ne1", currentSet);
+		I.myAnd( I.bool2,I.bool1,cf, currentSet);
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
+			a1745113960 = I.myAssign(new MyString("g", true), successSet);
+			I.myDel(I.var1,a2108127495,new MyInt(128), successSet);
+			I.myDel(I.var2,I.var1,-3384, successSet);
+			I.myDel(I.var3,I.var2,4504, successSet);
+			I.myDel(I.var4,I.var3,-1107, successSet);
+			a2108127495 = I.myAssign(I.var4, "a2108127495", successSet);
 			I.myPrint("none");
 		}
 
-		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
-		I.myAnd( I.bool2,cf,I.bool1);
+		currentSet = currentSet.rightSet;
+		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", currentSet);
+		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
+		if(I.myIf(I.bool2, input, currentSet)) {
+			BranchSet successSet = currentSet.leftSet;
+			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 
-		I.myDel( I.var1,a2108127495,new MyInt(22339), true);
-		I.myDel( I.var2,I.var1,-35662);
-		I.myMul( I.var3,I.var2,2);
-		I.myMod( I.var4,I.var3,72);
-		I.myDel( I.var5,I.var4,149);
-		a2108127495 = I.myAssign(I.var5, "a2108127495");
-		I.myPrint("ai1_VoidReply");
+			I.myDel( I.var1,a2108127495,new MyInt(22339), successSet);
+			I.myDel( I.var2,I.var1,-35662, successSet);
+			I.myMul( I.var3,I.var2,2, successSet);
+			I.myMod( I.var4,I.var3,72, successSet);
+			I.myDel( I.var5,I.var4,149, successSet);
+			a2108127495 = I.myAssign(I.var5, "a2108127495", successSet);
+			I.myPrint("ai1_VoidReply");
 		}
 	}
 
-	private  void calculateOutputm8(MyString input) {
-		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", this);
-		I.myAnd( I.bool2,I.bool1,cf);
+	private  void calculateOutputm8(MyString input, BranchSet branchSet) {
+		BranchSet currentSet = branchSet;
+		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", currentSet);
+		I.myAnd( I.bool2,I.bool1,cf, currentSet);
 
-		if(I.myIf(I.bool2, input)) {
-			cf = I.myAssign(new MyBool(false, "cf", true));
-			a1745113960 = I.myAssign(new MyString("e", true));
-			I.myMul( I.var1,a2108127495,a422009172, true);
-			I.myMod( I.var2,I.var1,14999);
-			I.myDiv( I.var3,I.var2,5);
-			I.myMod( I.var4,I.var3,72);
-			I.myAdd( I.var5,I.var4,-156);
-			I.myMul( I.var6,I.var5,5);
-			I.myMod( I.var7,I.var6,72);
-			I.myAdd( I.var8,I.var7,-65);
+		if(I.myIf(I.bool2, input, currentSet)) {
+			cf = I.myAssign(new MyBool(false, "cf", true), currentSet);
+			a1745113960 = I.myAssign(new MyString("e", true), currentSet);
+			I.myMul( I.var1,a2108127495,a422009172, currentSet);
+			I.myMod( I.var2,I.var1,14999, currentSet);
+			I.myDiv( I.var3,I.var2,5, currentSet);
+			I.myMod( I.var4,I.var3,72, currentSet);
+			I.myAdd( I.var5,I.var4,-156, currentSet);
+			I.myMul( I.var6,I.var5,5, currentSet);
+			I.myMod( I.var7,I.var6,72, currentSet);
+			I.myAdd( I.var8,I.var7,-65, currentSet);
 			a2108127495 = I.myAssign(I.var8, "a2108127495");
 			I.myPrint("ni1_ne1__ai1_VoidReply");
 		}
@@ -922,10 +931,19 @@ class I {
 		a.val = b.val/c.val;
 		if (bo) a.addTaintedVar(a.varName);}
 
+	//T1
 	public static void myDiv(MyInt a, MyInt b, MyInt c){
 		a.val = b.val/c.val;
 		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
 			a.addTaintedVar(a.varName);}
+
+	//T2
+	public static void myDiv(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = b.val/c.val;
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);
+		branchSet.addBranch(new Branch(b, c, a.val, operations.div));
+	}
 
 	public static void myMod(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val%c.val;  }
 	public static void myMod(MyInt a, MyInt b, MyInt c){
@@ -1087,7 +1105,10 @@ class I {
 	public static void myMul(MyInt a, MyInt b, int c, BranchSet branchSet){ myMul(a,b,new MyInt(c), branchSet); }
 	public static void myMul(MyInt a, int b, MyInt c){ myMul(a,new MyInt(b),c); }
 	public static void myMul(MyInt a, int b, int c){ myMul(a,new MyInt(b),new MyInt(c)); }
+
 	public static void myDiv(MyInt a, MyInt b, int c){ myDiv(a,b,new MyInt(c)); }
+	//T2
+	public static void myDiv(MyInt a, MyInt b, int c, BranchSet branchSet){ myDiv(a,b,new MyInt(c)); }
 	public static void myDiv(MyInt a, int b, MyInt c){ myDiv(a,new MyInt(b),c); }
 	public static void myDiv(MyInt a, int b, int c){ myDiv(a,new MyInt(b),new MyInt(c)); }
 
