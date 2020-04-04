@@ -126,12 +126,6 @@ class Outcome {
 	public boolean getBoolOutcome() {return boolOutcome.booleanValue();}
 }
 
-//TODO
-//Before each if you create a new branchset.
-//within each myAnd, my... You create a new branch, and add it to the branchSet(means accept the branchSet as an input param).
-//and the MyIf, based on the result, craft the proper branch set.
-//at each new branch get the appropriate branch.
-
 class BranchSet extends LinkedHashSet<Branch> {
 	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
 	//Succeed set
@@ -192,7 +186,7 @@ class Branch {
 //mClass
 public class instm183_LTL_CTLDirect {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-	static HashSet<String> taints;
+	static LinkedHashSet<String> taints;
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
@@ -525,7 +519,7 @@ public class instm183_LTL_CTLDirect {
 	}
 
 	public void reset() {
-		this.taints = new HashSet<>();
+		this.taints = new LinkedHashSet<>();
 		MyVar var = new MyVar(this.taints);
 
 		System.out.println("reset");a422009172 = new MyInt(-68, "a422009172");
@@ -618,14 +612,14 @@ class Fuzzer {
 
 class MyVar {
 	public boolean inputVar = false;
-	public static HashSet<String> taintSet;
+	public static LinkedHashSet<String> taintSet;
 	public String varName;
 
-	public MyVar(HashSet<String> taintSet) {this.taintSet = taintSet;}
+	public MyVar(LinkedHashSet<String> taintSet) {this.taintSet = taintSet;}
 
 	public MyVar(String name, boolean inputVar) {this.varName = name; this.inputVar=inputVar;}
 
-	public MyVar(String name, boolean inputVar, HashSet<String> taintSet, boolean tainted) throws Exception {
+	public MyVar(String name, boolean inputVar, LinkedHashSet<String> taintSet, boolean tainted) throws Exception {
 		this.inputVar = inputVar;
 		this.taintSet = taintSet;
 	}
