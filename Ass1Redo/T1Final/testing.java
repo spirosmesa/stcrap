@@ -22,8 +22,8 @@ class set2{
 public class testing {
     public static void main(String[] args) {
         set s = new set();
-        System.out.println("Post increment: sta " + s.sta + "sta 2 " + s.sta2);
+        System.out.println("Post increment: sta: " + s.sta + " sta2: " + s.sta2 + " and now sta: " + s.sta);
         set2 s2 = new set2();
-        System.out.println("Pre increment: sta: " + s2.sta + "sta 2 " + s2.sta2);
+        System.out.println("Pre increment: sta: " + s2.sta + " sta2: " + s2.sta2 + " and now sta: " + s.sta);
     }
 }

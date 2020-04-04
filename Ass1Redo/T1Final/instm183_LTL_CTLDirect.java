@@ -99,8 +99,11 @@ class Calculate {
 
 enum operations {
 	equals,
-	myLessEqual,
-	and
+	lessEqual,
+	greaterEqual,
+	and,
+	less,
+
 }
 
 //Used to store branch operation outcome.
@@ -125,7 +128,7 @@ class BranchSet extends LinkedHashSet<Branch> {
 	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
 	//Succeed set
 	public BranchSet leftSet = new BranchSet();
-	//Fail set
+	//failSet set
 	public BranchSet rightSet = new BranchSet();
 
 	//a number designating the branches, that belong to the same myIf.
@@ -142,12 +145,17 @@ class Branch {
 	Boolean outcome = null;
 	operations operation = null;
 	MyVar lVar = null, rVar = null;
+	Exception ex;
 
 	public Branch() {}
+	public Branch(Exception ex) {
+		this.ex=ex;
+	}
 	public Branch(MyVar lVar, MyVar rVar, boolean outcome, operations operation) {
 		this.lVar=lVar; this.rVar=rVar; this.outcome=outcome;this.operation=operation;
 	}
 
+	//TODO
 	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar){
 		Outcome opOutcome = null;
 		switch(br.operation) {
@@ -180,11 +188,12 @@ public class instm183_LTL_CTLDirect {
 	public MyInt a1522448132 = I.myAssign(new MyInt(173, "a1522448132"), "a422009172");
 	public MyString a1745113960 = I.myAssign(new MyString("h"));
 
-	private  void calculateOutputm1(MyString input) {
+	private  void calculateOutputm1(MyString input, BranchSet set) {
 
-		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", this);
-		I.myAnd(I.bool2,I.bool1,cf);
+		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply", set);
+		I.myAnd(I.bool2,I.bool1,cf, set);
 
+		//TODO fix
 		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
@@ -199,9 +208,9 @@ public class instm183_LTL_CTLDirect {
 		}
 	}
 
-	private  void calculateOutputm2(MyString input) {
-		I.myEquals(I.bool1,input,"usr4_ni1_ne1", this);
-		I.myAnd(I.bool2,I.bool1,cf);
+	private  void calculateOutputm2(MyString input, BranchSet branchSet) {
+		I.myEquals(I.bool1,input,"usr4_ni1_ne1", branchSet);
+		I.myAnd(I.bool2,I.bool1,cf, branchSet);
 
 		if(I.myIf(I.bool2, input)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
@@ -375,84 +384,105 @@ public class instm183_LTL_CTLDirect {
 
 	public  void calculateOutput(MyString input, BranchSet branchSet) {
 		cf = new MyBool(true, "cf");
-		I.myLessEqual(I.bool1, a2108127495, -164);
-		I.myAnd(I.bool2, cf, I.bool1);
+		BranchSet currentSet = branchSet;
 
-		if (I.myIf(I.bool2, input)) {
-			I.myLess(I.bool1, -83, a1522448132);
-			I.myGreaterEqual(I.bool2, 18, a1522448132);
-			I.myAnd(I.bool3, I.bool1, I.bool2);
-			I.myAnd(I.bool4, cf, I.bool3);
-			if (I.myIf(I.bool4, input)) {
-				calculateOutputm1(input);
+		I.myLessEqual(I.bool1, a2108127495, -164, currentSet);
+		I.myAnd(I.bool2, cf, I.bool1, currentSet);
+
+		if (I.myIf(I.bool2, input, currentSet)) {
+			//s1 = succeed1
+			BranchSet s1 = currentSet.leftSet;
+			I.myLess(I.bool1, -83, a1522448132, s1);
+			I.myGreaterEqual(I.bool2, 18, a1522448132, s1);
+			I.myAnd(I.bool3, I.bool1, I.bool2, s1);
+			I.myAnd(I.bool4, cf, I.bool3, s1);
+			if (I.myIf(I.bool4, input, s1)) {
+				BranchSet s2 = branchSet.leftSet;
+				calculateOutputm1(input, s2);
 			}
 		}
 
-		I.myLess(I.bool1, -164, a2108127495);
-		I.myGreaterEqual(I.bool2, -19, a2108127495);
-		I.myAnd(I.bool3, I.bool1, I.bool2);
-		I.myAnd(I.bool4, cf, I.bool3);
+		//failSeture set
+		currentSet = currentSet.rightSet;
 
-		if (I.myIf(I.bool4, input)) {
-			I.myEquals(I.bool1, a1745113960, "e", this);
-			I.myAnd(I.bool2, cf, I.bool1);
+		I.myLess(I.bool1, -164, a2108127495, currentSet);
+		I.myGreaterEqual(I.bool2, -19, a2108127495, currentSet);
+		I.myAnd(I.bool3, I.bool1, I.bool2, currentSet);
+		I.myAnd(I.bool4, cf, I.bool3, currentSet);
 
-			if (I.myIf(I.bool2, input)) {
-				calculateOutputm2(input);
-			}
+		if (I.myIf(I.bool4, input, currentSet)) {
+			BranchSet s1 = currentSet.leftSet;
+			I.myEquals(I.bool1, a1745113960, "e", s1);
+			I.myAnd(I.bool2, cf, I.bool1, s1);
 
-			I.myEquals(I.bool1, a1745113960, "g", this);
-			I.myAnd(I.bool2, cf, I.bool1);
+			if (I.myIf(I.bool2, input, s1))
+				calculateOutputm2(input, s1.leftSet);
 
-			if (I.myIf(I.bool2, input)) {
-				calculateOutputm3(input);
-			}
+			BranchSet failSet = branchSet.rightSet;
+			I.myEquals(I.bool1, a1745113960, "g", failSet);
+			I.myAnd(I.bool2, cf, I.bool1, failSet);
 
-			I.myEquals(I.bool1, a1745113960, "h", this);
-			I.myAnd(I.bool2, cf, I.bool1);
+			if (I.myIf(I.bool2, input, failSet))
+				calculateOutputm3(input, failSet.leftSet);
 
-			if (I.myIf(I.bool2, input)) {
-				calculateOutputm4(input);
-			}
+			failSet = failSet.rightSet;
 
-			I.myEquals(I.bool1, a1745113960, "i", this);
-			I.myAnd(I.bool2, I.bool1, cf);
+			I.myEquals(I.bool1, a1745113960, "h", failSet);
+			I.myAnd(I.bool2, cf, I.bool1, failSet);
 
-			if (I.myIf(I.bool2, input)) {
-				calculateOutputm5(input);
-			}
+			if (I.myIf(I.bool2, input,failSet))
+				calculateOutputm4(input, failSet.leftSet);
+
+			failSet = failSet.rightSet;
+
+			I.myEquals(I.bool1, a1745113960, "i", failSet);
+			I.myAnd(I.bool2, I.bool1, cf, failSet);
+
+			if (I.myIf(I.bool2, input, failSet))
+				calculateOutputm5(input, failSet.leftSet);
+
 		}
+		currentSet=currentSet.rightSet;
 
-		I.myLess(I.bool1, -19, a2108127495);
-		I.myGreaterEqual(I.bool2, 100, a2108127495);
-		I.myAnd(I.bool3, I.bool1, I.bool2);
-		I.myAnd(I.bool4, I.bool3, cf);
+		I.myLess(I.bool1, -19, a2108127495, currentSet);
+		I.myGreaterEqual(I.bool2, 100, a2108127495, currentSet);
+		I.myAnd(I.bool3, I.bool1, I.bool2, currentSet);
+		I.myAnd(I.bool4, I.bool3, cf, currentSet);
 
-		if (I.myIf(I.bool4, input)) {
-			I.myEquals(I.bool1, a1745113960, "g", this);
-			I.myAnd(I.bool2, cf, I.bool1);
+		if (I.myIf(I.bool4, input,currentSet)) {
+			BranchSet successSet = currentSet.rightSet;
+			I.myEquals(I.bool1, a1745113960, "g", successSet);
+			I.myAnd(I.bool2, cf, I.bool1, successSet);
 
-			if (I.myIf(I.bool2, input))
-				calculateOutputm6(input);
+			if (I.myIf(I.bool2, input, successSet))
+				calculateOutputm6(input, successSet.leftSet);
 
-			I.myEquals(I.bool1, a1745113960, "h", this);
-			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
-				calculateOutputm7(input);
+			BranchSet failSet = successSet.rightSet;
+
+			I.myEquals(I.bool1, a1745113960, "h", failSet);
+			I.myAnd(I.bool2, cf, I.bool1, failSet);
+			if (I.myIf(I.bool2, input, failSet)) {
+				calculateOutputm7(input, failSet.leftSet);
 			}
+			failSet=failSet.rightSet;
 
-			I.myLess(I.bool1, 100, a2108127495);
-			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
-				I.myLess(I.bool1, 103, a422009172);
-				I.myGreaterEqual(I.bool2, 198, a422009172);
-				I.myAnd(I.bool3, I.bool1, I.bool2);
-				I.myAnd(I.bool4, I.bool3, cf);
-				if (I.myIf(I.bool4, input))
-					calculateOutputm8(input);
+			I.myLess(I.bool1, 100, a2108127495, failSet);
+			I.myAnd(I.bool2, cf, I.bool1, failSet);
+			if (I.myIf(I.bool2, input, failSet)) {
+				BranchSet s1 = failSet.leftSet;
+				I.myLess(I.bool1, 103, a422009172, s1);
+				I.myGreaterEqual(I.bool2, 198, a422009172, s1);
+				I.myAnd(I.bool3, I.bool1, I.bool2, s1);
+				I.myAnd(I.bool4, I.bool3, cf, s1);
+				if (I.myIf(I.bool4, input, s1))
+					calculateOutputm8(input, s1.leftSet);
 			}
-			if (I.myIf(cf, input)) {
-				throw new IllegalArgumentException("Current state has no transition for this input!");
+			failSet=failSet.rightSet;
+
+			if (I.myIf(cf, input, failSet)) {
+				IllegalArgumentException ex = new IllegalArgumentException("Current state has no transition for this input!");
+				failSet.addBranch(new Branch(ex));
+				throw ex;
 			}
 		}
 	}
@@ -505,7 +535,6 @@ public class instm183_LTL_CTLDirect {
 				//T2
 				BranchSet branchSet = new BranchSet();
 
-
 				I.myEquals( I.bool1, input,"ai1_ce1", branchSet);
 				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", branchSet);
 				I.myEquals( I.bool3,input,"usr4_ni1_ne1", branchSet);
@@ -529,7 +558,7 @@ public class instm183_LTL_CTLDirect {
 				}
 			}
 			//T1: print the deepest the input variable has reached.
-
+			printFlowLength(fuzzed_inputs);
 
 			runIndex++;
 		}
@@ -617,9 +646,7 @@ class MyInt extends MyVar{
 
 class MyBool extends MyVar {
 	public boolean val = false;
-	public boolean flow = false;
 	public String varName;
-	public static Set<String> flowTrack = new HashSet<String>();
 
 	//Compatibility with the teacher provided code.
 	public MyBool(boolean val) {super("", false); this.val = val;}
@@ -633,14 +660,14 @@ class MyBool extends MyVar {
 		super(varName, false);
 		this.val = this.val;
 		this.varName = varName;
-		if ( (flow = br) == true) flowTrack.add(varName);
+		if (br) this.taintSet.add(varName);
 	}
 
 	public MyBool(boolean val, String varName, boolean br, boolean inputVar){
 		super(varName, inputVar);
 		this.val = this.val;
 		this.varName = varName;
-		if ( (flow = br) == true) flowTrack.add(varName);
+		if (br) this.taintSet.add(varName);
 	}
 }
 
@@ -868,16 +895,6 @@ class I {
 
 	public static void myEquals(MyBool a, MyBool b, MyBool c){ a.val = (b.val == c.val); }
 	public static void myEquals(MyBool a, MyInt b, MyInt c){ a.val = (b.val == c.val); }
-	public static void myEquals(MyBool a, MyString b, MyString c, instm183_LTL_CTLDirect o) {
-		a.val = (b.val.equals(c.val));
-		MyString ins[] = o.inputs;
-		boolean eq=false;
-		for (MyString s : ins) {
-			if (ins.equals(s)) {
-				a.flow=true;
-			}
-		}
-	}
 
 	public static void myEquals(MyBool a, MyString b, MyString c) {
 		a.val = (b.val.equals(c.val));
@@ -891,6 +908,12 @@ class I {
 	}
 
 	public static void myLess(MyBool a, MyInt b, MyInt c){ a.val = (b.val < c.val); }
+	//T2
+	public static void myLess(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = (b.val < c.val);
+		branchSet.add(new Branch(b, c, a.val, operations.less));}
+
+
 	public static void myGreater(MyBool a, MyInt b, MyInt c){ a.val = (b.val > c.val); }
 
 	public static void myLessEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val <= c.val); }
@@ -898,14 +921,19 @@ class I {
 	//T2
 	public static void myLessEqual(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = (b.val <= c.val);
-		Branch br = new Branch(b, c, a.val, operations.myLessEqual);
+		Branch br = new Branch(b, c, a.val, operations.lessEqual);
 		branchSet.addBranch(br);
 	}
 
 	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val >= c.val); }
+	//T2
+	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
+		a.val = (b.val >= c.val);
+		branchSet.add(new Branch(b, c, a.val, operations.greaterEqual));}
 
+	//T2
 	public static MyBool myAssign(MyBool b){
-		MyBool a = new MyBool(b.val, b.varName, b.flow);
+		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b.varName));
 		return a;
 	}
 
@@ -954,8 +982,7 @@ class I {
 	//T2
 	public static boolean myIf(MyBool a, MyString input, BranchSet branchSet){
 		System.out.print("b " + a.val + " ");
-		BranchSet leftSet = new BranchSet(), rightSet = new BranchSet();
-		branchSet.leftSet = leftSet; branchSet.rightSet=rightSet;
+		branchSet.leftSet = new BranchSet(); branchSet.rightSet = new BranchSet();
 		if(a.val)
 			input.depth++;
 		return a.val; }
@@ -983,30 +1010,22 @@ class I {
 	public static void myEquals(MyBool a, MyBool b, boolean c){ myEquals(a, b, new MyBool(c)); }
 	public static void myEquals(MyBool a, MyInt b, int c){ myEquals(a, b, new MyInt(c)); }
 
-	public static void myEquals(MyBool a, MyString b, String c, instm183_LTL_CTLDirect o) {
-		myEquals(a, b, new MyString(c), o);
-	}
+	public static void myEquals(MyBool a, MyString b, String c) {myEquals(a, b, new MyString(c));}
 
-	public static void myEquals(MyBool a, MyString b, String c) {
-			myEquals(a, b, new MyString(c));
-	}
-
+	//T2
 	public static void myEquals(MyBool a, MyString b, String c, BranchSet branchSet) {
-		myEquals(a, b, new MyString(c), branchSet);
-	}
+		myEquals(a, b, new MyString(c), branchSet);}
 
 	public static void myEquals(MyBool a, boolean b, MyBool c){ myEquals(a, new MyBool(b), c); }
 	public static void myEquals(MyBool a, int b, MyInt c){ myEquals(a, new MyInt(b), c); }
 
-	public static void myEquals(MyBool a, String b, MyString c, instm183_LTL_CTLDirect o){ myEquals(a, new MyString(b), c, o); }
-		public static void myEquals(MyBool a, String b, MyString c) { myEquals(a, new MyString(b), c); }
+	public static void myEquals(MyBool a, String b, MyString c) { myEquals(a, new MyString(b), c); }
 
 	public static void myEquals(MyBool a, boolean b, boolean c){ myEquals(a, new MyBool(b), new MyBool(c)); }
 	public static void myEquals(MyBool a, int b, int c){ myEquals(a, new MyInt(b), new MyInt(c)); }
 
-	public static void myEquals(MyBool a, String b, String c, instm183_LTL_CTLDirect o){
-		myEquals(a, new MyString(b), new MyString(c), o);
-	}
+	public static void myEquals(MyBool a, String b, String c){
+		myEquals(a, new MyString(b), new MyString(c));	}
 
 	public static void myLess(MyBool a, MyInt b, int c){ myLess(a, b, new MyInt(c)); }
 	public static void myGreater(MyBool a, MyInt b, int c){ myGreater(a, b, new MyInt(c)); }
@@ -1017,10 +1036,17 @@ class I {
 	public static void myLessEqual(MyBool a, MyInt b, int c, BranchSet branchSet){ myLessEqual(a, b, new MyInt(c)); }
 
 	public static void myGreaterEqual(MyBool a, MyInt b, int c){ myGreaterEqual(a, b, new MyInt(c)); }
+
 	public static void myLess(MyBool a, int b, MyInt c){ myLess(a, new MyInt(b), c); }
+	//T2
+	public static void myLess(MyBool a, int b, MyInt c, BranchSet branchSet){ myLess(a, new MyInt(b), c, branchSet); }
+
 	public static void myGreater(MyBool a, int b, MyInt c){ myGreater(a, new MyInt(b), c); }
 	public static void myLessEqual(MyBool a, int b, MyInt c){ myLessEqual(a, new MyInt(b), c); }
 	public static void myGreaterEqual(MyBool a, int b, MyInt c){ myGreaterEqual(a, new MyInt(b), c); }
+	//T2
+	public static void myGreaterEqual(MyBool a, int b, MyInt c, BranchSet branchSet){ myGreaterEqual(a, new MyInt(b), c, branchSet); }
+
 	public static void myLess(MyBool a, int b, int c){ myLess(a, new MyInt(b), new MyInt(c)); }
 	public static void myGreater(MyBool a, int b, int c){ myGreater(a, new MyInt(b), new MyInt(c)); }
 	public static void myLessEqual(MyBool a, int b, int c){ myLessEqual(a, new MyInt(b), new MyInt(c)); }
