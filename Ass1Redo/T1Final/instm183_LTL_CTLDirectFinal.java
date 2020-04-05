@@ -127,6 +127,18 @@ class Outcome {
 }
 
 class BranchSet extends LinkedHashSet<Branch> {
+
+	public void printBranchSet() {
+		System.out.println("Printing info for branch hash code: ");
+		System.out.println();
+		System.out.println("static branch number: " + staticBranchSetNumber);
+		System.out.println("branch set number: " + branchSetNumber);
+		System.out.println("left set info: ");
+		leftSet.printBranchSet();
+		System.out.println("right set infor: ");
+		rightSet.printBranchSet();
+	}
+
 	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
 	//Succeed set
 	public BranchSet leftSet = new BranchSet();
@@ -144,12 +156,23 @@ class BranchSet extends LinkedHashSet<Branch> {
 }
 
 class Branch {
-	public boolean boolOutcome;
-	public int intOutcome;
+	public Boolean boolOutcome = null;
+	public Integer intOutcome = null;
 	public operations operation = null;
 	public MyVar lVar = null, rVar = null;
-	public Exception ex;
+	public Exception ex = null;
 
+	public void printBranch() {
+		System.out.println(" Printing info for branch hash code: " + this.hashCode());
+		System.out.println("   lVar: " + lVar.toString());
+		System.out.println("   rVar: " + rVar.toString());
+		System.out.println("   operation: " + operation);
+
+		if (intOutcome != null) System.out.println("  Integer outcome: " + intOutcome.intValue());
+		else System.out.println("  boolean outcome: " + boolOutcome.booleanValue());
+
+		System.out.println(" Caught Exception class: " + ex.getClass().toString());
+	}
 	public Branch() {}
 	public Branch(Exception ex) {
 		this.ex=ex;
@@ -184,9 +207,10 @@ class Branch {
 //1 const
 
 //mClass
-public class instm183_LTL_CTLDirect {
+public class instm183_LTL_CTLDirectFinal {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-	static LinkedHashSet<String> taints;
+	static LinkedHashSet<MyVar> taints = new LinkedHashSet<>();
+	MyVar myVar = new MyVar(taints);
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
@@ -549,7 +573,7 @@ public class instm183_LTL_CTLDirect {
 	public static void main (String[] args) {
 		//T2
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		instm183_LTL_CTLDirect eca = new instm183_LTL_CTLDirect();
+		instm183_LTL_CTLDirectFinal eca = new instm183_LTL_CTLDirectFinal();
 		//T1
 		int runIndex = 0;
 
@@ -612,20 +636,30 @@ class Fuzzer {
 
 class MyVar {
 	public boolean inputVar = false;
-	public static LinkedHashSet<String> taintSet;
-	public String varName;
+	public static LinkedHashSet<MyVar> taintSet;
+	public String varName = null;
 
-	public MyVar(LinkedHashSet<String> taintSet) {this.taintSet = taintSet;}
+	@Override
+	public String toString() {
+		String ret = "\n  inputVar: " + inputVar +
+				" varname: " + varName + "\n  " +
+				"variable type: " + this.getClass();
+		return super.toString();
+	}
+
+	public MyVar(LinkedHashSet<MyVar> taintSet) {this.taintSet = taintSet;}
 
 	public MyVar(String name, boolean inputVar) {this.varName = name; this.inputVar=inputVar;}
 
-	public MyVar(String name, boolean inputVar, LinkedHashSet<String> taintSet, boolean tainted) throws Exception {
+	public MyVar(String name, boolean inputVar, LinkedHashSet<MyVar> taintSet, boolean tainted) throws Exception {
+		this.inputVar = inputVar;
 		this.inputVar = inputVar;
 		this.taintSet = taintSet;
+		if (tainted) this.taintSet.add(this);
 	}
 
-	public void addTaintedVar(String name) {
-		if(this.taintSet!= null) this.taintSet.add(name);
+	public void addTaintedVar(MyVar myVar) {
+		if(this.taintSet!= null) this.taintSet.add(myVar);
 	}
 
 	public Object[] getFlow() {
@@ -651,27 +685,27 @@ class MyInt extends MyVar{
 	public MyInt(int val, String name, boolean tainted) {
 		super(name, false);
 		this.val=val;
-		if (tainted) this.taintSet.add(name);
+		if (tainted) this.taintSet.add(this);
 	}
 
-	public MyInt(int val, String varName, HashSet<String> flowSet){
+	public MyInt(int val, String varName, LinkedHashSet<MyVar> taintSet){
 		super(varName, false);
 		this.val = val;
 		this.varName=varName;
 	}
 
-	public MyInt(int val, String varName, boolean br, HashSet<String> flowSet){
+	public MyInt(int val, String varName, boolean br, LinkedHashSet<MyVar> taintSet){
 		super(varName, false);
 		this.val = val;
 		this.varName=varName;
-		if (br) taintSet.add(varName);
+		if (br) taintSet.add(this);
 	}
 
-	public MyInt(int val, String varName, boolean br, boolean input, HashSet<String> flowSet){
+	public MyInt(int val, String varName, boolean br, boolean input, LinkedHashSet<MyVar> flowSet){
 		super(varName, input);
 		this.val = val;
 		this.varName=varName;
-		if (br) taintSet.add(varName);
+		if (br) taintSet.add(this);
 	}
 }
 
@@ -691,14 +725,14 @@ class MyBool extends MyVar {
 		super(varName, false);
 		this.val = this.val;
 		this.varName = varName;
-		if (br) this.taintSet.add(varName);
+		if (br) this.taintSet.add(this);
 	}
 
 	public MyBool(boolean val, String varName, boolean br, boolean inputVar){
 		super(varName, inputVar);
 		this.val = this.val;
 		this.varName = varName;
-		if (br) this.taintSet.add(varName);
+		if (br) this.taintSet.add(this);
 	}
 }
 
@@ -713,14 +747,14 @@ class MyString extends MyVar{
 
 	public MyString(String val, boolean branch) {
 		super("", false);
-		if (branch) this.taintSet.add(val);
+		if (branch) this.taintSet.add(this);
 	}
 
 	public MyString(String val, String varName, boolean branch, boolean input){
 		super(varName, input);
 		this.val=val;
 		if (branch)
-			this.taintSet.add(varName);
+			this.taintSet.add(this);
 	}
 }
 
@@ -877,81 +911,81 @@ class I {
 	//T1
 	public static void myAdd(MyInt a, MyInt b, MyInt c){
 		a.val = b.val+c.val;
-		if (MyInt.taintSet.contains(b.varName) || MyInt.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);
+		if (MyInt.taintSet.contains(b) || MyInt.taintSet.contains(c))
+			MyInt.taintSet.add(a);
 	}
 
 	//T2
 	public static void myAdd(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = b.val+c.val;
-		if (MyInt.taintSet.contains(b.varName) || MyInt.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);
+		if (MyInt.taintSet.contains(b) || MyInt.taintSet.contains(c))
+			a.addTaintedVar(a);
 		branchSet.addBranch(new Branch(b, c, a.val, operations.add));
 	}
 
 	public static void myAdd(MyInt a, MyInt b, MyInt c, boolean bo){
 		a.val = b.val+c.val;
-		if(bo) a.addTaintedVar(a.varName);}
+		if(bo) a.addTaintedVar(a);}
 
 	public static void myDel(MyInt a, MyInt b, MyInt c, boolean bo){
 		a.val = b.val-c.val;
-		if (bo) a.addTaintedVar(a.varName);}
+		if (bo) a.addTaintedVar(a);}
 
 	public static void myDel(MyInt a, MyInt b, MyInt c){
 		a.val = b.val-c.val;
-		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
-			a.addTaintedVar(a.varName);}
+		if (b.taintSet.contains(b.varName) || b.taintSet.contains(c))
+			a.addTaintedVar(a);}
 
 	public static void myDel(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = b.val-c.val;
-		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
-			a.addTaintedVar(a.varName);
+		if (b.taintSet.contains(b) || b.taintSet.contains(c))
+			a.addTaintedVar(a);
 		branchSet.addBranch(new Branch(b, c, a.val, operations.del));
 	}
 
 	public static void myMul(MyInt a, MyInt b, MyInt c, BranchSet set){
 		a.val = b.val*c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.taintSet.add(a.varName);
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.taintSet.add(a);
 		set.addBranch(new Branch(b, c, a.val, operations.mult));
 	}
 
 	public static void myMul(MyInt a, MyInt b, MyInt c){
 		a.val = b.val*c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);}
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.addTaintedVar(a);}
 
 	public static void myDiv(MyInt a, MyInt b, MyInt c, boolean bo){
 		a.val = b.val/c.val;
-		if (bo) a.addTaintedVar(a.varName);}
+		if (bo) a.addTaintedVar(a);}
 
 	//T1
 	public static void myDiv(MyInt a, MyInt b, MyInt c){
 		a.val = b.val/c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);}
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.addTaintedVar(a);}
 
 	//T2
 	public static void myDiv(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = b.val/c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.addTaintedVar(a);
 		branchSet.addBranch(new Branch(b, c, a.val, operations.div));
 	}
 
 	public static void myMod(MyInt a, MyInt b, MyInt c, boolean bo){ a.val = b.val%c.val;  }
 	public static void myMod(MyInt a, MyInt b, MyInt c){
 		a.val = b.val%c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.addTaintedVar(a);
 	}
 
 
 	//T2
 	public static void myMod(MyInt a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = b.val%c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);
+		if (b.taintSet.contains(b) || c.taintSet.contains(c))
+			a.addTaintedVar(a);
 		branchSet.addBranch(new Branch(b, c, a.val, operations.mod));
 	}
 
@@ -984,7 +1018,9 @@ class I {
 
 	public static void myGreater(MyBool a, MyInt b, MyInt c){ a.val = (b.val > c.val); }
 
-	public static void myLessEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val <= c.val); }
+	public static void myLessEqual(MyBool a, MyInt b, MyInt c){
+		a.val = (b.val <= c.val);
+	}
 
 	//T2
 	public static void myLessEqual(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
@@ -1001,13 +1037,13 @@ class I {
 
 	//T2
 	public static MyBool myAssign(MyBool b){
-		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b.varName));
+		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b));
 		return a;
 	}
 
 	//T2
 	public static MyBool myAssign(MyBool b, BranchSet branchSet){
-		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b.varName));
+		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b));
 		branchSet.addBranch(new Branch(a, null, a.val, operations.boolAssign));
 		return a;
 	}
@@ -1015,8 +1051,8 @@ class I {
 	public static MyInt myAssign(MyInt b, String name) {
 		//modify with flow var.
 		MyInt ret = new MyInt(b.val, name);
-		if (b.taintSet.contains(b.varName))
-			ret.taintSet.add(name);
+		if (b.taintSet.contains(b))
+			ret.taintSet.add(ret);
 		return ret;
 		/*if (input var) then propagate taint
 		else call constructor with val, name.
@@ -1028,8 +1064,8 @@ class I {
 	public static MyInt myAssign(MyInt b, String name, BranchSet branchSet) {
 		//modify with flow var.
 		MyInt ret = new MyInt(b.val, name);
-		if (b.taintSet.contains(b.varName))
-			ret.taintSet.add(name);
+		if (b.taintSet.contains(b))
+			ret.taintSet.add(ret);
 		branchSet.addBranch(new Branch(ret, null, ret.val, operations.intAssign));
 		return ret;
 		/*if (input var) then propagate taint
@@ -1044,25 +1080,26 @@ class I {
 	public static MyInt[] myAssign(MyInt[] b){
 		MyInt a[] = new MyInt[b.length];
 			for(int i = 0; i < b.length; i++)
-				a[i] = new MyInt(b[i].val, b[i].varName, b[i].taintSet.contains(b[i].varName));
+				a[i] = new MyInt(b[i].val, b[i].varName, b[i].taintSet.contains(b[i]));
 			return a;
 	}
 	public static MyString myAssign(MyString b){
-		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
+		MyString a = new MyString(b.val, b.taintSet.contains(b));
 		return a;
 	}
 
 	public static MyString myAssign(MyString b, BranchSet branchSet){
-		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
+		MyString a = new MyString(b.val, b.taintSet.contains(b));
 		branchSet.addBranch(new Branch(a, null, false, operations.stringAssign));
 		return a;
 	}
 
-	public static void myAnd(MyBool a, MyBool b, MyBool c){ a.val = (b.val && c.val); }
+	public static void myAnd(MyBool a, MyBool b, MyBool c){ a.val = (b.val && c.val);
+	if (MyVar.taintSet.contains(b) || MyVar.taintSet.contains(c)) MyVar.taintSet.add(a);}
 
 	//T2
 	public static void myAnd(MyBool a, MyBool b, MyBool c, BranchSet branchSet){
-		a.val = (b.val && c.val);
+		myAnd(a, b, c);
 		branchSet.addBranch(new Branch(b, c, a.val, operations.and));
 	}
 
