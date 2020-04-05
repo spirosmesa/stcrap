@@ -763,12 +763,8 @@ class I {
 		myPrint(new MyString(a));
 	}
 
-	//T2
-	public static boolean myIf(MyBool a, MyString input){
-		System.out.print("b " + a.val + " ");
-		
-		if(a.val)
-			input.depth++;
+	public static boolean myIf(MyBool a){
+		System.out.print("b" + a.val + " ");
 		return a.val; }
 
 	public static void myAdd(MyInt a, MyInt b, int c){ myAdd(a,b,new MyInt(c)); }
