@@ -5,8 +5,8 @@ import java.io.InputStreamReader;
 
 public class instm183_LTL_CTLCond {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-	static LinkedHashSet<String> taints;
-
+	static LinkedHashSet<String> taints = new LinkedHashSet<>();
+	MyVar var = new MyVar(taints);
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
 	public MyInt a422009172 = I.myAssign(new MyInt(-68, "a422009172"), "a422009172");
@@ -316,25 +316,19 @@ public class instm183_LTL_CTLCond {
 		a1745113960 = new MyString("h");
 	}
 
+	//TODO Fix conditional Tainting
 	private static void printFlowLength(MyString input[]) {
 		System.out.println("=============TASK 1================");
 		System.out.println("-------------Conditional Tainting------------");
-		int maxDepth = -1;
-		for (MyString str : input) {
-			if (str.depth > maxDepth)
-				maxDepth = str.depth;
-		}
 
-		System.out.println("For input array of length: " + input.length);
-		System.out.println("And elements: ");
-		for (int i = 0; i < input.length; i++) {
-			System.out.println(" " + i + ". " +input[i]);
-		}
-		System.out.println("Max depth is: " + maxDepth);
+		System.out.println();
+		System.out.println("For input of length: " + input.length);
+		System.out.println("For inputs of: ");
+		for (MyString str : input)
+			System.out.println(" " + str);
 	}
 
 	public static void main (String[] args) {
-		//T2
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLCond eca = new instm183_LTL_CTLCond();
 		//T1
@@ -496,7 +490,7 @@ class MyString extends MyVar{
 	}
 
 	public MyString(String val, boolean branch) {
-		super("", false);
+		super(" ", false);
 		if (branch) this.taintSet.add(val);
 	}
 
