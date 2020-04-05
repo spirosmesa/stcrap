@@ -35,7 +35,6 @@ public class instm183_LTL_CTLDirect {
 	}
 
 	private  void calculateOutputm2(MyString input) {
-		
 		I.myEquals(I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd(I.bool2,I.bool1,cf);
 
@@ -242,8 +241,7 @@ public class instm183_LTL_CTLDirect {
 			I.myAnd(I.bool3, I.bool1, I.bool2);
 			I.myAnd(I.bool4, cf, I.bool3);
 			if (I.myIf(I.bool4, input)) {
-				
-				calculateOutputm1(input, s2);
+				calculateOutputm1(input);
 			}
 		}
 
@@ -253,7 +251,6 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool4, cf, I.bool3);
 
 		if (I.myIf(I.bool4, input)) {
-			
 			I.myEquals(I.bool1, a1745113960, "e");
 			I.myAnd(I.bool2, cf, I.bool1);
 
@@ -513,10 +510,10 @@ class MyString extends MyVar{
 		if (branch) this.taintSet.add(val);
 	}
 
-	public MyString(String val, String varName, boolean branch, boolean input){
+	public MyString(String val, String varName, boolean tainted, boolean input){
 		super(varName, input);
 		this.val=val;
-		if (branch)
+		if (tainted)
 			this.taintSet.add(varName);
 	}
 }
