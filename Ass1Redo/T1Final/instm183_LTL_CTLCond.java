@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class instm183_LTL_CTLDirect {
+public class instm183_LTL_CTLCond {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 	static LinkedHashSet<String> taints;
 
@@ -19,10 +19,9 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
-			//TODO
 			I.myMul(I.var1, a2108127495,a1522448132);
 			I.myMod(I.var2,I.var1,14999);
 			I.myMod(I.var3,I.var2,72);
@@ -31,26 +30,24 @@ public class instm183_LTL_CTLDirect {
 			I.myMul(I.var6,I.var5,1);
 			a2108127495 = I.myAssign(I.var6, "a2108127495");
 			I.myPrint("ai1_VoidReply");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm2(MyString input) {
-		
 		I.myEquals(I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ni1_ne1");
+			I.taint = false;
 		}
 
-		
 		I.myEquals(I.bool1,input,"ai1_ce2");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h"));
 			I.myMod(I.var1,a2108127495,59);
@@ -59,16 +56,15 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd(I.var4,I.var3,-42);
 			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr4_ai1_ce2");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm3(MyString input) {
-		
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			I.myMul(I.var1, a2108127495, a2108127495);
 			I.myMod(I.var2, I.var1, 50);
@@ -83,26 +79,24 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd(I.var4, I.var3, -3649);
 			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr2_ai1_ce4");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm4(MyString input) {
-		
 		I.myEquals( I.bool1,input,"ai1_ce2");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ai1_VoidReply");
+			I.taint = false;
 		}
-		
 
 		I.myEquals( I.bool1,input,"ai1_ce1");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
 			I.myDel( I.var1,a2108127495,new MyInt(-7243));
@@ -111,39 +105,36 @@ public class instm183_LTL_CTLDirect {
 			I.myDel( I.var4,I.var3,-16);
 			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("usr4_ai1_ce1");
+			I.taint = false;
 		}
-		
 
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		 if(I.myIf(I.bool2, input)) {
-		 		
-				cf = I.myAssign(new MyBool(false, "cf",true));
-				a1745113960 = I.myAssign(new MyString("i", true));
-				I.myPrint("usr2_ai1_ce4");
+		if(I.myIf(I.bool2)) {
+			cf = I.myAssign(new MyBool(false, "cf",true));
+			a1745113960 = I.myAssign(new MyString("i", true));
+			I.myPrint("usr2_ai1_ce4");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm5(MyString input) {
-		
 		I.myEquals( I.bool1,input,"usr2_ai1_VoidReply");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("h", true));
 			I.myPrint("none");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm6(MyString input) {
-		
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myAdd( I.var1,a2108127495,new MyInt(13863));
 			I.myMul( I.var2,I.var1,2);
@@ -158,13 +149,13 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd( I.var7,I.var6,-23885);
 			a422009172 = I.myAssign(I.var7, "a422009172");
 			I.myPrint("none");
+			I.taint = false;
 		}
 		
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
 			I.myAdd( I.var1,a2108127495,-139);
@@ -172,15 +163,14 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd( I.var3,I.var2,5);
 			a2108127495 = I.myAssign(I.var3, "a2108127495");
 			I.myPrint("ai1_VoidReply");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm7(MyString input) {
-		
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
 			I.myDel(I.var1,a2108127495,new MyInt(128));
@@ -189,15 +179,14 @@ public class instm183_LTL_CTLDirect {
 			I.myDel(I.var4,I.var3,-1107);
 			a2108127495 = I.myAssign(I.var4, "a2108127495");
 			I.myPrint("none");
+			I.taint = false;
 		}
 
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
-			
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
-
 			I.myDel( I.var1,a2108127495,new MyInt(22339));
 			I.myDel( I.var2,I.var1,-35662);
 			I.myMul( I.var3,I.var2,2);
@@ -205,15 +194,15 @@ public class instm183_LTL_CTLDirect {
 			I.myDel( I.var5,I.var4,149);
 			a2108127495 = I.myAssign(I.var5, "a2108127495");
 			I.myPrint("ai1_VoidReply");
+			I.taint = false;
 		}
 	}
 
 	private  void calculateOutputm8(MyString input) {
-		
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
 			I.myMul( I.var1,a2108127495,a422009172);
@@ -226,24 +215,25 @@ public class instm183_LTL_CTLDirect {
 			I.myAdd( I.var8,I.var7,-65);
 			a2108127495 = I.myAssign(I.var8, "a2108127495");
 			I.myPrint("ni1_ne1__ai1_VoidReply");
+			I.taint = false;
 		}
 	}
 
 	public  void calculateOutput(MyString input) {
 		cf = new MyBool(true, "cf");
-		
 		I.myLessEqual(I.bool1, a2108127495, -164);
 		I.myAnd(I.bool2, cf, I.bool1);
 
-		if (I.myIf(I.bool2, input)) {
+		if (I.myIf(I.bool2)) {
 			I.myLess(I.bool1, -83, a1522448132);
 			I.myGreaterEqual(I.bool2, 18, a1522448132);
 			I.myAnd(I.bool3, I.bool1, I.bool2);
 			I.myAnd(I.bool4, cf, I.bool3);
-			if (I.myIf(I.bool4, input)) {
 
+			if (I.myIf(I.bool4)) {
 				calculateOutputm1(input);
 			}
+			I.taint = false;
 		}
 
 		I.myLess(I.bool1, -164, a2108127495);
@@ -251,31 +241,31 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, cf, I.bool3);
 
-		if (I.myIf(I.bool4, input)) {
-			
+		if (I.myIf(I.bool4)) {
 			I.myEquals(I.bool1, a1745113960, "e");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm2(input);
 			
 			I.myEquals(I.bool1, a1745113960, "g");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm3(input);
 			
 			I.myEquals(I.bool1, a1745113960, "h");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm4(input);
 
 			I.myEquals(I.bool1, a1745113960, "i");
 			I.myAnd(I.bool2, I.bool1, cf);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm5(input);
+			I.taint = false;
 		}
 
 		I.myLess(I.bool1, -19, a2108127495);
@@ -283,37 +273,35 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, I.bool3, cf);
 
-		if (I.myIf(I.bool4, input)) {
-			
+		if (I.myIf(I.bool4)) {
 			I.myEquals(I.bool1, a1745113960, "g");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm6(input);
 			
 			I.myEquals(I.bool1, a1745113960, "h");
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
+			if (I.myIf(I.bool2)) {
 				calculateOutputm7(input);
 			}
-			
 
 			I.myLess(I.bool1, 100, a2108127495);
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
+			if (I.myIf(I.bool2)) {
 				
 				I.myLess(I.bool1, 103, a422009172);
 				I.myGreaterEqual(I.bool2, 198, a422009172);
 				I.myAnd(I.bool3, I.bool1, I.bool2);
 				I.myAnd(I.bool4, I.bool3, cf);
-				if (I.myIf(I.bool4, input))
+				if (I.myIf(I.bool4))
 					calculateOutputm8(input);
 			}
-			
 
-			if (I.myIf(cf, input)) {
+			if (I.myIf(cf)) {
 				throw new IllegalArgumentException("Current state has no transition for this input!");
 			}
+			I.taint = false;
 		}
 	}
 
@@ -330,7 +318,7 @@ public class instm183_LTL_CTLDirect {
 
 	private static void printFlowLength(MyString input[]) {
 		System.out.println("=============TASK 1================");
-
+		System.out.println("-------------Conditional Tainting------------");
 		int maxDepth = -1;
 		for (MyString str : input) {
 			if (str.depth > maxDepth)
@@ -348,7 +336,7 @@ public class instm183_LTL_CTLDirect {
 	public static void main (String[] args) {
 		//T2
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		instm183_LTL_CTLDirect eca = new instm183_LTL_CTLDirect();
+		instm183_LTL_CTLCond eca = new instm183_LTL_CTLCond();
 		//T1
 		int runIndex = 0;
 
@@ -371,7 +359,7 @@ public class instm183_LTL_CTLDirect {
 				I.myAnd( I.bool7,I.bool3,I.bool4);
 				I.myAnd( I.bool8,I.bool6,I.bool7);
 				I.myAnd( I.bool9,I.bool8,I.bool5);
-				if(I.myIf(I.bool9, input))
+				if(I.myIf(I.bool9))
 					throw new IllegalArgumentException("Current state has no transition for this input!");
 				try {
 					eca.calculateOutput(input);
@@ -521,6 +509,8 @@ class MyString extends MyVar{
 }
 
 class I {
+	public static boolean taint = false;
+
 	public static MyInt var1 = new MyInt(0);
 	public static MyInt var2 = new MyInt(0);
 	public static MyInt var3 = new MyInt(0);
@@ -673,7 +663,7 @@ class I {
 	//T1
 	public static void myAdd(MyInt a, MyInt b, MyInt c){
 		a.val = b.val+c.val;
-		if (MyInt.taintSet.contains(b.varName) || MyInt.taintSet.contains(c.varName))
+		if (I.taint == true && ( b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName)))
 			a.addTaintedVar(a.varName);
 	}
 
@@ -687,13 +677,15 @@ class I {
 
 	public static void myDel(MyInt a, MyInt b, MyInt c){
 		a.val = b.val-c.val;
-		if (b.taintSet.contains(b.varName) || b.taintSet.contains(b.varName))
-			a.addTaintedVar(a.varName);}
+		if (I.taint == true && ( b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName)))
+			a.addTaintedVar(a.varName);
+	}
 
 	public static void myMul(MyInt a, MyInt b, MyInt c){
 		a.val = b.val*c.val;
-		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
-			a.addTaintedVar(a.varName);}
+		if (I.taint == true && ( b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName)))
+			a.addTaintedVar(a.varName);
+	}
 
 	public static void myDiv(MyInt a, MyInt b, MyInt c, boolean bo){
 		a.val = b.val/c.val;
@@ -718,18 +710,34 @@ class I {
 
 	public static void myEquals(MyBool a, MyString b, MyString c) {
 		a.val = (b.val.equals(c.val));
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);
 	}
 
-	public static void myLess(MyBool a, MyInt b, MyInt c){ a.val = (b.val < c.val); }
+	public static void myLess(MyBool a, MyInt b, MyInt c){
+		a.val = (b.val < c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);
+	}
 
-	public static void myGreater(MyBool a, MyInt b, MyInt c){ a.val = (b.val > c.val); }
+	public static void myGreater(MyBool a, MyInt b, MyInt c){
+		a.val = (b.val > c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);
+	}
 
-	public static void myLessEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val <= c.val); }
+	public static void myLessEqual(MyBool a, MyInt b, MyInt c){
+		a.val = (b.val <= c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);}
 
-	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val >= c.val); }
+	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c){ a.val = (b.val >= c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);}
 
 	public static MyBool myAssign(MyBool b){
-		MyBool a = new MyBool(b.val, b.varName, b.taintSet.contains(b.varName));
+		MyBool a = new MyBool(b.val, b.varName);
+		if (I.taint = true) a.addTaintedVar(a.varName);
 		return a;
 	}
 
@@ -754,9 +762,14 @@ class I {
 		MyString a = new MyString(b.val, b.taintSet.contains(b.val));
 		return a;
 	}
-	public static void myAnd(MyBool a, MyBool b, MyBool c){ a.val = (b.val && c.val); }
+	public static void myAnd(MyBool a, MyBool b, MyBool c){ a.val = (b.val && c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);}
 
-	public static void myOr(MyBool a, MyBool b, MyBool c){ a.val = (b.val || c.val); }
+	public static void myOr(MyBool a, MyBool b, MyBool c){ a.val = (b.val || c.val);
+		if (b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName))
+			a.addTaintedVar(a.varName);}
+
 	public static void myNot(MyBool a, MyBool b){ a.val = (!b.val); }
 	public static void myPrint(MyString a){ System.out.println("\n"+a.val); }
 	public static void myPrint(String a) {
@@ -765,6 +778,7 @@ class I {
 
 	public static boolean myIf(MyBool a){
 		System.out.print("b" + a.val + " ");
+		if (a.val == true) I.taint = true;
 		return a.val; }
 
 	public static void myAdd(MyInt a, MyInt b, int c){ myAdd(a,b,new MyInt(c)); }
@@ -786,7 +800,11 @@ class I {
 	public static void myDiv(MyInt a, int b, MyInt c){ myDiv(a,new MyInt(b),c); }
 	public static void myDiv(MyInt a, int b, int c){ myDiv(a,new MyInt(b),new MyInt(c)); }
 
-	public static void myMod(MyInt a, MyInt b, MyInt c) {a.val = b.val % c.val;}
+	public static void myMod(MyInt a, MyInt b, MyInt c) {
+		a.val = b.val % c.val;
+		if (I.taint == true && ( b.taintSet.contains(b.varName) || c.taintSet.contains(c.varName)))
+			a.addTaintedVar(a.varName);
+	}
 	public static void myMod(MyInt a, MyInt b, int c){ myMod(a,b,new MyInt(c)); }
 	public static void myMod(MyInt a, int b, MyInt c){ myMod(a,new MyInt(b),c); }
 	public static void myMod(MyInt a, int b, int c){ myMod(a,new MyInt(b),new MyInt(c)); }
