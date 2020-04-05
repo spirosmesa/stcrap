@@ -325,6 +325,7 @@ public class instm183_LTL_CTLCond {
 		System.out.println("For inputs of: ");
 		for (MyString str : input)
 			System.out.println(" " + str);
+		System.out.println("The number of tainted variables is");
 	}
 
 	public static void main (String[] args) {
