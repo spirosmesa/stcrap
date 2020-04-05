@@ -19,7 +19,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"usr2_ai1_VoidReply");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
 			//TODO
@@ -38,7 +38,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ni1_ne1");
@@ -48,7 +48,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals(I.bool1,input,"ai1_ce2");
 		I.myAnd(I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h"));
@@ -66,7 +66,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf"));
 			I.myMul(I.var1, a2108127495, a2108127495);
@@ -90,7 +90,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"ai1_ce2");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myPrint("ai1_VoidReply");
@@ -100,7 +100,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"ai1_ce1");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
@@ -116,7 +116,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		 if(I.myIf(I.bool2, input)) {
+		 if(I.myIf(I.bool2)) {
 		 		
 				cf = I.myAssign(new MyBool(false, "cf",true));
 				a1745113960 = I.myAssign(new MyString("i", true));
@@ -129,7 +129,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr2_ai1_VoidReply");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("h", true));
@@ -141,7 +141,7 @@ public class instm183_LTL_CTLDirect {
 		
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			I.myAdd( I.var1,a2108127495,new MyInt(13863));
@@ -162,7 +162,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
@@ -178,7 +178,7 @@ public class instm183_LTL_CTLDirect {
 		
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1");
 		I.myAnd( I.bool2,I.bool1,cf);
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("g", true));
@@ -194,7 +194,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,cf,I.bool1);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			
 			cf = I.myAssign(new MyBool(false, "cf", true));
 
@@ -213,7 +213,7 @@ public class instm183_LTL_CTLDirect {
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply");
 		I.myAnd( I.bool2,I.bool1,cf);
 
-		if(I.myIf(I.bool2, input)) {
+		if(I.myIf(I.bool2)) {
 			cf = I.myAssign(new MyBool(false, "cf", true));
 			a1745113960 = I.myAssign(new MyString("e", true));
 			I.myMul( I.var1,a2108127495,a422009172);
@@ -235,12 +235,12 @@ public class instm183_LTL_CTLDirect {
 		I.myLessEqual(I.bool1, a2108127495, -164);
 		I.myAnd(I.bool2, cf, I.bool1);
 
-		if (I.myIf(I.bool2, input)) {
+		if (I.myIf(I.bool2)) {
 			I.myLess(I.bool1, -83, a1522448132);
 			I.myGreaterEqual(I.bool2, 18, a1522448132);
 			I.myAnd(I.bool3, I.bool1, I.bool2);
 			I.myAnd(I.bool4, cf, I.bool3);
-			if (I.myIf(I.bool4, input)) {
+			if (I.myIf(I.bool4)) {
 				calculateOutputm1(input);
 			}
 		}
@@ -250,29 +250,29 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, cf, I.bool3);
 
-		if (I.myIf(I.bool4, input)) {
+		if (I.myIf(I.bool4)) {
 			I.myEquals(I.bool1, a1745113960, "e");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm2(input);
 			
 			I.myEquals(I.bool1, a1745113960, "g");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm3(input);
 			
 			I.myEquals(I.bool1, a1745113960, "h");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm4(input);
 
 			I.myEquals(I.bool1, a1745113960, "i");
 			I.myAnd(I.bool2, I.bool1, cf);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm5(input);
 		}
 
@@ -281,35 +281,35 @@ public class instm183_LTL_CTLDirect {
 		I.myAnd(I.bool3, I.bool1, I.bool2);
 		I.myAnd(I.bool4, I.bool3, cf);
 
-		if (I.myIf(I.bool4, input)) {
+		if (I.myIf(I.bool4)) {
 			
 			I.myEquals(I.bool1, a1745113960, "g");
 			I.myAnd(I.bool2, cf, I.bool1);
 
-			if (I.myIf(I.bool2, input))
+			if (I.myIf(I.bool2))
 				calculateOutputm6(input);
 			
 			I.myEquals(I.bool1, a1745113960, "h");
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
+			if (I.myIf(I.bool2)) {
 				calculateOutputm7(input);
 			}
 			
 
 			I.myLess(I.bool1, 100, a2108127495);
 			I.myAnd(I.bool2, cf, I.bool1);
-			if (I.myIf(I.bool2, input)) {
+			if (I.myIf(I.bool2)) {
 				
 				I.myLess(I.bool1, 103, a422009172);
 				I.myGreaterEqual(I.bool2, 198, a422009172);
 				I.myAnd(I.bool3, I.bool1, I.bool2);
 				I.myAnd(I.bool4, I.bool3, cf);
-				if (I.myIf(I.bool4, input))
+				if (I.myIf(I.bool4))
 					calculateOutputm8(input);
 			}
 			
 
-			if (I.myIf(cf, input)) {
+			if (I.myIf(cf)) {
 				throw new IllegalArgumentException("Current state has no transition for this input!");
 			}
 		}
@@ -369,7 +369,7 @@ public class instm183_LTL_CTLDirect {
 				I.myAnd( I.bool7,I.bool3,I.bool4);
 				I.myAnd( I.bool8,I.bool6,I.bool7);
 				I.myAnd( I.bool9,I.bool8,I.bool5);
-				if(I.myIf(I.bool9, input))
+				if(I.myIf(I.bool9))
 					throw new IllegalArgumentException("Current state has no transition for this input!");
 				try {
 					eca.calculateOutput(input);
@@ -761,33 +761,24 @@ class I {
 		myPrint(new MyString(a));
 	}
 
-	//T2
-	public static boolean myIf(MyBool a, MyString input){
+	public static boolean myIf(MyBool a){
 		System.out.print("b " + a.val + " ");
-		
-		if(a.val)
-			input.depth++;
-		return a.val; }
+		return a.val;
+	}
 
 	public static void myAdd(MyInt a, MyInt b, int c){ myAdd(a,b,new MyInt(c)); }
 
 	public static void myAdd(MyInt a, int b, MyInt c){ myAdd(a,new MyInt(b),c); }
 	public static void myAdd(MyInt a, int b, int c){ myAdd(a,new MyInt(b),new MyInt(c)); }
-
 	public static void myDel(MyInt a, MyInt b, int c){ myDel(a,b,new MyInt(c)); }
-
 	public static void myDel(MyInt a, int b, MyInt c){ myDel(a,new MyInt(b),c); }
 	public static void myDel(MyInt a, int b, int c){ myDel(a,new MyInt(b),new MyInt(c)); }
 	public static void myMul(MyInt a, MyInt b, int c){ myMul(a,b,new MyInt(c)); }
-
 	public static void myMul(MyInt a, int b, MyInt c){ myMul(a,new MyInt(b),c); }
 	public static void myMul(MyInt a, int b, int c){ myMul(a,new MyInt(b),new MyInt(c)); }
-
 	public static void myDiv(MyInt a, MyInt b, int c){ myDiv(a,b,new MyInt(c)); }
-	
 	public static void myDiv(MyInt a, int b, MyInt c){ myDiv(a,new MyInt(b),c); }
 	public static void myDiv(MyInt a, int b, int c){ myDiv(a,new MyInt(b),new MyInt(c)); }
-
 	public static void myMod(MyInt a, MyInt b, MyInt c) {a.val = b.val % c.val;}
 	public static void myMod(MyInt a, MyInt b, int c){ myMod(a,b,new MyInt(c)); }
 	public static void myMod(MyInt a, int b, MyInt c){ myMod(a,new MyInt(b),c); }
