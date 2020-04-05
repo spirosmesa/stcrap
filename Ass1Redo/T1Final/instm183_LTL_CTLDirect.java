@@ -241,8 +241,8 @@ public class instm183_LTL_CTLDirect {
 			I.myAnd(I.bool3, I.bool1, I.bool2);
 			I.myAnd(I.bool4, cf, I.bool3);
 			if (I.myIf(I.bool4, input)) {
-				
-				calculateOutputm1(input, s2);
+
+				calculateOutputm1(input);
 			}
 		}
 
