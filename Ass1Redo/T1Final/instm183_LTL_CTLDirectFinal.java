@@ -162,6 +162,30 @@ class Branch {
 	public MyVar lVar = null, rVar = null;
 	public Exception ex = null;
 
+	//TODO
+	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar) throws Exception{
+		Outcome opOutcome = null;
+		if (!br.lVar.equals(lVar)) throw new Exception("br.lvar and lvar not equal");
+		switch(br.operation) {
+			case equals:
+
+			case lessEqual:
+			case greaterEqual:
+			case and:
+			case less:
+			case mult:
+			case mod:
+			case boolAssign:
+			case stringAssign:
+			case intAssign:
+			case del:
+			case add:
+			case div:
+
+		}
+		return false;
+	}
+
 	public void printBranch() {
 		System.out.println(" Printing info for branch hash code: " + this.hashCode());
 		System.out.println("   lVar: " + lVar.toString());
@@ -186,25 +210,8 @@ class Branch {
 		this.lVar=lVar; this.rVar=rVar; intOutcome=outcome;this.operation=operation;
 	}
 
-	//TODO
-	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar){
-		Outcome opOutcome = null;
-		switch(br.operation) {
-			/*case equals:
-				if (lVar.val.equals(rVar.val))
-					return true;
-				else return  false;
-			case boolAnd:
-				if (lVar.val && rVar.val)*/
-		}
-		return false;
-	}
-}
 
-//requirements for constructors
-//1 constructor for value + name
-//1 constructor to specify taint.
-//1 const
+}
 
 //mClass
 public class instm183_LTL_CTLDirectFinal {
@@ -739,6 +746,24 @@ class MyBool extends MyVar {
 class MyString extends MyVar{
 	public String val = "";
 	public int depth = 0;
+
+	@Override
+	public int hashCode() {
+		return (int) (super.varName.length() + 1) + (new Boolean(super.inputVar).hashCode()) + this.taintSet.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (!(this instanceof  MyString)) return false;
+		if (this.hashCode() != obj.hashCode()) return false;
+		if (!this.val.equals(((MyString)obj).val) ||
+			this.depth != ((MyString)obj).depth ||
+			super.varName != ((MyString)obj).varName) return false;
+		boolean sup = super.equals(obj);
+		if (!sup) return sup;
+		return true;
+	}
 
 	public MyString(String val) {
 		super("", false);
