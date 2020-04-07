@@ -116,14 +116,11 @@ enum operations {
 
 //Used to store branch operation outcome.
 class Outcome {
-	private Integer intOutcome = null;
-	private Boolean boolOutcome = null;
+	public Integer intOutcome = null;
+	public Boolean boolOutcome = null;
 
 	public Outcome(int outcome) {intOutcome = outcome;}
 	public Outcome(boolean outcome) {boolOutcome=outcome;}
-
-	public int getIntOutcome() {return intOutcome.intValue();}
-	public boolean getBoolOutcome() {return boolOutcome.booleanValue();}
 }
 
 class BranchSet extends LinkedHashSet<Branch> {
@@ -135,7 +132,7 @@ class BranchSet extends LinkedHashSet<Branch> {
 		System.out.println("branch set number: " + branchSetNumber);
 		System.out.println("left set info: ");
 		leftSet.printBranchSet();
-		System.out.println("right set infor: ");
+		System.out.println("right set info: ");
 		rightSet.printBranchSet();
 	}
 
@@ -156,8 +153,7 @@ class BranchSet extends LinkedHashSet<Branch> {
 }
 
 class Branch {
-	public Boolean boolOutcome = null;
-	public Integer intOutcome = null;
+	public Outcome outcome = null;
 	public operations operation = null;
 	public MyVar lVar = null, rVar = null;
 	public Exception ex = null;
@@ -165,16 +161,30 @@ class Branch {
 	//TODO
 	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar) throws Exception{
 		Outcome opOutcome = null;
+		if (br == null) throw new Exception("br null");
+		if (operation == null) throw new Exception("operation null");
+		if (lVar == null) throw new Exception("lVar null");
+		if (rVar == null) throw new Exception("rVar null");
+		if (br.outcome.boolOutcome ==  null) throw new Exception("br.boolOutcome null");
+		else if (br.outcome.intOutcome == null) throw new Exception("br.intOutcome null");
+		else opOutcome = br.outcome;
+
 		if (!br.lVar.equals(lVar)) throw new Exception("br.lvar and lvar not equal");
 		switch(br.operation) {
 			case equals:
-
+				return (((MyString) lVar).val.equals(((MyString) rVar).val) == opOutcome.boolOutcome);
 			case lessEqual:
+				return ((((MyInt)lVar).val <= ((MyInt)rVar).val ) == opOutcome.boolOutcome);
 			case greaterEqual:
+				return ((((MyInt)lVar).val >= ((MyInt)rVar).val ) == opOutcome.boolOutcome);
 			case and:
+				return ( (((MyBool)lVar).val & ((MyBool)rVar).val) == opOutcome.boolOutcome);
 			case less:
+				return ( (((MyInt)lVar).val < ((MyInt)rVar).val) == opOutcome.boolOutcome);
 			case mult:
+				return ((((MyInt)lVar).val * ((MyInt)rVar).val) == opOutcome.intOutcome);
 			case mod:
+				return ((((MyInt)lVar).val % ((MyInt)rVar).val)== opOutcome.intOutcome);
 			case boolAssign:
 			case stringAssign:
 			case intAssign:
@@ -192,8 +202,10 @@ class Branch {
 		System.out.println("   rVar: " + rVar.toString());
 		System.out.println("   operation: " + operation);
 
-		if (intOutcome != null) System.out.println("  Integer outcome: " + intOutcome.intValue());
-		else System.out.println("  boolean outcome: " + boolOutcome.booleanValue());
+		if (outcome == null) System.out.println("Outcome is null.");
+		if (outcome.intOutcome != null) System.out.println("  Integer outcome: " + outcome.intOutcome.intValue());
+		else if (outcome.boolOutcome != null ) System.out.println("  boolean outcome: " + outcome.boolOutcome.booleanValue());
+		else System.out.println("Shit happens. outcome.intOucome and outcome.boolOutcome are both null.");
 
 		System.out.println(" Caught Exception class: " + ex.getClass().toString());
 	}
@@ -203,14 +215,12 @@ class Branch {
 	}
 
 	public Branch(MyVar lVar, MyVar rVar, boolean outcome, operations operation) {
-		this.lVar=lVar; this.rVar=rVar; boolOutcome=outcome;this.operation=operation;
+		this.lVar=lVar; this.rVar=rVar; this.outcome = new Outcome(outcome);this.operation=operation;
 	}
 
 	public Branch(MyVar lVar, MyVar rVar, int outcome, operations operation) {
-		this.lVar=lVar; this.rVar=rVar; intOutcome=outcome;this.operation=operation;
+		this.lVar=lVar; this.rVar=rVar; this.outcome=new Outcome(outcome);this.operation=operation;
 	}
-
-
 }
 
 //mClass
