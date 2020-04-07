@@ -124,7 +124,6 @@ class Outcome {
 }
 
 class BranchSet extends LinkedHashSet<Branch> {
-
 	public void printBranchSet() {
 		System.out.println("Printing info for branch hash code: ");
 		System.out.println();
@@ -158,7 +157,6 @@ class Branch {
 	public MyVar lVar = null, rVar = null;
 	public Exception ex = null;
 
-	//TODO
 	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar) throws Exception{
 		Outcome opOutcome = null;
 		if (br == null) throw new Exception("br null");
@@ -185,15 +183,18 @@ class Branch {
 				return ((((MyInt)lVar).val * ((MyInt)rVar).val) == opOutcome.intOutcome);
 			case mod:
 				return ((((MyInt)lVar).val % ((MyInt)rVar).val)== opOutcome.intOutcome);
-			case boolAssign:
-			case stringAssign:
-			case intAssign:
 			case del:
+				return ((((MyInt)lVar).val - ((MyInt)rVar).val) == opOutcome.intOutcome);
 			case add:
+				return ((((MyInt)lVar).val + ((MyInt)rVar).val) == opOutcome.intOutcome  );
 			case div:
-
+				return (( ((MyInt)lVar).val / ((MyInt)rVar).val) == opOutcome.intOutcome);
+			default:
+				throw new Exception("No such operation");
+//			case boolAssign:
+//			case stringAssign:
+//			case intAssign:
 		}
-		return false;
 	}
 
 	public void printBranch() {
@@ -226,8 +227,7 @@ class Branch {
 //mClass
 public class instm183_LTL_CTLDirectFinal {
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-	static LinkedHashSet<MyVar> taints = new LinkedHashSet<>();
-	MyVar myVar = new MyVar(taints);
+	static LinkedHashSet<MyVar> taints = null;
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
@@ -246,7 +246,6 @@ public class instm183_LTL_CTLDirectFinal {
 			BranchSet successSet = currentSet.leftSet;
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
-			//TODO
 			I.myMul(I.var1, a2108127495,a1522448132, successSet);
 			I.myMod(I.var2,I.var1,14999, successSet);
 			I.myMod(I.var3,I.var2,72, successSet);
@@ -570,6 +569,18 @@ public class instm183_LTL_CTLDirectFinal {
 		a1745113960 = new MyString("h");
 	}
 
+	//TODO
+	public void trainingReset() {
+		if (this.taints == null) this.taints = new LinkedHashSet<>();
+		MyVar var = new MyVar(this.taints);
+
+		System.out.println("training reset");a422009172 = new MyInt(-68, "a422009172");
+		cf = new MyBool(true, "cf");
+		a2108127495 = new MyInt(-44, "a2108127495");
+		a1522448132 = new MyInt(173, "a1522448132");
+		a1745113960 = new MyString("h");
+	}
+
 	private static void printFlowLength(MyString input[]) {
 		System.out.println("=============TASK 1================");
 
@@ -593,6 +604,14 @@ public class instm183_LTL_CTLDirectFinal {
 		instm183_LTL_CTLDirectFinal eca = new instm183_LTL_CTLDirectFinal();
 		//T1
 		int runIndex = 0;
+		//Training run
+		while(runIndex < 1000){
+
+			runIndex++;
+		}
+		runIndex = 0;
+
+
 
 		while(runIndex < 10) {
 			eca.reset();
