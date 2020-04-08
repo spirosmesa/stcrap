@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be54dde3-8bbc-41f4-8770-075dcc9c9e60" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirectFinal.java" beforeDir="false" afterPath="$PROJECT_DIR$/T1Final/instm183_LTL_CTLDirectFinal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +34,14 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.instm183_LTL_CTLDirectFinal">
+    <configuration name="instm183_LTL_CTLDirectFinal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="instm183_LTL_CTLDirectFinal" />
+      <module name="Ass1Redo" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="testing" />
       <module name="Ass1Redo" />
@@ -43,6 +51,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.instm183_LTL_CTLDirectFinal" />
         <item itemvalue="Application.testing" />
       </list>
     </recent_temporary>
@@ -77,26 +86,26 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2555" y="232" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585935559215" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1586118823926">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1586375600426">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1586105054699" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586118823926" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1586118823926">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586375600426" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1586375600426">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1586105054699" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586118823926" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1586118823926">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586375600426" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1586375600426">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1586105054699" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586118823926" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1586118823926">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586375600426" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1586375600426">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1586105054699" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586118823926" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586375600426" />
     <state x="2360" y="97" key="SettingsEditor" timestamp="1585935591523">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

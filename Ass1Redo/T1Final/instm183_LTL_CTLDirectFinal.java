@@ -1,3 +1,6 @@
+import javafx.util.Pair;
+
+import java.math.BigInteger;
 import java.time.chrono.ThaiBuddhistEra;
 import java.util.*;
 import java.io.BufferedReader;
@@ -123,16 +126,20 @@ class Outcome {
 	public Outcome(boolean outcome) {boolOutcome=outcome;}
 }
 
-class BranchSet extends LinkedHashSet<Branch> {
+class BranchSet //extends LinkedHashSet<Branch>
+{
+	//
 	public void printBranchSet() {
-		System.out.println("Printing info for branch hash code: ");
-		System.out.println();
-		System.out.println("static branch number: " + staticBranchSetNumber);
-		System.out.println("branch set number: " + branchSetNumber);
+		//System.out.println("static branch number: " + staticBranchSetNumber);
+		//System.out.println("branch set number: " + branchSetNumber);
 		System.out.println("left set info: ");
 		leftSet.printBranchSet();
 		System.out.println("right set info: ");
 		rightSet.printBranchSet();
+	}
+
+	public void add(Branch br) {
+		this.branches.add(br);
 	}
 
 	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
@@ -142,12 +149,13 @@ class BranchSet extends LinkedHashSet<Branch> {
 	public BranchSet rightSet = new BranchSet();
 
 	//a number designating the branches, that belong to the same myIf.
-	public static int staticBranchSetNumber = 0;
+	//public static long staticBranchSetNumber = Long.MIN_VALUE;
 	public int branchSetNumber;
 
-	public BranchSet() {
-		this.branchSetNumber = staticBranchSetNumber++;
-	}
+	/*public BranchSet() {
+		if (this.staticBranchSetNumber != Long.MAX_VALUE)
+		this.staticBranchSetNumber = staticBranchSetNumber++;
+	}*/
 	public void addBranch(Branch branch) {this.branches.add(branch);}
 }
 
@@ -198,7 +206,6 @@ class Branch {
 	}
 
 	public void printBranch() {
-		System.out.println(" Printing info for branch hash code: " + this.hashCode());
 		System.out.println("   lVar: " + lVar.toString());
 		System.out.println("   rVar: " + rVar.toString());
 		System.out.println("   operation: " + operation);
@@ -226,8 +233,14 @@ class Branch {
 
 //mClass
 public class instm183_LTL_CTLDirectFinal {
+	//T2
+	static BranchSet branches = null, trainingBranches = null;
 	static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 	static LinkedHashSet<MyVar> taints = null;
+	static LinkedHashSet<MyVar> trainingTaints=null;
+	//T1 & T2 used to instantiate the parent class
+	//in order to avoid null exceptions.
+	MyVar var = new MyVar(taints);
 
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
@@ -560,7 +573,8 @@ public class instm183_LTL_CTLDirectFinal {
 
 	public void reset() {
 		this.taints = new LinkedHashSet<>();
-		MyVar var = new MyVar(this.taints);
+		//starting new
+		this.var = new MyVar(this.taints);
 
 		System.out.println("reset");a422009172 = new MyInt(-68, "a422009172");
 		cf = new MyBool(true, "cf");
@@ -569,10 +583,12 @@ public class instm183_LTL_CTLDirectFinal {
 		a1745113960 = new MyString("h");
 	}
 
-	//TODO
+	//T2
 	public void trainingReset() {
-		if (this.taints == null) this.taints = new LinkedHashSet<>();
-		MyVar var = new MyVar(this.taints);
+		if (this.trainingTaints == null) {
+			this.trainingTaints = new LinkedHashSet<>();
+			if (this.var == null) var = new MyVar(this.trainingTaints);
+		}
 
 		System.out.println("training reset");a422009172 = new MyInt(-68, "a422009172");
 		cf = new MyBool(true, "cf");
@@ -597,6 +613,35 @@ public class instm183_LTL_CTLDirectFinal {
 		}
 		System.out.println("Max depth is: " + maxDepth);
 	}
+	/*
+	public void printBranchSet() {
+		System.out.println("Printing info for branch hash code: ");
+		System.out.println();
+		System.out.println("static branch number: " + staticBranchSetNumber);
+		System.out.println("branch set number: " + branchSetNumber);
+		System.out.println("left set info: ");
+		leftSet.printBranchSet();
+		System.out.println("right set info: ");
+		rightSet.printBranchSet();
+	}
+	*/
+	private static void printBranches(LinkedHashSet<Branch> branches) {
+		for(Branch br : branches) {
+			br.printBranch();
+		}
+	}
+
+	public static void displayReachedCodeBranches(BranchSet branchesSet) {
+		BranchSet root = branchesSet;
+		while (root.leftSet != null) {
+			displayReachedCodeBranches(root.leftSet);
+		}
+		printBranches(root.branches);
+		while(root.rightSet != null) {
+			displayReachedCodeBranches(root.rightSet);
+		}
+		printBranches(root.branches);
+	}
 
 	public static void main (String[] args) {
 		//T2
@@ -604,41 +649,37 @@ public class instm183_LTL_CTLDirectFinal {
 		instm183_LTL_CTLDirectFinal eca = new instm183_LTL_CTLDirectFinal();
 		//T1
 		int runIndex = 0;
-		//Training run
-		while(runIndex < 1000){
-
-			runIndex++;
-		}
-		runIndex = 0;
-
-
-
+		MyString[] fuzzed_inputs = null;
+		//T2 training run
+		System.out.println("Training run");
+		trainingBranches = new BranchSet();
 		while(runIndex < 10) {
-			eca.reset();
-			MyString[] fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
+			eca.trainingReset();
+			fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
 
-			System.out.println("This is run number: " + runIndex);
 			for(int i = 0; i < fuzzed_inputs.length; i++) {
 				MyString input = fuzzed_inputs[i];
-
 				System.out.println("Fuzzing: " + input.val);
-
 				//T2
-				BranchSet branchSet = new BranchSet();
-
-				I.myEquals( I.bool1, input,"ai1_ce1", branchSet);
-				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", branchSet);
-				I.myEquals( I.bool3,input,"usr4_ni1_ne1", branchSet);
-				I.myEquals( I.bool4,input,"ai1_ce2", branchSet);
-				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply", branchSet);
-				I.myAnd( I.bool6,I.bool1,I.bool2, branchSet);
-				I.myAnd( I.bool7,I.bool3,I.bool4, branchSet);
-				I.myAnd( I.bool8,I.bool6,I.bool7, branchSet);
-				I.myAnd( I.bool9,I.bool8,I.bool5, branchSet);
-				if(I.myIf(I.bool9, input, branchSet))
+				I.myEquals( I.bool1, input,"ai1_ce1", trainingBranches);
+				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", trainingBranches);
+				I.myEquals( I.bool3,input,"usr4_ni1_ne1", trainingBranches);
+				I.myEquals( I.bool4,input,"ai1_ce2", trainingBranches);
+				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply", trainingBranches);
+				I.myAnd( I.bool6,I.bool1,I.bool2, trainingBranches);
+				I.myAnd( I.bool7,I.bool3,I.bool4, trainingBranches);
+				I.myAnd( I.bool8,I.bool6,I.bool7, trainingBranches);
+				I.myAnd( I.bool9,I.bool8,I.bool5, trainingBranches);
+				if(I.myIf(I.bool9, input, trainingBranches)) {
+					Exception ex = new IllegalArgumentException("Current state has no transition for this input!");
+					BranchSet s1 = trainingBranches.leftSet;
+					Branch br = new Branch(); br.ex = ex;
+					s1.addBranch(br);
 					throw new IllegalArgumentException("Current state has no transition for this input!");
+				}
+				BranchSet rightSet = trainingBranches.rightSet;
 				try {
-					eca.calculateOutput(input, branchSet);
+					eca.calculateOutput(input, rightSet);
 					System.out.println();
 					System.out.println();
 					//No idea what this does...
@@ -653,6 +694,57 @@ public class instm183_LTL_CTLDirectFinal {
 
 			runIndex++;
 		}
+		runIndex=0;
+
+		//TODO change to 10
+		while(runIndex < 1) {
+			eca.reset();
+			fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
+
+			System.out.println("This is run number: " + runIndex);
+			for(int i = 0; i < fuzzed_inputs.length; i++) {
+				MyString input = fuzzed_inputs[i];
+				System.out.println("Fuzzing: " + input.val);
+				//T2
+				branches = new BranchSet();
+				I.myEquals( I.bool1, input,"ai1_ce1", branches);
+				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", branches);
+				I.myEquals( I.bool3,input,"usr4_ni1_ne1", branches);
+				I.myEquals( I.bool4,input,"ai1_ce2", branches);
+				I.myEquals( I.bool5,input,"usr2_ai1_VoidReply", branches);
+				I.myAnd( I.bool6,I.bool1,I.bool2, branches);
+				I.myAnd( I.bool7,I.bool3,I.bool4, branches);
+				I.myAnd( I.bool8,I.bool6,I.bool7, branches);
+				I.myAnd( I.bool9,I.bool8,I.bool5, branches);
+				if(I.myIf(I.bool9, input, branches)) {
+					Exception ex = new IllegalArgumentException("Current state has no transition for this input!");
+					BranchSet s1 = branches.leftSet;
+					Branch br = new Branch();
+					br.ex = ex;
+					s1.addBranch(br);
+					throw new IllegalArgumentException("Current state has no transition for this input!");
+				}
+				BranchSet rightSet = branches.rightSet;
+				try {
+					eca.calculateOutput(input, branches);
+					System.out.println();
+					System.out.println();
+					//No idea what this does...
+					//String arr[] = (String[])eca.a422009172.getFlow();
+				}
+				catch(IllegalArgumentException e) {
+					System.err.println("Invalid input: " + e.getMessage());
+				}
+			}
+			//T1: print the deepest the input variable has reached.
+			printFlowLength(fuzzed_inputs);
+
+			runIndex++;
+		}
+		//T2 Reached code branches
+
+		//T2drcb
+		displayReachedCodeBranches(branches);
 	}
 }
 
@@ -707,31 +799,40 @@ class MyVar {
 class MyInt extends MyVar{
 	public int val = 0;
 
+	private void initialize() {
+		if (this.taintSet== null) this.taintSet=new LinkedHashSet<>();
+	}
+
 	//one with only val for compatibility reasons.
 	public MyInt(int val) {
 		super("", false);
+		initialize();
 		this.val = val;
 	}
 
 	public MyInt(int val, String name) {
 		super(name, false);
+		initialize();
 		this.val=val;
 	}
 
 	public MyInt(int val, String name, boolean tainted) {
 		super(name, false);
+		initialize();
 		this.val=val;
 		if (tainted) this.taintSet.add(this);
 	}
 
 	public MyInt(int val, String varName, LinkedHashSet<MyVar> taintSet){
 		super(varName, false);
+		initialize();
 		this.val = val;
 		this.varName=varName;
 	}
 
 	public MyInt(int val, String varName, boolean br, LinkedHashSet<MyVar> taintSet){
 		super(varName, false);
+		initialize();
 		this.val = val;
 		this.varName=varName;
 		if (br) taintSet.add(this);
@@ -739,6 +840,7 @@ class MyInt extends MyVar{
 
 	public MyInt(int val, String varName, boolean br, boolean input, LinkedHashSet<MyVar> flowSet){
 		super(varName, input);
+		initialize();
 		this.val = val;
 		this.varName=varName;
 		if (br) taintSet.add(this);
@@ -749,16 +851,22 @@ class MyBool extends MyVar {
 	public boolean val = false;
 	public String varName;
 
+	private void initialize() {
+		if (this.taintSet== null) this.taintSet=new LinkedHashSet<>();
+	}
+
 	//Compatibility with the teacher provided code.
-	public MyBool(boolean val) {super("", false); this.val = val;}
+	public MyBool(boolean val) {super("", false); initialize(); this.val = val;}
 	public MyBool(boolean val, String varName){
 		super(varName, false);
+		initialize();
 		this.val = val;
 		this.varName=varName;
 	}
 
 	public MyBool(boolean val, String varName, boolean br){
 		super(varName, false);
+		initialize();
 		this.val = this.val;
 		this.varName = varName;
 		if (br) this.taintSet.add(this);
@@ -766,6 +874,7 @@ class MyBool extends MyVar {
 
 	public MyBool(boolean val, String varName, boolean br, boolean inputVar){
 		super(varName, inputVar);
+		initialize();
 		this.val = this.val;
 		this.varName = varName;
 		if (br) this.taintSet.add(this);
@@ -777,15 +886,9 @@ class MyString extends MyVar{
 	public int depth = 0;
 
 	@Override
-	public int hashCode() {
-		return (int) (super.varName.length() + 1) + (new Boolean(super.inputVar).hashCode()) + this.taintSet.hashCode();
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) return false;
 		if (!(this instanceof  MyString)) return false;
-		if (this.hashCode() != obj.hashCode()) return false;
 		if (!this.val.equals(((MyString)obj).val) ||
 			this.depth != ((MyString)obj).depth ||
 			super.varName != ((MyString)obj).varName) return false;
@@ -794,18 +897,25 @@ class MyString extends MyVar{
 		return true;
 	}
 
+	private void initialize() {
+		if (this.taintSet== null) this.taintSet=new LinkedHashSet<>();
+	}
+
 	public MyString(String val) {
 		super("", false);
+		initialize();
 		this.val = val;
 	}
 
 	public MyString(String val, boolean branch) {
 		super("", false);
+		initialize();
 		if (branch) this.taintSet.add(this);
 	}
 
 	public MyString(String val, String varName, boolean branch, boolean input){
 		super(varName, input);
+		initialize();
 		this.val=val;
 		if (branch)
 			this.taintSet.add(this);
