@@ -138,10 +138,18 @@ class BranchSet //extends LinkedHashSet<Branch>
 	public void printBranchSet() {
 		//System.out.println("static branch number: " + staticBranchSetNumber);
 		//System.out.println("branch set number: " + branchSetNumber);
-		System.out.println("left set info: ");
+		/*System.out.println("left set info: ");
 		leftSet.printBranchSet();
 		System.out.println("right set info: ");
-		rightSet.printBranchSet();
+		rightSet.printBranchSet();*/
+		if (branches != null)
+			System.out.println("Number of branches for this branch: " + branches.size());
+		if(leftSet != null)
+			if (leftSet.branches!=null)
+				System.out.println("left branchset size: " + leftSet.branches.size());
+		if(rightSet !=null)
+			if (rightSet.branches!=null)
+				System.out.println("right branchset size: " + rightSet.branches.size()s);
 	}
 
 	public LinkedHashSet<Branch> getBranches() {
@@ -662,8 +670,17 @@ public class instm183_LTL_CTLDirectFinal {
 		}
 	}
 
-	public static void displayReachedCodeBranches(BranchSet branchesSet) {
+	public static void displayReachedCodeBranches2(BranchSet branchesSet) {
+		if (branchesSet == null) return;
+		//get all the branches from the branchset
+		//print the branchset information.
+		//
 
+
+
+	}
+
+	public static void displayReachedCodeBranches(BranchSet branchesSet) {
 		if (branchesSet == null) return;
 		BranchSet root = branchesSet;
 
