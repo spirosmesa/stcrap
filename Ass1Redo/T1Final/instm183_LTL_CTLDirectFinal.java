@@ -181,6 +181,12 @@ class BranchSet //extends LinkedHashSet<Branch>
 		this.staticBranchSetNumber = staticBranchSetNumber++;
 	}
 
+	public void instantiateMembers() {
+		this.leftSet = new BranchSet();
+		this.rightSet = new BranchSet();
+		this.branches = new LinkedHashSet<>();
+	}
+
 }
 
 class Branch {
@@ -657,15 +663,41 @@ public class instm183_LTL_CTLDirectFinal {
 	}
 
 	public static void displayReachedCodeBranches(BranchSet branchesSet) {
-		BranchSet root = branchesSet;
-		while (root.getLeftSet() != null) {
-			displayReachedCodeBranches(root.getLeftSet());
-		}
-		printBranches(root.getBranches());
-		while(root.getRightSet() != null) {
-			displayReachedCodeBranches(root.getRightSet());
-		}
-		printBranches(root.getBranches());
+
+			/*if (branchesSet == null) return;
+			BranchSet root = branchesSet;
+			LinkedHashSet<Branch> branches = branchesSet.getBranches();
+			if (branches != null) {
+				System.out.println("branchesSet.getBranches().size() ");
+				System.out.println(" " + branchesSet.getBranches().size());
+			}
+
+			branches = branchesSet.getLeftSet().getBranches();
+			if (branches != null) {
+				System.out.println("branchesSet.getLeftSet().getBranches().size()");
+				System.out.println(" " + branchesSet.getLeftSet().getBranches().size());
+			}
+
+			branches = branchesSet.getRightSet().getBranches();
+			if (branches != null) {
+				System.out.println("branchesSet.getRightSet().getBranches().size()");
+				System.out.println(" " + branchesSet.getRightSet().getBranches().size());
+			}
+
+			while (root.getLeftSet() != null) {
+				if (root.getLeftSet() == null) {
+					System.out.println("displayReachedCodeBranches root.getLeftSet null");
+					break;
+				}
+				displayReachedCodeBranches(root.getLeftSet());
+			}
+			printBranches(root.getBranches());
+			while (root.getRightSet() != null) {
+				displayReachedCodeBranches(root.getRightSet());
+			}
+			printBranches(root.getBranches());*/
+
+
 	}
 
 	public static void main (String[] args) {
@@ -678,13 +710,14 @@ public class instm183_LTL_CTLDirectFinal {
 		//T2 training run
 		System.out.println("Training run");
 		trainingBranches = new BranchSet();
+		trainingBranches.instantiateMembers();
 		while(runIndex < 10) {
 			eca.trainingReset();
 			fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
 
 			for(int i = 0; i < fuzzed_inputs.length; i++) {
 				MyString input = fuzzed_inputs[i];
-				System.out.println("Fuzzing: " + input.val);
+				//System.out.println("Fuzzing: " + input.val);
 				//T2
 				I.myEquals( I.bool1, input,"ai1_ce1", trainingBranches);
 				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", trainingBranches);
@@ -727,11 +760,13 @@ public class instm183_LTL_CTLDirectFinal {
 			fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
 
 			System.out.println("This is run number: " + runIndex);
+			branches = new BranchSet();
+			branches.instantiateMembers();
 			for(int i = 0; i < fuzzed_inputs.length; i++) {
 				MyString input = fuzzed_inputs[i];
-				System.out.println("Fuzzing: " + input.val);
+				//System.out.println("Fuzzing: " + input.val);
 				//T2
-				branches = new BranchSet();
+
 				I.myEquals( I.bool1, input,"ai1_ce1", branches);
 				I.myEquals( I.bool2,input,"usr4_ai1_VoidReply", branches);
 				I.myEquals( I.bool3,input,"usr4_ni1_ne1", branches);
