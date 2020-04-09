@@ -128,6 +128,12 @@ class Outcome {
 
 class BranchSet //extends LinkedHashSet<Branch>
 {
+	private LinkedHashSet<Branch> branches = null;
+	//Succeed set /*
+	private BranchSet leftSet = new BranchSet();
+	//failSet set
+	private BranchSet rightSet = new BranchSet();
+
 	//
 	public void printBranchSet() {
 		//System.out.println("static branch number: " + staticBranchSetNumber);
@@ -138,25 +144,43 @@ class BranchSet //extends LinkedHashSet<Branch>
 		rightSet.printBranchSet();
 	}
 
-	public void add(Branch br) {
+	public LinkedHashSet<Branch> getBranches() {
+		return this.branches;
+	}
+
+	public void addBranch(Branch br) {
+		if (this.branches == null) this.branches = new LinkedHashSet<>();
 		this.branches.add(br);
 	}
 
-	public LinkedHashSet<Branch> branches = new LinkedHashSet<>();
-	//Succeed set
-	public BranchSet leftSet = new BranchSet();
-	//failSet set
-	public BranchSet rightSet = new BranchSet();
+	public void addLeftSet(BranchSet branchSet) {
+		if (this.leftSet == null) this.leftSet = new BranchSet();
+		this.leftSet = branchSet;
+	}
+
+	public BranchSet getLeftSet() {
+		return this.leftSet;
+	}
+
+	public void addRightSet(BranchSet branchSet) {
+		if (this.rightSet == null) this.rightSet = new BranchSet();
+		this.rightSet = branchSet;
+	}
+
+	public BranchSet getRightSet() {
+		return this.rightSet;
+	}
 
 	//a number designating the branches, that belong to the same myIf.
 	//public static long staticBranchSetNumber = Long.MIN_VALUE;
-	public int branchSetNumber;
+	public static int branchSetNumber = Integer.MIN_VALUE; //toAvoid overflows
+	public static long staticBranchSetNumber = Long.MIN_VALUE;
 
-	/*public BranchSet() {
+	public BranchSet() {
 		if (this.staticBranchSetNumber != Long.MAX_VALUE)
 		this.staticBranchSetNumber = staticBranchSetNumber++;
-	}*/
-	public void addBranch(Branch branch) {this.branches.add(branch);}
+	}
+
 }
 
 class Branch {
@@ -256,7 +280,7 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf"));
 			a1745113960 = I.myAssign(new MyString("h", true));
 			I.myMul(I.var1, a2108127495,a1522448132, successSet);
@@ -276,17 +300,17 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), branchSet);
 			I.myPrint("ni1_ne1");
 		}
 
-		currentSet = currentSet.rightSet;
+		currentSet = currentSet.getRightSet();
 		I.myEquals(I.bool1,input,"ai1_ce2", currentSet);
 		I.myAnd(I.bool2,I.bool1,cf, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf"), successSet);
 			a1745113960 = I.myAssign(new MyString("h"), successSet);
 			I.myMod(I.var1,a2108127495,59, successSet);
@@ -304,7 +328,7 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			currentSet=currentSet.leftSet;
+			currentSet=currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf"));
 			I.myMul(I.var1, a2108127495, a2108127495, currentSet);
 			I.myMod(I.var2, I.var1, 50, currentSet);
@@ -328,17 +352,17 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true),successSet);
 			I.myPrint("ai1_VoidReply");
 		}
-		currentSet=currentSet.rightSet;
+		currentSet=currentSet.getRightSet();
 
 		I.myEquals( I.bool1,input,"ai1_ce1", currentSet);
 		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 			a1745113960 = I.myAssign(new MyString("g", true), successSet);
 			I.myDel( I.var1,a2108127495,new MyInt(-7243), successSet);
@@ -348,13 +372,13 @@ public class instm183_LTL_CTLDirectFinal {
 			a2108127495 = I.myAssign(I.var4, "a2108127495", successSet);
 			I.myPrint("usr4_ai1_ce1");
 		}
-		currentSet = currentSet.rightSet;
+		currentSet = currentSet.getRightSet();
 
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", currentSet);
 		I.myAnd( I.bool2,I.bool1,cf, currentSet);
 
 		 if(I.myIf(I.bool2, input, currentSet)) {
-		 		BranchSet successSet = currentSet.leftSet;
+		 		BranchSet successSet = currentSet.getLeftSet();
 				cf = I.myAssign(new MyBool(false, "cf",true), successSet);
 				a1745113960 = I.myAssign(new MyString("i", true), successSet);
 				I.myPrint("usr2_ai1_ce4");
@@ -367,7 +391,7 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd( I.bool2,I.bool1,cf, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 			a1745113960 = I.myAssign(new MyString("h", true), successSet);
 			I.myPrint("none");
@@ -379,7 +403,7 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", currentSet);
 		I.myAnd( I.bool2,I.bool1,cf, currentSet);
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 			I.myAdd( I.var1,a2108127495,new MyInt(13863), successSet);
 			I.myMul( I.var2,I.var1,2, successSet);
@@ -395,12 +419,12 @@ public class instm183_LTL_CTLDirectFinal {
 			a422009172 = I.myAssign(I.var7, "a422009172", successSet);
 			I.myPrint("none");
 		}
-		currentSet=currentSet.rightSet;
+		currentSet=currentSet.getRightSet();
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", currentSet);
 		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 			a1745113960 = I.myAssign(new MyString("e", true), successSet);
 			I.myAdd( I.var1,a2108127495,-139, successSet);
@@ -416,7 +440,7 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myEquals( I.bool1,input,"usr4_ni1_ne1", currentSet);
 		I.myAnd( I.bool2,I.bool1,cf, currentSet);
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 			a1745113960 = I.myAssign(new MyString("g", true), successSet);
 			I.myDel(I.var1,a2108127495,new MyInt(128), successSet);
@@ -427,12 +451,12 @@ public class instm183_LTL_CTLDirectFinal {
 			I.myPrint("none");
 		}
 
-		currentSet = currentSet.rightSet;
+		currentSet = currentSet.getRightSet();
 		I.myEquals( I.bool1,input,"usr4_ai1_VoidReply", currentSet);
 		I.myAnd( I.bool2,cf,I.bool1, currentSet);
 
 		if(I.myIf(I.bool2, input, currentSet)) {
-			BranchSet successSet = currentSet.leftSet;
+			BranchSet successSet = currentSet.getLeftSet();
 			cf = I.myAssign(new MyBool(false, "cf", true), successSet);
 
 			I.myDel( I.var1,a2108127495,new MyInt(22339), successSet);
@@ -475,19 +499,19 @@ public class instm183_LTL_CTLDirectFinal {
 
 		if (I.myIf(I.bool2, input, currentSet)) {
 			//s1 = succeed1
-			BranchSet s1 = currentSet.leftSet;
+			BranchSet s1 = currentSet.getLeftSet();
 			I.myLess(I.bool1, -83, a1522448132, s1);
 			I.myGreaterEqual(I.bool2, 18, a1522448132, s1);
 			I.myAnd(I.bool3, I.bool1, I.bool2, s1);
 			I.myAnd(I.bool4, cf, I.bool3, s1);
 			if (I.myIf(I.bool4, input, s1)) {
-				BranchSet s2 = branchSet.leftSet;
+				BranchSet s2 = branchSet.getLeftSet();
 				calculateOutputm1(input, s2);
 			}
 		}
 
 		//failSeture set
-		currentSet = currentSet.rightSet;
+		currentSet = currentSet.getRightSet();
 
 		I.myLess(I.bool1, -164, a2108127495, currentSet);
 		I.myGreaterEqual(I.bool2, -19, a2108127495, currentSet);
@@ -495,38 +519,38 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd(I.bool4, cf, I.bool3, currentSet);
 
 		if (I.myIf(I.bool4, input, currentSet)) {
-			BranchSet s1 = currentSet.leftSet;
+			BranchSet s1 = currentSet.getLeftSet();
 			I.myEquals(I.bool1, a1745113960, "e", s1);
 			I.myAnd(I.bool2, cf, I.bool1, s1);
 
 			if (I.myIf(I.bool2, input, s1))
-				calculateOutputm2(input, s1.leftSet);
+				calculateOutputm2(input, s1.getLeftSet());
 
-			BranchSet failSet = branchSet.rightSet;
+			BranchSet failSet = branchSet.getRightSet();
 			I.myEquals(I.bool1, a1745113960, "g", failSet);
 			I.myAnd(I.bool2, cf, I.bool1, failSet);
 
 			if (I.myIf(I.bool2, input, failSet))
-				calculateOutputm3(input, failSet.leftSet);
+				calculateOutputm3(input, failSet.getLeftSet());
 
-			failSet = failSet.rightSet;
+			failSet = failSet.getRightSet();
 
 			I.myEquals(I.bool1, a1745113960, "h", failSet);
 			I.myAnd(I.bool2, cf, I.bool1, failSet);
 
 			if (I.myIf(I.bool2, input,failSet))
-				calculateOutputm4(input, failSet.leftSet);
+				calculateOutputm4(input, failSet.getLeftSet());
 
-			failSet = failSet.rightSet;
+			failSet = failSet.getRightSet();
 
 			I.myEquals(I.bool1, a1745113960, "i", failSet);
 			I.myAnd(I.bool2, I.bool1, cf, failSet);
 
 			if (I.myIf(I.bool2, input, failSet))
-				calculateOutputm5(input, failSet.leftSet);
+				calculateOutputm5(input, failSet.getLeftSet());
 
 		}
-		currentSet=currentSet.rightSet;
+		currentSet=currentSet.getRightSet();
 
 		I.myLess(I.bool1, -19, a2108127495, currentSet);
 		I.myGreaterEqual(I.bool2, 100, a2108127495, currentSet);
@@ -534,34 +558,34 @@ public class instm183_LTL_CTLDirectFinal {
 		I.myAnd(I.bool4, I.bool3, cf, currentSet);
 
 		if (I.myIf(I.bool4, input,currentSet)) {
-			BranchSet successSet = currentSet.rightSet;
+			BranchSet successSet = currentSet.getRightSet();
 			I.myEquals(I.bool1, a1745113960, "g", successSet);
 			I.myAnd(I.bool2, cf, I.bool1, successSet);
 
 			if (I.myIf(I.bool2, input, successSet))
-				calculateOutputm6(input, successSet.leftSet);
+				calculateOutputm6(input, successSet.getLeftSet());
 
-			BranchSet failSet = successSet.rightSet;
+			BranchSet failSet = successSet.getRightSet();
 
 			I.myEquals(I.bool1, a1745113960, "h", failSet);
 			I.myAnd(I.bool2, cf, I.bool1, failSet);
 			if (I.myIf(I.bool2, input, failSet)) {
-				calculateOutputm7(input, failSet.leftSet);
+				calculateOutputm7(input, failSet.getLeftSet());
 			}
-			failSet=failSet.rightSet;
+			failSet=failSet.getRightSet();
 
 			I.myLess(I.bool1, 100, a2108127495, failSet);
 			I.myAnd(I.bool2, cf, I.bool1, failSet);
 			if (I.myIf(I.bool2, input, failSet)) {
-				BranchSet s1 = failSet.leftSet;
+				BranchSet s1 = failSet.getLeftSet();
 				I.myLess(I.bool1, 103, a422009172, s1);
 				I.myGreaterEqual(I.bool2, 198, a422009172, s1);
 				I.myAnd(I.bool3, I.bool1, I.bool2, s1);
 				I.myAnd(I.bool4, I.bool3, cf, s1);
 				if (I.myIf(I.bool4, input, s1))
-					calculateOutputm8(input, s1.leftSet);
+					calculateOutputm8(input, s1.getLeftSet());
 			}
-			failSet=failSet.rightSet;
+			failSet=failSet.getRightSet();
 
 			if (I.myIf(cf, input, failSet)) {
 				IllegalArgumentException ex = new IllegalArgumentException("Current state has no transition for this input!");
@@ -633,14 +657,14 @@ public class instm183_LTL_CTLDirectFinal {
 
 	public static void displayReachedCodeBranches(BranchSet branchesSet) {
 		BranchSet root = branchesSet;
-		while (root.leftSet != null) {
-			displayReachedCodeBranches(root.leftSet);
+		while (root.getLeftSet() != null) {
+			displayReachedCodeBranches(root.getLeftSet());
 		}
-		printBranches(root.branches);
-		while(root.rightSet != null) {
-			displayReachedCodeBranches(root.rightSet);
+		printBranches(root.getBranches());
+		while(root.getRightSet() != null) {
+			displayReachedCodeBranches(root.getRightSet());
 		}
-		printBranches(root.branches);
+		printBranches(root.getBranches());
 	}
 
 	public static void main (String[] args) {
@@ -672,12 +696,12 @@ public class instm183_LTL_CTLDirectFinal {
 				I.myAnd( I.bool9,I.bool8,I.bool5, trainingBranches);
 				if(I.myIf(I.bool9, input, trainingBranches)) {
 					Exception ex = new IllegalArgumentException("Current state has no transition for this input!");
-					BranchSet s1 = trainingBranches.leftSet;
+					BranchSet s1 = trainingBranches.getLeftSet();
 					Branch br = new Branch(); br.ex = ex;
 					s1.addBranch(br);
 					throw new IllegalArgumentException("Current state has no transition for this input!");
 				}
-				BranchSet rightSet = trainingBranches.rightSet;
+				BranchSet rightSet = trainingBranches.getRightSet();
 				try {
 					eca.calculateOutput(input, rightSet);
 					System.out.println();
@@ -718,13 +742,13 @@ public class instm183_LTL_CTLDirectFinal {
 				I.myAnd( I.bool9,I.bool8,I.bool5, branches);
 				if(I.myIf(I.bool9, input, branches)) {
 					Exception ex = new IllegalArgumentException("Current state has no transition for this input!");
-					BranchSet s1 = branches.leftSet;
+					BranchSet s1 = branches.getLeftSet();
 					Branch br = new Branch();
 					br.ex = ex;
 					s1.addBranch(br);
 					throw new IllegalArgumentException("Current state has no transition for this input!");
 				}
-				BranchSet rightSet = branches.rightSet;
+				BranchSet rightSet = branches.getRightSet();
 				try {
 					eca.calculateOutput(input, branches);
 					System.out.println();
@@ -1177,7 +1201,7 @@ class I {
 	//T2
 	public static void myLess(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = (b.val < c.val);
-		branchSet.add(new Branch(b, c, a.val, operations.less));}
+		branchSet.addBranch(new Branch(b, c, a.val, operations.less));}
 
 
 	public static void myGreater(MyBool a, MyInt b, MyInt c){ a.val = (b.val > c.val); }
@@ -1197,7 +1221,7 @@ class I {
 	//T2
 	public static void myGreaterEqual(MyBool a, MyInt b, MyInt c, BranchSet branchSet){
 		a.val = (b.val >= c.val);
-		branchSet.add(new Branch(b, c, a.val, operations.greaterEqual));}
+		branchSet.addBranch(new Branch(b, c, a.val, operations.greaterEqual));}
 
 	//T2
 	public static MyBool myAssign(MyBool b){
@@ -1277,7 +1301,7 @@ class I {
 	//T2
 	public static boolean myIf(MyBool a, MyString input, BranchSet branchSet){
 		System.out.print("b " + a.val + " ");
-		branchSet.leftSet = new BranchSet(); branchSet.rightSet = new BranchSet();
+		branchSet.addLeftSet(new BranchSet()); branchSet.addRightSet(new BranchSet());
 		if(a.val)
 			input.depth++;
 		return a.val; }
