@@ -80,7 +80,7 @@ class Calculate {
 	}
 
 	//It calculates the distance based on the length of the input.
-	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
+	private static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
 		String distVar = null;
 
 		try { distVar = getDistString(br); }
@@ -97,6 +97,10 @@ class Calculate {
 		else {
 			return calcGreaterDiff(input, distVar, alphabet, input.length(), distVar.length());
 		}
+	}
+
+	public static void printCalculatedDistance(Branch br, String input, String alphabet) {
+
 	}
 }
 
