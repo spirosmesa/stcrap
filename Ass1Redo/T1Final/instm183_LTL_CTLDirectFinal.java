@@ -130,9 +130,9 @@ class BranchSet //extends LinkedHashSet<Branch>
 {
 	private LinkedHashSet<Branch> branches = null;
 	//Succeed set /*
-	private BranchSet leftSet = new BranchSet();
+	private BranchSet leftSet = null;
 	//failSet set
-	private BranchSet rightSet = new BranchSet();
+	private BranchSet rightSet = null;
 
 	//
 	public void printBranchSet() {
@@ -650,6 +650,7 @@ public class instm183_LTL_CTLDirectFinal {
 	}
 	*/
 	private static void printBranches(LinkedHashSet<Branch> branches) {
+		if (branches == null) return;
 		for(Branch br : branches) {
 			br.printBranch();
 		}
