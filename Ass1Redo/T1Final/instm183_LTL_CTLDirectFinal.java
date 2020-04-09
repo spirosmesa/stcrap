@@ -113,8 +113,7 @@ enum operations {
 	intAssign,
 	del,
 	add,
-	div,
-
+	div
 }
 
 //Used to store branch operation outcome.
@@ -126,30 +125,50 @@ class Outcome {
 	public Outcome(boolean outcome) {boolOutcome=outcome;}
 }
 
-class BranchSet //extends LinkedHashSet<Branch>
-{
+class BranchSet extends LinkedHashSet{
 	private LinkedHashSet<Branch> branches = null;
 	//Succeed set /*
 	private BranchSet leftSet = null;
 	//failSet set
 	private BranchSet rightSet = null;
 
-	//
+	//a number designating the branches, that belong to the same myIf.
+	//public static long staticBranchSetNumber = Long.MIN_VALUE;
+	public static int branchSetNumber = Integer.MIN_VALUE; //toAvoid overflows
+	public static long staticBranchSetNumber = Long.MIN_VALUE;
+
+	public BranchSet() {
+		if (this.staticBranchSetNumber != Long.MAX_VALUE)
+			this.staticBranchSetNumber = staticBranchSetNumber++;
+	}
+
+	public void instantiateMembers() {
+		this.leftSet = new BranchSet();
+		this.rightSet = new BranchSet();
+		this.branches = new LinkedHashSet<>();
+	}
+
+	private void printBranches(BranchSet branches) {
+		for (Branch br : branches.branches){
+			br.printBranch();
+		}
+	}
 	public void printBranchSet() {
-		//System.out.println("static branch number: " + staticBranchSetNumber);
-		//System.out.println("branch set number: " + branchSetNumber);
-		/*System.out.println("left set info: ");
-		leftSet.printBranchSet();
-		System.out.println("right set info: ");
-		rightSet.printBranchSet();*/
-		if (branches != null)
-			System.out.println("Number of branches for this branch: " + branches.size());
-		if(leftSet != null)
-			if (leftSet.branches!=null)
-				System.out.println("left branchset size: " + leftSet.branches.size());
-		if(rightSet !=null)
-			if (rightSet.branches!=null)
-				System.out.println("right branchset size: " + rightSet.branches.size()s);
+		System.out.println("Branch set number: " + staticBranchSetNumber);
+		System.out.println("-----BRANCHES INFO-----");
+		for (Branch br : branches) {
+			br.printBranch();
+		}
+
+		System.out.println("-----LEFT BRANCH SET INFO-----");
+		if (leftSet == null)
+			System.out.println("leftSet == null");
+		else printBranches(leftSet);
+
+		System.out.println("-----LEFT BRANCH SET INFO-----");
+		if (rightSet == null)
+			System.out.println("rightSet == null");
+		else printBranches(rightSet);
 	}
 
 	public LinkedHashSet<Branch> getBranches() {
@@ -179,21 +198,6 @@ class BranchSet //extends LinkedHashSet<Branch>
 		return this.rightSet;
 	}
 
-	//a number designating the branches, that belong to the same myIf.
-	//public static long staticBranchSetNumber = Long.MIN_VALUE;
-	public static int branchSetNumber = Integer.MIN_VALUE; //toAvoid overflows
-	public static long staticBranchSetNumber = Long.MIN_VALUE;
-
-	public BranchSet() {
-		if (this.staticBranchSetNumber != Long.MAX_VALUE)
-		this.staticBranchSetNumber = staticBranchSetNumber++;
-	}
-
-	public void instantiateMembers() {
-		this.leftSet = new BranchSet();
-		this.rightSet = new BranchSet();
-		this.branches = new LinkedHashSet<>();
-	}
 
 }
 
@@ -651,18 +655,7 @@ public class instm183_LTL_CTLDirectFinal {
 		}
 		System.out.println("Max depth is: " + maxDepth);
 	}
-	/*
-	public void printBranchSet() {
-		System.out.println("Printing info for branch hash code: ");
-		System.out.println();
-		System.out.println("static branch number: " + staticBranchSetNumber);
-		System.out.println("branch set number: " + branchSetNumber);
-		System.out.println("left set info: ");
-		leftSet.printBranchSet();
-		System.out.println("right set info: ");
-		rightSet.printBranchSet();
-	}
-	*/
+
 	private static void printBranches(LinkedHashSet<Branch> branches) {
 		if (branches == null) return;
 		for(Branch br : branches) {
@@ -674,10 +667,6 @@ public class instm183_LTL_CTLDirectFinal {
 		if (branchesSet == null) return;
 		//get all the branches from the branchset
 		//print the branchset information.
-		//
-
-
-
 	}
 
 	public static void displayReachedCodeBranches(BranchSet branchesSet) {
