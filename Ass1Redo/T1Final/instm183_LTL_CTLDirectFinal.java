@@ -149,8 +149,11 @@ class BranchSet extends LinkedHashSet{
 	}
 
 	private void printBranches(BranchSet branches) {
-		for (Branch br : branches.branches){
-			br.printBranch();
+		if (branches == null) return;
+		if (branches.branches == null) return;
+			for (Branch br : branches.branches){
+				if (br == null) continue;
+				br.printBranch();
 		}
 	}
 	public void printBranchSet() {
@@ -165,7 +168,7 @@ class BranchSet extends LinkedHashSet{
 			System.out.println("leftSet == null");
 		else printBranches(leftSet);
 
-		System.out.println("-----LEFT BRANCH SET INFO-----");
+		System.out.println("-----RIGHT BRANCH SET INFO-----");
 		if (rightSet == null)
 			System.out.println("rightSet == null");
 		else printBranches(rightSet);
@@ -257,7 +260,8 @@ class Branch {
 		else if (outcome.boolOutcome != null ) System.out.println("  boolean outcome: " + outcome.boolOutcome.booleanValue());
 		else System.out.println("Shit happens. outcome.intOucome and outcome.boolOutcome are both null.");
 
-		System.out.println(" Caught Exception class: " + ex.getClass().toString());
+		if (ex != null)
+			System.out.println(" Caught Exception class: " + ex.getClass().toString());
 	}
 	public Branch() {}
 	public Branch(Exception ex) {
@@ -663,12 +667,14 @@ public class instm183_LTL_CTLDirectFinal {
 		}
 	}
 
-	public static void displayReachedCodeBranches2(BranchSet branchesSet) {
-		if (branchesSet == null) return;
-		//get all the branches from the branchset
-		//print the branchset information.
+	public static void displayReachedCodeBranches(BranchSet branchesSet) {
+		if (branchesSet == null) {
+			System.out.println("displayReachedCodeBranches branchSet null");
+			return;
+		}
+		branchesSet.printBranchSet();
 	}
-
+/*
 	public static void displayReachedCodeBranches(BranchSet branchesSet) {
 		if (branchesSet == null) return;
 		BranchSet root = branchesSet;
@@ -707,7 +713,7 @@ public class instm183_LTL_CTLDirectFinal {
 			displayReachedCodeBranches(root.getRightSet());
 		}
 		printBranches(root.getBranches());
-	}
+	}*/
 
 	public static void main (String[] args) {
 		//T2
