@@ -80,7 +80,7 @@ class Calculate {
 	}
 
 	//It calculates the distance based on the length of the input.
-	private static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
+	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
 		String distVar = null;
 
 		try { distVar = getDistString(br); }
@@ -99,8 +99,53 @@ class Calculate {
 		}
 	}
 
-	public static void printCalculatedDistance(Branch br, String input, String alphabet) {
+	//Step 1:
+	//Starts off from the list of available branches in the Linked list of the BranchSet.
 
+	//It checks whether the string in the input, satisfies the condition in the outcome of each Branch.
+	//If it doesn't, it calculates the calls calc diff.
+	//If it does, it moves on to the next branch.
+	//if the last branch in the list is called, and the condition is still satisfied, it moves on the left branch.
+
+	//Refactor this
+	//If the condition in the left branch set of the left branch is satisfied, it moves on the next condition in the left branch,
+	//and so on
+	public static void printCalculatedDistance(BranchSet branchSet, MyString input, String alphabet) throws Exception {
+		String[] distanceStr = null;
+		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
+		boolean result = false;
+
+		System.out.println("For input of: " + input.val + "the calculated distance is: ");
+
+		for (Branch br : localBranches) {
+			try {
+				//Check in LinkedHashSet<Branch> branches
+				if (br.lVar == null) {
+					System.out.println("lVar null");
+					continue;
+				}
+				result = Branch.operate(br, br.operation, br.lVar, input);
+				if(result) continue;
+				else if (!result) {
+					distanceStr = calculateDistance(br, input.val, alphabet);
+					System.out.println(distanceStr);
+					return;
+				}
+				System.out.println("Left branches");
+				printCalculatedDistance(branchSet.getLeftSet(), input, alphabet);
+				System.out.println("Right branches");
+				printCalculatedDistance(branchSet.getRightSet(), input, alphabet);
+			}
+			catch (Exception ex) {
+				throw ex;
+				/*System.out.println("printCalculatedDistance method");
+				System.out.println("input is " + input.val);
+				System.out.println("Exception occured");
+				System.out.println(ex.getMessage());
+				System.out.println(ex.getCause());
+				continue;*/
+			}
+		}
 	}
 }
 
@@ -204,8 +249,6 @@ class BranchSet extends LinkedHashSet{
 	public BranchSet getRightSet() {
 		return this.rightSet;
 	}
-
-
 }
 
 class Branch {
@@ -214,17 +257,22 @@ class Branch {
 	public MyVar lVar = null, rVar = null;
 	public Exception ex = null;
 
+	//Returns whether or not the outcome of the branch, matches the input variables.
 	public static boolean operate(Branch br, operations operation, MyVar lVar, MyVar rVar) throws Exception{
 		Outcome opOutcome = null;
-		if (br == null) throw new Exception("br null");
-		if (operation == null) throw new Exception("operation null");
-		if (lVar == null) throw new Exception("lVar null");
-		if (rVar == null) throw new Exception("rVar null");
-		if (br.outcome.boolOutcome ==  null) throw new Exception("br.boolOutcome null");
-		else if (br.outcome.intOutcome == null) throw new Exception("br.intOutcome null");
+		if (br == null) throw new Exception("method operate br null");
+		if (operation == null) throw new Exception("method operate operation null");
+		if (lVar == null) throw new Exception("method operate lVar null");
+		if (rVar == null) throw new Exception("method operate rVar null");
+		if ( (br.outcome.boolOutcome ==  null) && (br.outcome.intOutcome == null) ) {
+			String exceptionString = null;
+			if (br.outcome.boolOutcome == null) exceptionString = "method operate br.outcome.boolOutcome == null";
+			else exceptionString = "method operate br.outcome.intOutcome";
+			throw new Exception(exceptionString);
+		}
 		else opOutcome = br.outcome;
 
-		if (!br.lVar.equals(lVar)) throw new Exception("br.lvar and lvar not equal");
+		if (!br.lVar.equals(lVar)) throw new Exception("method operate br.lvar and lvar not equal");
 		switch(br.operation) {
 			case equals:
 				return (((MyString) lVar).val.equals(((MyString) rVar).val) == opOutcome.boolOutcome);
@@ -679,7 +727,7 @@ public class instm183_LTL_CTLDirectFinal {
 		branchesSet.printBranchSet();
 	}
 
-	public static void main (String[] args) {
+	public static void main (String[] args) throws  Exception {
 		//T2
 		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLDirectFinal eca = new instm183_LTL_CTLDirectFinal();
@@ -778,12 +826,18 @@ public class instm183_LTL_CTLDirectFinal {
 			//T1: print the deepest the input variable has reached.
 			printFlowLength(fuzzed_inputs);
 
+			displayReachedCodeBranches(branches);
+			//We use the training branches as input, since the set would probably be the most complete one.
+			for(int i = 0; i < fuzzed_inputs.length; i++)
+				Calculate.printCalculatedDistance(trainingBranches, fuzzed_inputs[i], alphabet);
+
 			runIndex++;
 		}
 		//T2 Reached code branches
 
 		//T2drcb
-		displayReachedCodeBranches(branches);
+
+
 	}
 }
 
@@ -921,7 +975,7 @@ class MyBool extends MyVar {
 }
 
 class MyString extends MyVar{
-	public String val = "";
+	public String val = null;
 	public int depth = 0;
 
 	@Override
@@ -943,12 +997,15 @@ class MyString extends MyVar{
 	public MyString(String val) {
 		super("", false);
 		initialize();
-		this.val = val;
+		if (val != null) this.val = val;
+		else this.val = "null string";
 	}
 
 	public MyString(String val, boolean branch) {
 		super("", false);
 		initialize();
+		if (val != null || val.isEmpty() || val.isBlank()) this.val = val;
+		else this.val = "empty string";
 		if (branch) this.taintSet.add(this);
 	}
 
