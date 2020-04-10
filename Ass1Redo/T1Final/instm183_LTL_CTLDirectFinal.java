@@ -7,96 +7,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Calculate {
-	//We can also change the method, to handle data types, other than Strings.
-	private static String getDistString(Branch br) throws Exception {
-		if (br.lVar!=null)
-			if (br.lVar.inputVar == true)
-				return ((MyString)br.lVar).val;
-			else
-				throw new Exception("lVar not true ");
-		else if (br.lVar == null)
-			throw new Exception("lVar null ");
-		else if (br.rVar != null)
-			if (br.rVar.inputVar == true)
-				return ((MyString)br.rVar).val;
-			else
-				throw new Exception("rVar not true ");
-		else
-			throw new Exception("rVar null ");
-	}
 
-	private static String[] calcEqualDiff(String inputStr, String distVar, String alphabet, int length) {
-		String[] ret = new String[length];
-		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
-
-		for (int index = 0; index < length; index++) {
-			//Get index of input char in alphabet.
-			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
-			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
-
-			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
-		}
-		return  ret;
-	}
-
-	private static String[] calcLessDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
-		String[] ret = new String[inLength];
-		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
-
-		//distVar.length() - input.length();
-		int index = 0;
-		//populate the elements of the output array, with the diff, up
-		//to the length of the smallest, distVar array.
-		while (index < distVarLength) {
-			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
-			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
-			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
-			index++;
-		}
-
-		for (index = inLength; index < distVarLength; index++)
-			ret[index] = "-" + alphabet.charAt(alphabet.indexOf(inputStr));
-		return ret;
-	}
-
-	private static String[] calcGreaterDiff(String inputStr, String distVar, String alphabet, int inLength, int distVarLength) {
-		String[] ret = new String[inLength];
-		char[] inputCharArr = inputStr.toCharArray(), distVarCharArr = distVar.toCharArray();
-
-		//distVar.length() - input.length();
-		int index = 0;
-		//populate the elements of the output array, with the diff, up
-		//to the length of the smallest, distVar array.
-		while (index < inLength) {
-			int inputAlphabetPos = alphabet.indexOf(inputCharArr[index]);
-			int distVarAlphabetPos = alphabet.indexOf(distVarCharArr[index]);
-			ret[index] = Integer.toString(inputAlphabetPos-distVarAlphabetPos);
-			index++;
-		}
-
-		for (index = distVarLength; index < inLength; index++)
-			ret[index] = "+" + alphabet.charAt(alphabet.indexOf(inputStr));
-		return null;
-	}
 
 	//It calculates the distance based on the length of the input.
 	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
-		String distVar = null;
-
-		try { distVar = getDistString(br); }
-		catch (Exception e) {
-			throw new Exception("calculateDistance: " + e.getMessage() + input); }
-
-		int strLenDiff = distVar.length() - input.length();
-		if (strLenDiff == 0) {
-			return calcEqualDiff(input, distVar, alphabet, input.length());
-		}
-		else if (strLenDiff < 0) {
-			return calcLessDiff(input, distVar, alphabet, input.length(), distVar.length());
-		}
-		else {
-			return calcGreaterDiff(input, distVar, alphabet, input.length(), distVar.length());
-		}
+		return null;
 	}
 
 	//Step 1:
