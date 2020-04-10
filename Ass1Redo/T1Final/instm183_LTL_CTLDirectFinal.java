@@ -7,10 +7,28 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Calculate {
+	//TODO also change the method calls to properly print the array.
+	//The case where the string has another branch at the same linkedhashset.
+	//Solution: Just count the number of branches were input == branch.rvar + boolOutcome=true
+	//If it reaches the end of the hashList. Then
 
+	private boolean branchTriggered(Branch branch, MyString input) {
+		//Need to check whether the last-1 elem of linkedHashSet branches, depends on the current input?
+		return false;
+	}
 
 	//It calculates the distance based on the length of the input.
-	public static String[] calculateDistance(Branch br, String input, String alphabet) throws Exception{
+	public static String[] calculateDistance(BranchSet branchSet, MyString input) throws Exception{
+		//It traverses linkedHashSet of branchSet. if the next triggered branch is there, then just return the distance.
+		int distance = 0;
+		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
+
+		for (Branch br : localBranches) {
+			if (true) {
+				distance++;
+			}
+		}
+
 		return null;
 	}
 
@@ -26,7 +44,7 @@ class Calculate {
 	//If the condition in the left branch set of the left branch is satisfied, it moves on the next condition in the left branch,
 	//and so on
 	public static void printCalculatedDistance(BranchSet branchSet, MyString input, String alphabet) throws Exception {
-		String[] distanceStr = null;
+		int distance = -1;
 		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
 		boolean result = false;
 
@@ -41,8 +59,8 @@ class Calculate {
 				result = Branch.operate(br, br.operation, br.lVar, input);
 				if(result) continue;
 				else if (!result) {
-					distanceStr = calculateDistance(br, input.val, alphabet);
-					System.out.println(Arrays.toString(distanceStr));
+					distance = calculateDistance(br, input.val, alphabet);
+					System.out.println(distance);
 					return;
 				}
 				System.out.println("Left branches");
