@@ -115,8 +115,7 @@ class Calculate {
 		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
 		boolean result = false;
 
-		System.out.println("For input of: " + input.val + "the calculated distance is: ");
-
+		System.out.println("For input of: " + input.val + " the calculated distance is: ");
 		for (Branch br : localBranches) {
 			try {
 				//Check in LinkedHashSet<Branch> branches
@@ -128,7 +127,7 @@ class Calculate {
 				if(result) continue;
 				else if (!result) {
 					distanceStr = calculateDistance(br, input.val, alphabet);
-					System.out.println(distanceStr);
+					System.out.println(Arrays.toString(distanceStr));
 					return;
 				}
 				System.out.println("Left branches");
