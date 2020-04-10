@@ -678,46 +678,6 @@ public class instm183_LTL_CTLDirectFinal {
 		}
 		branchesSet.printBranchSet();
 	}
-/*
-	public static void displayReachedCodeBranches(BranchSet branchesSet) {
-		if (branchesSet == null) return;
-		BranchSet root = branchesSet;
-
-		LinkedHashSet<Branch> localBranches = branchesSet.getBranches();
-		if (localBranches == null) return;
-		System.out.println("branchesSet.getBranches().size()");
-		System.out.println(" " + localBranches.size());
-
-		BranchSet leftRightBranches = branchesSet.getLeftSet();
-		if (leftRightBranches == null) return;
-
-		localBranches = leftRightBranches.getBranches();
-		if (localBranches == null) return;
-		System.out.println("branchesSet.getLeftSet().getBranches().size()");
-		System.out.println(" " + localBranches.size());
-
-		leftRightBranches = branchesSet.getRightSet();
-		if (leftRightBranches == null) return;
-
-		localBranches = branchesSet.getBranches();
-		if (localBranches == null) return;
-
-		System.out.println("branchesSet.getRightSet().getBranches().size()");
-		System.out.println(" " + localBranches.size());
-
-		while (root.getLeftSet() != null) {
-			if (root.getLeftSet() == null) {
-				System.out.println("displayReachedCodeBranches root.getLeftSet null");
-				break;
-			}
-			displayReachedCodeBranches(root.getLeftSet());
-		}
-		printBranches(root.getBranches());
-		while (root.getRightSet() != null) {
-			displayReachedCodeBranches(root.getRightSet());
-		}
-		printBranches(root.getBranches());
-	}*/
 
 	public static void main (String[] args) {
 		//T2
