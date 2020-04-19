@@ -28,7 +28,6 @@ class Calculate {
 				distance++;
 			}
 		}
-
 		return null;
 	}
 
@@ -43,41 +42,8 @@ class Calculate {
 	//Refactor this
 	//If the condition in the left branch set of the left branch is satisfied, it moves on the next condition in the left branch,
 	//and so on
-	public static void printCalculatedDistance(BranchSet branchSet, MyString input, String alphabet) throws Exception {
-		int distance = -1;
-		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
-		boolean result = false;
+	public static void calculateDistance() {
 
-		System.out.println("For input of: " + input.val + " the calculated distance is: ");
-		for (Branch br : localBranches) {
-			try {
-				//Check in LinkedHashSet<Branch> branches
-				if (br.lVar == null) {
-					System.out.println("lVar null");
-					continue;
-				}
-				result = Branch.operate(br, br.operation, br.lVar, input);
-				if(result) continue;
-				else if (!result) {
-					distance = calculateDistance(br, input.val, alphabet);
-					System.out.println(distance);
-					return;
-				}
-				System.out.println("Left branches");
-				printCalculatedDistance(branchSet.getLeftSet(), input, alphabet);
-				System.out.println("Right branches");
-				printCalculatedDistance(branchSet.getRightSet(), input, alphabet);
-			}
-			catch (Exception ex) {
-				throw ex;
-				/*System.out.println("printCalculatedDistance method");
-				System.out.println("input is " + input.val);
-				System.out.println("Exception occured");
-				System.out.println(ex.getMessage());
-				System.out.println(ex.getCause());
-				continue;*/
-			}
-		}
 	}
 }
 
@@ -241,7 +207,7 @@ class Branch {
 
 		if (outcome == null) System.out.println("Outcome is null.");
 		if (outcome.intOutcome != null) System.out.println("  Integer outcome: " + outcome.intOutcome.intValue());
-		else if (outcome.boolOutcome != null ) System.out.println("  boolean outcome: " + outcome.boolOutcome.booleanValue());
+		else if (outcome.boolOutcome != null ) System.out.println("   boolean outcome: " + outcome.boolOutcome.booleanValue());
 		else System.out.println("Shit happens. outcome.intOucome and outcome.boolOutcome are both null.");
 
 		if (ex != null)
@@ -761,7 +727,7 @@ public class instm183_LTL_CTLDirectFinal {
 			displayReachedCodeBranches(branches);
 			//We use the training branches as input, since the set would probably be the most complete one.
 			for(int i = 0; i < fuzzed_inputs.length; i++)
-				Calculate.printCalculatedDistance(trainingBranches, fuzzed_inputs[i], alphabet);
+				//Calculate.printCalculatedDistance(trainingBranches, fuzzed_inputs[i], alphabet);
 
 			runIndex++;
 		}
@@ -870,11 +836,21 @@ class MyInt extends MyVar{
 		this.varName=varName;
 		if (br) taintSet.add(this);
 	}
+
+	@Override
+	public String toString() {
+		return "MyInt, name: " + this.varName + " value: " + this.val;
+	}
 }
 
 class MyBool extends MyVar {
 	public boolean val = false;
 	public String varName;
+
+	@Override
+	public String toString() {
+		return "MyBool, name: " + this.varName + " value: " + this.val;
+	}
 
 	private void initialize() {
 		if (this.taintSet== null) this.taintSet=new LinkedHashSet<>();
@@ -909,6 +885,11 @@ class MyBool extends MyVar {
 class MyString extends MyVar{
 	public String val = null;
 	public int depth = 0;
+
+	@Override
+	public String toString() {
+		return "MyString, name: " + this.varName + " value: " + this.val;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
