@@ -7,43 +7,86 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Calculate {
-	//TODO also change the method calls to properly print the array.
-	//The case where the string has another branch at the same linkedhashset.
-	//Solution: Just count the number of branches were input == branch.rvar + boolOutcome=true
-	//If it reaches the end of the hashList. Then
+	private static MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
-	private boolean branchTriggered(Branch branch, MyString input) {
-		//Need to check whether the last-1 elem of linkedHashSet branches, depends on the current input?
-		return false;
+	public static int indexOf(MyString in) throws Exception {
+		int index = -1;
+		if (in == null) throw new Exception("Calculate.indexOf: in is null");
+		for (MyString str : inputs) {
+			if(str.val.equals(in)) {
+				if (index == -1) ++index;
+				return index;
+			}
+			index++;
+		}
+		return index;
 	}
 
-	//It calculates the distance based on the length of the input.
-	public static String[] calculateDistance(BranchSet branchSet, MyString input) throws Exception{
-		//It traverses linkedHashSet of branchSet. if the next triggered branch is there, then just return the distance.
-		int distance = 0;
-		LinkedHashSet<Branch> localBranches = branchSet.getBranches();
 
-		for (Branch br : localBranches) {
-			if (true) {
-				distance++;
+
+	//return lVarIndex - inputIndex.
+	private static int calc(MyString lVar, MyString input) throws Exception{
+		return indexOf(lVar) - indexOf(input);
+	}
+
+	public static int calculateDistanceForInputTrace(MyString inputTrace, BranchSet branchSet) throws Exception {
+		//Take the branches. Find the one with that has lVar, and rVar as MyString.
+		LinkedHashSet<Branch> branches = branchSet.getBranches();
+
+		if (branches == null) {
+			System.out.println("calculateDistanceForInputTraces: branches null\nInput Trace " + inputTrace);
+			return Integer.MIN_VALUE;
+		}
+
+		MyVar lVar, rVar;
+		for (Branch br : branches) {
+			lVar = br.lVar;
+			if (lVar == null) {
+				System.out.println("calculateDistanceForInputTraces: lVar null");
+				return Integer.MIN_VALUE;
+			}
+
+			rVar = br.rVar;
+			if (rVar == null) {
+				System.out.println("calculateDistanceForInputTraces: rVar null");
+				return Integer.MIN_VALUE;
+			}
+
+			if ((lVar.getClass() == MyString.class) && (rVar.getClass() == MyString.class)) {
+				return calc((MyString)lVar, (MyString)rVar);
 			}
 		}
-		return null;
+		return Integer.MIN_VALUE;
 	}
 
-	//Step 1:
-	//Starts off from the list of available branches in the Linked list of the BranchSet.
+	//static void displayBranchDistances(HashSet<MyString[]> inputSet, BranchSet branchSet) throws Exception
+	public static void displayBranchDistances(MyString[] inputSet, BranchSet branchSet) throws Exception{
+		//for (MyString[] arr : inputSet) { where inputSet = HashSet<MyString[]
+			//System.out.println("input trace: " + convertMyStringArrToString(arr));
+			System.out.println("input trace set: " + convertMyStringArrToString(inputSet));
+			for (MyString arr1 : inputSet) {
+				//for (MyString str : arr1) {
+					//System.out.println("String: " + str.val + " distance " + calculateDistanceForInputTrace(str, branchSet));
+					System.out.println("String: " + arr1.val + " distance " + calculateDistanceForInputTrace(arr1, branchSet));
+				//}
+			}
+		//}
+	}
 
-	//It checks whether the string in the input, satisfies the condition in the outcome of each Branch.
-	//If it doesn't, it calculates the calls calc diff.
-	//If it does, it moves on to the next branch.
-	//if the last branch in the list is called, and the condition is still satisfied, it moves on the left branch.
+	public static String convertMyStringArrToString(MyString[] arr) {
+		String[] retArr = new String[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			retArr[i] = arr[i].val;
+		}
+		return Arrays.toString(retArr);
+	}
 
-	//Refactor this
-	//If the condition in the left branch set of the left branch is satisfied, it moves on the next condition in the left branch,
-	//and so on
-	public static void calculateDistance() {
-
+	public static String[] convertMyStringArrToStringArr(MyString[] arr) {
+		String[] retArr = new String[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			retArr[i] = arr[i].val;
+		}
+		return retArr;
 	}
 }
 
@@ -238,6 +281,7 @@ public class instm183_LTL_CTLDirectFinal {
 	//in order to avoid null exceptions.
 	MyVar var = new MyVar(taints);
 
+	//class inputs
 	public MyString[] inputs = {new MyString("ai1_ce1", true),new MyString("usr4_ai1_VoidReply", true),new MyString("usr4_ni1_ne1", true),new MyString("ai1_ce2", true),new MyString("usr2_ai1_VoidReply", true)};
 
 	public MyInt a422009172 = I.myAssign(new MyInt(-68, "a422009172"), "a422009172");
@@ -627,7 +671,7 @@ public class instm183_LTL_CTLDirectFinal {
 
 	public static void main (String[] args) throws  Exception {
 		//T2
-		String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		//String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		instm183_LTL_CTLDirectFinal eca = new instm183_LTL_CTLDirectFinal();
 		//T1
 		int runIndex = 0;
@@ -636,7 +680,7 @@ public class instm183_LTL_CTLDirectFinal {
 		System.out.println("Training run");
 		trainingBranches = new BranchSet();
 		trainingBranches.instantiateMembers();
-		while(runIndex < 10) {
+		while(runIndex < 20) {
 			eca.trainingReset();
 			fuzzed_inputs = Fuzzer.fuzz(eca.inputs);
 
@@ -726,9 +770,11 @@ public class instm183_LTL_CTLDirectFinal {
 
 			displayReachedCodeBranches(branches);
 			//We use the training branches as input, since the set would probably be the most complete one.
-			for(int i = 0; i < fuzzed_inputs.length; i++)
-				//Calculate.printCalculatedDistance(trainingBranches, fuzzed_inputs[i], alphabet);
+			//for(int i = 0; i < fuzzed_inputs.length; i++)
+				//static void displayBranchDistances(HashSet<MyString[]> inputSet, BranchSet branchSet) throws Exception
 
+			//public static void displayBranchDistances(MyString[] inputSet, BranchSet branchSet) throws Exception{
+			Calculate.displayBranchDistances(fuzzed_inputs, branches);
 			runIndex++;
 		}
 		//T2 Reached code branches

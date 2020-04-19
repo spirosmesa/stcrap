@@ -419,9 +419,8 @@ class Fuzzer {
 */
 
 public class testing {
-    //String alphabet ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+    static String[] arr = {"asd", "asdf", "asdfdfdf"};
     public static void main(String[] args) {
-
+        System.out.println(arr);
     }
 }
