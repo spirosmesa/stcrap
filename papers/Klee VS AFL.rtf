@@ -1,0 +1,45 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2512
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww21320\viewh13620\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Task 2 Klee vs AFL\
+\
+AFL Description\
+AFL is a fuzzer, command line tool, which is used in order to test a program\'92s stability. The tool, can either be used in order to instrument existing source code, or for black-box fuzzing. The instrumentation introduced by afl, is used in order to capture branch coverage, as well as any branches that have already been taken. The instrumentation itself, is effectively a shared memory map, of 64K. The tool, counts branch hits, by measuring the number of bytes set in this area. \
+\
+AFL, offers afl-gcc, a gcc frontend which compiles source code using specific gcc flags. In regards to input, the tool accepts sample input in the form of files. Depending on the application to be tested, these can be binary-only files, or dictionaries, for textual input.\
+\
+For black-box fuzzing, afl uses qemu\'92s basic blocks, upon which the instrumentation is implemented.\
+\
+For branch coverage, AFL uses the tuple (branch_input, branch_output), which is stored in a global map. This tuple is used in order to determine whether an input can be characterised as interesting(input which triggers new branches). This type of input, is placed bad in the input queue, in order to undergo further mutation, by the use of genetic algorithms. These results(crashes),\
+can be subsequently explored by running afl in crash-explorer mode.\
+\
+Performance-wise, the size of the aforementioned 64K map has been chosen due to it\'92s ability to fit in L2 caches(thus allowing for faster processing), while minimising possible collisions for each encountered branch hit. AFL also, provides a so called \'93fork-server\'94, which forks the fuzzed process and subsequently executes it. The speed improvements though, vary based on the fuzzed binary. \
+Parallelisation of the tool is also available, either on CPU-core level, or machine-level.\
+\
+Finally, the tool makes use of an output directory, within which it stores compressed core files which can be used by afl while in crush-explorer mode, in order to explore the state which led to the crash.\
+\
+\
+KLEE Description \
+KLEE is a symbolic execution engine, which uses LLVM byte code, instead of binary instrumentation. The tool is run through the command line, accepting various arguments, including the total runtime, the type and\
+name of the variables for which it checks, as well as the maximum number of failures. In addition, KLEE additionally generates tests once an error has been found based on constructed path constraints which are subsequently run on the original program\'92s exe.\
+\
+\
+\
+Klee generates tests. AFL does not.\
+In addition, when it finds an error, it generates a test based on the path constraint, which is then executed on the unmodified version of the application.\
+\
+Even though these generated tests, produced by KLEE follow the path constraint, that were generated from, they may still fail due to undeterministic program conditions. These false positives can explored with gdb and gcov. Such a capability is also available through AFL. AFL though, offer the crush-explorer mode, which  \
+\
+AFL, follows a similar but different approach, requiring the user to provide samples of concrete input, which are mutated through the use of a mutation engine. Regarding runtime and number of failures, AFL does not provide such options. In contrast, it simply runs until a SIGINT is provided.\
+\
+Unlike AFL, KLEE symbolically executes a single instruction in the context of a state. \
+\
+Klee-> conditional branches take a boolean expression.\
+\
+	Partially uses constraint solvers. When load/store instructions are present, the addressed memory is handled as a segmented array, allowing STP to check the bounds of these instructions without performance deficits\
+\
+    Since programs can have state-space explosion, memory footprint is an issue. That\'92s why KLEE implements object-level copy-on-write.}
